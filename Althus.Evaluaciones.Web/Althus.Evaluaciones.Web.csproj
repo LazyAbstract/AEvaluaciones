@@ -186,12 +186,17 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Configuration\CurrentCultureDateTimeBinder.cs" />
+    <Compile Include="Configuration\IConfigurable.cs" />
+    <Compile Include="Configuration\MapperConfiguration.cs" />
+    <Compile Include="Configuration\RutModelBinder.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MapperProfile\DefaultProfileMapper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -308,10 +313,6 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Althus.Evaluaciones.Common\Althus.Evaluaciones.Common.csproj">
-      <Project>{c963c708-c759-4cd2-abed-349e855eb1d8}</Project>
-      <Name>Althus.Evaluaciones.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Althus.Evaluaciones.Core\Althus.Evaluaciones.Core.csproj">
       <Project>{eee7f14c-5324-4260-a735-6c7ebd87a9b8}</Project>
       <Name>Althus.Evaluaciones.Core</Name>

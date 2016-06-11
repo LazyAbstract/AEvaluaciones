@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Althus.Evaluaciones.Core;
+using Althus.Evaluaciones.Web.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +18,17 @@ namespace Althus.Evaluaciones.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ModelBinders.Binders.Add(typeof(Rut), new RutModelBinder());
+            ModelBinders.Binders.Add(typeof(DateTime?), new CurrentCultureDateTimeBinder());
+            ModelBinders.Binders.Add(typeof(DateTime), new CurrentCultureDateTimeBinder());
+
+            IList<IConfigurable> configurations = new List<IConfigurable>();
+            configurations.Add(new MapperConfiguration());
+            foreach (var configuration in configurations)
+            {
+                configuration.Configure();
+            } 
         }
     }
 }
