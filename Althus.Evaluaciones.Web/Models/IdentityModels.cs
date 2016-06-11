@@ -21,7 +21,7 @@ namespace Althus.Evaluaciones.Web.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("AppDb", throwIfV1Schema: false)
         {
         }
 
