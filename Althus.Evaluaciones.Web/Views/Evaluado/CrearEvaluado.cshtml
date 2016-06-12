@@ -1,0 +1,101 @@
+﻿@model Althus.Evaluaciones.Web.Models.EvaluadoModels.CrearEvaluadoViewModel
+
+@{
+    ViewBag.Title = "Nuevo Postulante";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <br />
+        @using (Html.BeginForm())
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Nuevo Postulante</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.IdEmpresa, new { @class = "Form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(x => x.Form.IdEmpresa, Model.Empresas, "Elija una opción", new { @class = "Form-control" })
+                            <br />@Html.ValidationMessageFor(x => x.Form.IdEmpresa)
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.IdCargo, new { @class = "Form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(x => x.Form.IdCargo, Model.Cargos, "Elija una opción", new { @class = "Form-control" })
+                            <br />@Html.ValidationMessageFor(x => x.Form.IdCargo)
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.Rut, new { @class = "Form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(x => x.Form.Rut, new { @class = "Form-control" })<br />
+                            <br />@Html.ValidationMessageFor(x => x.Form.Rut)
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.Nombre, new { @class = "Form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(x => x.Form.Nombre, new { @class = "Form-control" })
+                            <br />@Html.ValidationMessageFor(x => x.Form.Nombre)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.ApellidoPaterno, new { @class = "Form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(x => x.Form.ApellidoPaterno, new { @class = "Form-control" })
+                            <br />@Html.ValidationMessageFor(x => x.Form.ApellidoPaterno)
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.ApellidoMaterno, new { @class = "Form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(x => x.Form.ApellidoMaterno, new { @class = "Form-control" })
+                            <br />@Html.ValidationMessageFor(x => x.Form.ApellidoMaterno)
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.FechaNacimiento, new { @class = "Form-label fechaNacimiento" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(x => x.Form.FechaNacimiento, new { @class = "Form-control" })
+                            <br />@Html.ValidationMessageFor(x => x.Form.FechaNacimiento)
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.Celular, new { @class = "Form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(x => x.Form.Celular, new { @class = "Form-control" })
+                            <br />@Html.ValidationMessageFor(x => x.Form.Celular)
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.Profesion, new { @class = "Form-label" })
+                        </div>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(x => x.Form.Profesion, new { @class = "Form-control" })
+                            <br />@Html.ValidationMessageFor(x => x.Form.Profesion)
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <input type="submit" class="btn btn-default" value="Guardar" name="Form.Guardar" id="Form_Guardar" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
