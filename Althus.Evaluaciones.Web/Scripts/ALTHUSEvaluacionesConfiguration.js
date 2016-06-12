@@ -20,15 +20,26 @@
         $.datepicker.setDefaults($.datepicker.regional['es']);
     });
 
-    Globalize.culture('es-CL');
-    //Tell the validator, for example,
-    // that we want numbers parsed a certain way!
-    $.validator.methods.number = function (value, element) {
-        if (Globalize.parseFloat(value) || value == 0) {
-            return true;
-        }
-        return false;
-    }
+    //$.url = function (url) {
+    //    {
+    //        var path = '@Request.ApplicationPath'
+
+    //        if (path != '/')
+    //            path = path + '/'
+
+    //        return path + url;
+    //    }
+    //}
+
+    //Globalize.culture('es-CL');
+    ////Tell the validator, for example,
+    //// that we want numbers parsed a certain way!
+    //$.validator.methods.number = function (value, element) {
+    //    if (Globalize.parseFloat(value) || value == 0) {
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
     $('.fechaNacimiento').on("click", function () {
         $(this).datepicker({
@@ -49,19 +60,7 @@
             defaultDate: '-0y',
             maxDate: '+1y'
         }).focus();
-    });
-
-    $('.modal').on('focusin', '.fecha', function (e) {
-        $(this).datepicker({
-            showOn: 'focus',
-            changeMonth: true,
-            yearRange: '-5:+1',
-            defaultDate: '-0y',
-            maxDate: '+1y'
-        });
-    });
-
-    
+    });  
 
     $('.fadeout-5').fadeTo(5000, 1).fadeOut('slow');
 

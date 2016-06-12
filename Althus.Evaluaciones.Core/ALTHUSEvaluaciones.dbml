@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ALTHUS_Evaluaciones" Class="ALTHUSEvaluacionesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=ALTHUS_Evaluaciones;Integrated Security=True" SettingsObjectName="Althus.Evaluaciones.Core.Properties.Settings" SettingsPropertyName="ALTHUS_EvaluacionesConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Cargo" Member="Cargos">
+    <Type Name="Cargo">
+      <Column Name="IdCargo" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdEmpresa" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Cargo" Member="Cargo1" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="Cargo_Competencia" Member="Competencias" ThisKey="IdCargo" OtherKey="IdCargo" Type="Competencia" />
+      <Association Name="Cargo_Evaluacion" Member="Evaluacions" ThisKey="IdCargo" OtherKey="IdCargo" Type="Evaluacion" />
+      <Association Name="Empresa_Cargo" Member="Empresa" ThisKey="IdEmpresa" OtherKey="IdEmpresa" Type="Empresa" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Usuario" Member="Usuarios">
+    <Type Name="Usuario">
+      <Column Name="IdUsuario" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdTipoUsuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Rut" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NombreUsuario" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ApellidoPaterno" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ApellidoMaterno" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="Correo" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Association Name="Usuario_Evaluacion" Member="Evaluacions" ThisKey="IdUsuario" OtherKey="IdUsuarioEvaluador" Type="Evaluacion" />
+      <Association Name="TipoUsuario_Usuario" Member="TipoUsuario" ThisKey="IdTipoUsuario" OtherKey="IdTipoUsuario" Type="TipoUsuario" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Competencia" Member="Competencias">
+    <Type Name="Competencia">
+      <Column Name="IdCompetencia" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdCargo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Competencia" Member="Competencia1" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ValorEsperado" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Competencia_EvaluacionCompetencia" Member="EvaluacionCompetencias" ThisKey="IdCompetencia" OtherKey="IdCompetencia" Type="EvaluacionCompetencia" />
+      <Association Name="Cargo_Competencia" Member="Cargo" ThisKey="IdCargo" OtherKey="IdCargo" Type="Cargo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Empresa" Member="Empresas">
+    <Type Name="Empresa">
+      <Column Name="IdEmpresa" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Empresa" Member="Empresa1" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Logo" Type="System.Data.Linq.Binary" DbType="VarBinary(255)" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Empresa_Cargo" Member="Cargos" ThisKey="IdEmpresa" OtherKey="IdEmpresa" Type="Cargo" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Evaluacion" Member="Evaluacions">
+    <Type Name="Evaluacion">
+      <Column Name="IdEvaluacion" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdTipoEvaluacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdCargo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdEvaluado" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdTipoDiagnostico" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdUsuarioEvaluador" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PorcetajeIdioneidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="FechaEvaluacion" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="Evaluacion_EvaluacionAbierta" Member="EvaluacionAbiertas" ThisKey="IdEvaluacion" OtherKey="IdEvaluacion" Type="EvaluacionAbierta" />
+      <Association Name="Evaluacion_EvaluacionCompetencia" Member="EvaluacionCompetencias" ThisKey="IdEvaluacion" OtherKey="IdEvaluacion" Type="EvaluacionCompetencia" />
+      <Association Name="Cargo_Evaluacion" Member="Cargo" ThisKey="IdCargo" OtherKey="IdCargo" Type="Cargo" IsForeignKey="true" />
+      <Association Name="Usuario_Evaluacion" Member="Usuario" ThisKey="IdUsuarioEvaluador" OtherKey="IdUsuario" Type="Usuario" IsForeignKey="true" />
+      <Association Name="TipoDiagnostico_Evaluacion" Member="TipoDiagnostico" ThisKey="IdTipoDiagnostico" OtherKey="IdTipoDiagnostico" Type="TipoDiagnostico" IsForeignKey="true" />
+      <Association Name="TipoEvaluacion_Evaluacion" Member="TipoEvaluacion" ThisKey="IdTipoEvaluacion" OtherKey="IdTipoEvaluacion" Type="TipoEvaluacion" IsForeignKey="true" />
+      <Association Name="Evaluado_Evaluacion" Member="Evaluado" ThisKey="IdEvaluado" OtherKey="IdEvaluado" Type="Evaluado" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EvaluacionAbierta" Member="EvaluacionAbiertas">
+    <Type Name="EvaluacionAbierta">
+      <Column Name="IdEvaluacionAbierta" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdTipoEvaluacionAbierta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdEvaluacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EvaluacionAbierta" Member="EvaluacionAbierta1" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Evaluacion_EvaluacionAbierta" Member="Evaluacion" ThisKey="IdEvaluacion" OtherKey="IdEvaluacion" Type="Evaluacion" IsForeignKey="true" />
+      <Association Name="TipoEvaluacionAbierta_EvaluacionAbierta" Member="TipoEvaluacionAbierta" ThisKey="IdTipoEvaluacionAbierta" OtherKey="IdTipoEvaluacionAbierta" Type="TipoEvaluacionAbierta" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EvaluacionCompetencia" Member="EvaluacionCompetencias">
+    <Type Name="EvaluacionCompetencia">
+      <Column Name="IdEvaluacionCompetencia" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdEvaluacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdCompetencia" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ValorObtenido" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Observacion" Type="System.String" DbType="NVarChar(1023) NOT NULL" CanBeNull="false" />
+      <Association Name="Competencia_EvaluacionCompetencia" Member="Competencia" ThisKey="IdCompetencia" OtherKey="IdCompetencia" Type="Competencia" IsForeignKey="true" />
+      <Association Name="Evaluacion_EvaluacionCompetencia" Member="Evaluacion" ThisKey="IdEvaluacion" OtherKey="IdEvaluacion" Type="Evaluacion" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Permiso" Member="Permisos">
+    <Type Name="Permiso">
+      <Column Name="IdPermiso" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Permiso" Member="Permiso1" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="Permiso_TipoUsuarioPermiso" Member="TipoUsuarioPermisos" ThisKey="IdPermiso" OtherKey="IdPermiso" Type="TipoUsuarioPermiso" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoDiagnostico" Member="TipoDiagnosticos">
+    <Type Name="TipoDiagnostico">
+      <Column Name="IdTipoDiagnostico" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TipoDiagnostico" Member="TipoDiagnostico1" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="PorcentajeHasta" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="TipoDiagnostico_Evaluacion" Member="Evaluacions" ThisKey="IdTipoDiagnostico" OtherKey="IdTipoDiagnostico" Type="Evaluacion" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoEvaluacion" Member="TipoEvaluacions">
+    <Type Name="TipoEvaluacion">
+      <Column Name="IdTipoEvaluacion" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TipoEvaluacion" Member="TipoEvaluacion1" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="TipoEvaluacion_Evaluacion" Member="Evaluacions" ThisKey="IdTipoEvaluacion" OtherKey="IdTipoEvaluacion" Type="Evaluacion" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoEvaluacionAbierta" Member="TipoEvaluacionAbiertas">
+    <Type Name="TipoEvaluacionAbierta">
+      <Column Name="IdTipoEvaluacionAbierta" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TipoEvaluacionAbierta" Member="TipoEvaluacionAbierta1" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="TipoEvaluacionAbierta_EvaluacionAbierta" Member="EvaluacionAbiertas" ThisKey="IdTipoEvaluacionAbierta" OtherKey="IdTipoEvaluacionAbierta" Type="EvaluacionAbierta" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoUsuario" Member="TipoUsuarios">
+    <Type Name="TipoUsuario">
+      <Column Name="IdTipoUsuario" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TipoUsuario" Member="TipoUsuario1" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="TipoUsuario_Usuario" Member="Usuarios" ThisKey="IdTipoUsuario" OtherKey="IdTipoUsuario" Type="Usuario" />
+      <Association Name="TipoUsuario_TipoUsuarioPermiso" Member="TipoUsuarioPermisos" ThisKey="IdTipoUsuario" OtherKey="IdTipoUsuario" Type="TipoUsuarioPermiso" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoUsuarioPermiso" Member="TipoUsuarioPermisos">
+    <Type Name="TipoUsuarioPermiso">
+      <Column Name="IdTipoUsuarioPermiso" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdTipoUsuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdPermiso" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Permiso_TipoUsuarioPermiso" Member="Permiso" ThisKey="IdPermiso" OtherKey="IdPermiso" Type="Permiso" IsForeignKey="true" />
+      <Association Name="TipoUsuario_TipoUsuarioPermiso" Member="TipoUsuario" ThisKey="IdTipoUsuario" OtherKey="IdTipoUsuario" Type="TipoUsuario" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Evaluado" Member="Evaluados">
+    <Type Name="Evaluado">
+      <Column Name="IdEvaluado" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Rut" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ApellidoPaterno" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ApellidoMaterno" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Profesion" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Celular" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FechaNacimiento" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Correo" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="CreadoPor" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="FechaCreacion" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="Evaluado_Evaluacion" Member="Evaluacions" ThisKey="IdEvaluado" OtherKey="IdEvaluado" Type="Evaluacion" />
+    </Type>
+  </Table>
+  <Table Name="dbo.vw_RelacionEmpresaCargo" Member="vw_RelacionEmpresaCargos">
+    <Type Name="vw_RelacionEmpresaCargo">
+      <Column Name="Empresa" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="IdCargo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Cargo" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

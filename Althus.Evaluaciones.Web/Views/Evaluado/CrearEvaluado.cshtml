@@ -14,80 +14,98 @@
                     <h4>Nuevo Postulante</h4>
                 </div>
                 <div class="panel-body">
+                    @Html.ValidationSummary()
                     <div class="row">
                         <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.IdEmpresa, new { @class = "Form-label" })
+                            @Html.LabelFor(x => x.Form.IdEmpresa, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.DropDownListFor(x => x.Form.IdEmpresa, Model.Empresas, "Elija una opción", new { @class = "Form-control" })
-                            <br />@Html.ValidationMessageFor(x => x.Form.IdEmpresa)
+                            @Html.DropDownListFor(x => x.Form.IdEmpresa, Model.Empresas, "Elija una opción", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Form.IdEmpresa)
                         </div>
                         <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.IdCargo, new { @class = "Form-label" })
+                            @Html.LabelFor(x => x.Form.IdCargo, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.DropDownListFor(x => x.Form.IdCargo, Model.Cargos, "Elija una opción", new { @class = "Form-control" })
-                            <br />@Html.ValidationMessageFor(x => x.Form.IdCargo)
+                            <select name="Form.IdCargo" id="Form_IdCargo" class="form-control">
+                                @foreach (var item in Model.Cargos.GroupBy(x => x.OptGroup).OrderBy(x => x.Key))
+                                {
+                                    <optgroup label="@item.Key">
+                                        @foreach (var subitem in item)
+                                        {
+                                            <option value="@subitem.Value" @(subitem.Selected ? "selected=\"selected\"" : "Elija una opción")>@subitem.Text</option>
+                                        }
+                                    </optgroup>
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(x => x.Form.IdCargo)
                         </div>
                     </div>
                     <br/>
                     <div class="row">
                         <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.Rut, new { @class = "Form-label" })
+                            @Html.LabelFor(x => x.Form.Rut, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.Rut, new { @class = "Form-control" })<br />
-                            <br />@Html.ValidationMessageFor(x => x.Form.Rut)
+                            @Html.TextBoxFor(x => x.Form.Rut, new { @class = "form-control" })<br />
+                            @Html.ValidationMessageFor(x => x.Form.Rut)
                         </div>
                         <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.Nombre, new { @class = "Form-label" })
+                            @Html.LabelFor(x => x.Form.Nombre, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.Nombre, new { @class = "Form-control" })
-                            <br />@Html.ValidationMessageFor(x => x.Form.Nombre)
+                            @Html.TextBoxFor(x => x.Form.Nombre, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Form.Nombre)
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.ApellidoPaterno, new { @class = "Form-label" })
+                            @Html.LabelFor(x => x.Form.ApellidoPaterno, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.ApellidoPaterno, new { @class = "Form-control" })
-                            <br />@Html.ValidationMessageFor(x => x.Form.ApellidoPaterno)
+                            @Html.TextBoxFor(x => x.Form.ApellidoPaterno, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Form.ApellidoPaterno)
                         </div>
                         <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.ApellidoMaterno, new { @class = "Form-label" })
+                            @Html.LabelFor(x => x.Form.ApellidoMaterno, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.ApellidoMaterno, new { @class = "Form-control" })
-                            <br />@Html.ValidationMessageFor(x => x.Form.ApellidoMaterno)
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.FechaNacimiento, new { @class = "Form-label fechaNacimiento" })
-                        </div>
-                        <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.FechaNacimiento, new { @class = "Form-control" })
-                            <br />@Html.ValidationMessageFor(x => x.Form.FechaNacimiento)
-                        </div>
-                        <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.Celular, new { @class = "Form-label" })
-                        </div>
-                        <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.Celular, new { @class = "Form-control" })
-                            <br />@Html.ValidationMessageFor(x => x.Form.Celular)
+                            @Html.TextBoxFor(x => x.Form.ApellidoMaterno, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Form.ApellidoMaterno)
                         </div>
                     </div>
                     <br />
                     <div class="row">
                         <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.Profesion, new { @class = "Form-label" })
+                            @Html.LabelFor(x => x.Form.FechaNacimiento, new { @class = "form-label fechaNacimiento" })
                         </div>
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(x => x.Form.Profesion, new { @class = "Form-control" })
-                            <br />@Html.ValidationMessageFor(x => x.Form.Profesion)
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(x => x.Form.FechaNacimiento, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Form.FechaNacimiento)
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.Celular, new { @class = "form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(x => x.Form.Celular, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Form.Celular)
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.Correo, new { @class = "form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(x => x.Form.Correo, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Form.Correo)
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.Profesion, new { @class = "form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(x => x.Form.Profesion, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Form.Profesion)
                         </div>
                     </div>
                 </div>
@@ -98,4 +116,10 @@
         }
     </div>
 </div>
+<script type="text/javascript">
+    $(function() {
+        $('#Form_IdCargo').CascadingDropDown('#Form_IdEmpresa', $.url('Evaluado/GetCargo'));
+        $('#Form_IdCargo').change();
+    });
+</script>
 

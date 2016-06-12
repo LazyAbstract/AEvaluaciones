@@ -19,6 +19,11 @@ namespace Althus.Evaluaciones.Web
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/myScripts").Include(
+                        "~/Scripts/ALTHUSEvaluacionesConfiguration.js",
+                        "~/Scripts/jquery.cascadingDropDown.js",
+                        "~/Scripts/jquery-ui-{version}.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));

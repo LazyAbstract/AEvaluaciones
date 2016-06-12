@@ -6,6 +6,24 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/myScripts")
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $(function () {
+            $.url = function (url) {
+                {
+                    var path = '@Request.ApplicationPath'
+
+                    if (path != '/')
+                        path = path + '/'
+
+                    return path + url;
+                }
+            }
+        });
+    </script>
 
 </head>
 <body>
@@ -33,12 +51,10 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - LazyAbstract</p>
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+  
 </body>
 </html>

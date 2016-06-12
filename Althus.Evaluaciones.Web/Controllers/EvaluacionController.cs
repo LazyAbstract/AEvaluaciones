@@ -22,7 +22,7 @@ namespace Althus.Evaluaciones.Web.Controllers
             return View();
         }
 
-        public ActionResult CrearEvaluacion()
+        public ActionResult CrearEvaluacion(int IdEvaluacion)
         {
             CrearEvaluacionViewModel model = new CrearEvaluacionViewModel();
             return View(model);

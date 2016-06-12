@@ -1,4 +1,5 @@
-﻿using Althus.Evaluaciones.Web.SelectListProviders;
+﻿using Althus.Evaluaciones.Core;
+using Althus.Evaluaciones.Web.SelectListProviders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,11 @@ namespace Althus.Evaluaciones.Web.Models.EvaluadoModels
 {
     public class CrearEvaluadoViewModel
     {
+        private ALTHUSEvaluacionesDataContext db = new ALTHUSEvaluacionesDataContext()
+            .WithConnectionStringFromConfiguration();
         public CrearEvaluadoFormModel Form { get; set; }
         public SelectList Empresas { get; set; }
-        public SelectList Cargos { get; set; }
+        public IEnumerable<SelectListItemCargo> Cargos { get; set; }
         private EmpresaSelectListProvider eslp = new EmpresaSelectListProvider();
         private CargoSelectListProvider cslp = new CargoSelectListProvider();
 
@@ -19,12 +22,26 @@ namespace Althus.Evaluaciones.Web.Models.EvaluadoModels
         {
             Form = new CrearEvaluadoFormModel();
             Empresas = eslp.Provide();
-            Cargos = cslp.Provide();
+            Cargos = db.vw_RelacionEmpresaCargos
+                .Select(x => new SelectListItemCargo()
+                {
+                    Value = x.IdCargo.ToString(),
+                    Text = x.Cargo,
+                    OptGroup = x.Empresa
+                });
         }
 
         public CrearEvaluadoViewModel(CrearEvaluadoFormModel F) : this()
         {
             Form = F;
         }
+    }
+
+    public class SelectListItemCargo
+    {
+        public string Value { get; set; }
+        public string Text { get; set; }
+        public bool Selected { get; set; }
+        public string OptGroup { get; set; }
     }
 }
