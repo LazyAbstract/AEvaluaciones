@@ -229,6 +229,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EvaluacionModels\CrearEvaluacionFormModel.cs" />
     <Compile Include="Models\EvaluacionModels\CrearEvaluacionViewModel.cs" />
+    <Compile Include="Models\EvaluacionModels\GeneraEvaluacionPDF.cs" />
     <Compile Include="Models\EvaluacionModels\ListadoEvaluacionesViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -245,6 +246,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\logo-althus.png" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
