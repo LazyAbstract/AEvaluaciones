@@ -1,0 +1,66 @@
+﻿@model Althus.Evaluaciones.Web.Models.EvaluacionModels.ListadoEvaluacionesViewModel
+
+@{
+    ViewBag.Title = "ListadoEvaluaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm())
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Nuevo Postulante</h4>
+                </div>
+                <div class="panel-body">
+                    @Html.ValidationSummary()
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.FORM.IdEmpresa, new { @class = "form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(x => x.FORM.IdEmpresa, Model.Empresas, "Elija una opción", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.FORM.IdEmpresa)
+                        </div>
+
+
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.FORM.IdCargo, new { @class = "form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <select name="Form.IdCargo" id="Form_IdCargo" class="form-control">
+                                @foreach (var item in Model.Cargos.GroupBy(x => x.OptGroup).OrderBy(x => x.Key))
+                                {
+                                    <optgroup label="@item.Key">
+                                        @foreach (var subitem in item)
+                                        {
+                                            <option value="@subitem.Value" @(subitem.Selected ? "selected=\"selected\"" : "Elija una opción")>@subitem.Text</option>
+                                        }
+                                    </optgroup>
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(x => x.FORM.IdCargo)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="submit" value="Buscar" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @Html.PagedListPager(Model.Evaluaciones,x=> Url.Action("ListadoEvaluaciones", new { 
+        pagina = x, 
+        IdEMpresa = Model.FORM.IdEmpresa,
+        IdCargo = Model.FORM.IdCargo
+   }))
+        
+    </div>
+</div>
+
+
+
