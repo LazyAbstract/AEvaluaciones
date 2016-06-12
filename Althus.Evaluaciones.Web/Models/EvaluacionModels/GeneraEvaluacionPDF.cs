@@ -27,8 +27,8 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
             using (PdfWriter writer = PdfWriter.GetInstance(document, ms))
             {
                 //Configuración y propiedades el archivo
-                document.AddTitle("Evaluación");
-                document.AddSubject("This is an Example 4 of Chapter 1 of Book 'iText in Action'");
+                document.AddTitle("EVALUACIÓN PSICOLABORAL");
+                document.AddSubject("EVALUACIÓN PSICOLABORAL");
                 document.AddKeywords("Evaluación, Althus, Partners");
                 document.AddCreator("Plataforma de Evaluación");
                 document.AddAuthor("Plataforma de Evaluación");
@@ -36,9 +36,15 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
 
                 //Generación del contenido
                 document.Open();
+                
+                // Título 
+                Paragraph titulo = new Paragraph("EVALUACIÓN PSICOLABORAL");
+                // EVALUACIÓN PSICOLABORAL
+                // Confidencial 
+
+                // IDENTIFICACION DEL CANDIDATO:
                 PdfPTable firstTable = GetPdfTable(2);
                 firstTable.AddCell(GetHeaderCell("Nombre"));
-
                 firstTable.AddCell(GetHeaderCell("Cargo al cual postula"));
                 firstTable.AddCell(GetNormalCell(_Evaluacion.Evaluado.Nombre));                
                 firstTable.AddCell(GetHeaderCell("Empresa"));
@@ -60,6 +66,8 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 firstTable.AddCell(GetHeaderCell("Fecha de Evaluación"));
                 firstTable.AddCell(GetNormalCell(_Evaluacion.FechaEvaluacion.ToShortDateString()));
                 document.Add(firstTable);
+
+                //Resumen Estudios y Trayectoria Laboral
 
                 //Exportar archivo
                 document.Close();
@@ -89,7 +97,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
             return cel;
         }
 
-        private const Font headerFont = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD, BaseColor.WHITE);
-        private const Font normalFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
+        private Font headerFont = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD, BaseColor.WHITE);
+        private Font normalFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.NORMAL, BaseColor.BLACK);
     }
 }
