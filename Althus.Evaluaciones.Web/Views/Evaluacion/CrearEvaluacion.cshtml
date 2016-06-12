@@ -1,0 +1,42 @@
+﻿@model Althus.Evaluaciones.Web.Models.EvaluacionModels.CrearEvaluacionViewModel
+
+@{
+    ViewBag.Title = "CrearEvaluacion";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm())
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>Evaluación</h4>
+                </div>
+                <table class="table">
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <td>
+                            Nicolás
+                        </td>
+                    </tr>
+                </table>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>     
+                                   
+                   <div class="row"></div>
+
+                </div>
+                <div class="panel-body">
+                    <input type="submit" class="btn btn-default" value="Guardar" name="Form.Guardar" id="Form_Guardar" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
