@@ -17,14 +17,9 @@ namespace Althus.Evaluaciones.Web.Controllers
             return View(model);
         }
 
-        public ActionResult CrearPostulante()
-        {
-            return View();
-        }
-
         public ActionResult CrearEvaluacion(int IdEvaluacion)
         {
-            CrearEvaluacionViewModel model = new CrearEvaluacionViewModel();
+            CrearEvaluacionViewModel model = new CrearEvaluacionViewModel(IdEvaluacion);
             return View(model);
         }
 
