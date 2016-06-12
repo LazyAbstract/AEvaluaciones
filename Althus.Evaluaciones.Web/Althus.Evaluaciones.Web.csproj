@@ -229,6 +229,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EvaluacionModels\CrearEvaluacionFormModel.cs" />
     <Compile Include="Models\EvaluacionModels\CrearEvaluacionViewModel.cs" />
+    <Compile Include="Models\EvaluacionModels\GeneraEvaluacionPDF.cs" />
     <Compile Include="Models\EvaluacionModels\ListadoEvaluacionesViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
