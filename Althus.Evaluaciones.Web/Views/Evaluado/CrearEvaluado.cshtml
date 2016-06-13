@@ -54,7 +54,7 @@
                             @Html.ValidationMessageFor(x => x.Form.Rut)
                         </div>
                         <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.Nombre, new { @class = "form-label" })
+                            @Html.LabelFor(x => x.Form.Nombre, new { @class = "form-label", placeholder = "sin puntos ni guión, ej.123456789" })
                         </div>
                         <div class="col-md-4">
                             @Html.TextBoxFor(x => x.Form.Nombre, new { @class = "form-control" })

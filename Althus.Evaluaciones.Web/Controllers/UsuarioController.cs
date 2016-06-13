@@ -7,11 +7,61 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using AutoMapper;
+using Althus.Evaluaciones.Web.Models;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace Althus.Evaluaciones.Web.Controllers
 {
     public class UsuarioController : BaseController
     {
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public UsuarioController()
+        {
+        }
+
+        public UsuarioController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set 
+            { 
+                _signInManager = value; 
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+
         public ActionResult ListarUsuario(int? pagina, string filtro)
         {
             ListarUsuarioViewModel Model = new ListarUsuarioViewModel();
@@ -24,8 +74,7 @@ namespace Althus.Evaluaciones.Web.Controllers
                     .Where(x => x.Nombre.ToLower().Contains(filtro)
                         || x.Nombre.ToLower().Contains(filtro)
                         || x.ApellidoPaterno.ToLower().Contains(filtro)
-                        || x.ApellidoMaterno.ToLower().Contains(filtro)
-                        || x.Correo.ToLower().Contains(filtro));
+                        || x.NombreUsuario.ToLower().Contains(filtro));
             }
             Model.Usuarios = Users.ToPagedList(pagina ?? 1, 10);
             return View(Model);
@@ -40,13 +89,15 @@ namespace Althus.Evaluaciones.Web.Controllers
                 Model.Form.CreacionUsuario = false;
                 Usuario user = db.Usuarios.Single(x => x.IdUsuario == IdUsuario.Value);
                 Mapper.Map<Usuario, CrearEditarUsuarioFormModel>(user, Model.Form);
-                Model.Form.IdTipoUsuario = user.IdTipoUsuario;
+                Model.Form.IdTipoUsuario = user.IdTipoUsuario.GetValueOrDefault(1);
             }
             return View(Model);
         }
 
         [HttpPost]
-        public ActionResult CrearEditarUsuario(CrearEditarUsuarioFormModel Form)
+        [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult> CrearEditarUsuario(CrearEditarUsuarioFormModel Form)
         {
             if (ModelState.IsValid)
             {
@@ -94,6 +145,35 @@ namespace Althus.Evaluaciones.Web.Controllers
                     //    }
                     //}
                     Mensaje = "El usuario fue editado exitosamente";
+                    return RedirectToAction("ListarUsuario");
+                }
+                else
+                {
+                    string Password = Form.Nombre.Substring(0, 1).ToUpper() + Form.ApellidoPaterno.ToLower() 
+                        + "_" + Form.Rut.Numero.ToString().Substring(0, 6);
+                    var user = new ApplicationUser { UserName = Form.Correo, Email = Form.Correo };
+                    var result = await UserManager.CreateAsync(user, Password);
+                    if (result.Succeeded)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        Usuario _user = new Usuario()
+                        {
+                            IdTipoUsuario = Form.IdTipoUsuario,
+                            Rut = Form.Rut.Numero,
+                            NombreUsuario = Form.Correo,
+                            Nombre = Form.Nombre,
+                            ApellidoPaterno = Form.ApellidoPaterno,
+                        };
+
+                        db.Usuarios.InsertOnSubmit(_user);
+                        db.SubmitChanges();
+                    }
+                    AddErrors(result);
+                    //IEnumerable<TipoUsuarioPermiso> Permisos = db
+                    //    .TipoUsuarioPermisos.Where(x => x.IdTipoUsuario == Form.IdTipoUsuario);
+                    //db.SubmitChanges();
+
+                    Mensaje = "El Usuario fue creado exitosamente.";
                     return RedirectToAction("ListarUsuario");
                 }
             }

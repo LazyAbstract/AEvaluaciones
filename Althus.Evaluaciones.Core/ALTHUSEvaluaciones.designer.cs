@@ -33,9 +33,6 @@ namespace Althus.Evaluaciones.Core
     partial void InsertCargo(Cargo instance);
     partial void UpdateCargo(Cargo instance);
     partial void DeleteCargo(Cargo instance);
-    partial void InsertUsuario(Usuario instance);
-    partial void UpdateUsuario(Usuario instance);
-    partial void DeleteUsuario(Usuario instance);
     partial void InsertCompetencia(Competencia instance);
     partial void UpdateCompetencia(Competencia instance);
     partial void DeleteCompetencia(Competencia instance);
@@ -63,15 +60,18 @@ namespace Althus.Evaluaciones.Core
     partial void InsertTipoEvaluacionAbierta(TipoEvaluacionAbierta instance);
     partial void UpdateTipoEvaluacionAbierta(TipoEvaluacionAbierta instance);
     partial void DeleteTipoEvaluacionAbierta(TipoEvaluacionAbierta instance);
-    partial void InsertTipoUsuario(TipoUsuario instance);
-    partial void UpdateTipoUsuario(TipoUsuario instance);
-    partial void DeleteTipoUsuario(TipoUsuario instance);
     partial void InsertTipoUsuarioPermiso(TipoUsuarioPermiso instance);
     partial void UpdateTipoUsuarioPermiso(TipoUsuarioPermiso instance);
     partial void DeleteTipoUsuarioPermiso(TipoUsuarioPermiso instance);
     partial void InsertEvaluado(Evaluado instance);
     partial void UpdateEvaluado(Evaluado instance);
     partial void DeleteEvaluado(Evaluado instance);
+    partial void InsertTipoUsuario(TipoUsuario instance);
+    partial void UpdateTipoUsuario(TipoUsuario instance);
+    partial void DeleteTipoUsuario(TipoUsuario instance);
+    partial void InsertUsuario(Usuario instance);
+    partial void UpdateUsuario(Usuario instance);
+    partial void DeleteUsuario(Usuario instance);
     #endregion
 		
 		public ALTHUSEvaluacionesDataContext() : 
@@ -109,14 +109,6 @@ namespace Althus.Evaluaciones.Core
 			get
 			{
 				return this.GetTable<Cargo>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Usuario> Usuarios
-		{
-			get
-			{
-				return this.GetTable<Usuario>();
 			}
 		}
 		
@@ -192,14 +184,6 @@ namespace Althus.Evaluaciones.Core
 			}
 		}
 		
-		public System.Data.Linq.Table<TipoUsuario> TipoUsuarios
-		{
-			get
-			{
-				return this.GetTable<TipoUsuario>();
-			}
-		}
-		
 		public System.Data.Linq.Table<TipoUsuarioPermiso> TipoUsuarioPermisos
 		{
 			get
@@ -221,6 +205,22 @@ namespace Althus.Evaluaciones.Core
 			get
 			{
 				return this.GetTable<vw_RelacionEmpresaCargo>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TipoUsuario> TipoUsuarios
+		{
+			get
+			{
+				return this.GetTable<TipoUsuario>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Usuario> Usuarios
+		{
+			get
+			{
+				return this.GetTable<Usuario>();
 			}
 		}
 	}
@@ -429,305 +429,6 @@ namespace Althus.Evaluaciones.Core
 		{
 			this.SendPropertyChanging();
 			entity.Cargo = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Usuario")]
-	public partial class Usuario : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _IdUsuario;
-		
-		private int _IdTipoUsuario;
-		
-		private int _Rut;
-		
-		private string _NombreUsuario;
-		
-		private string _Nombre;
-		
-		private string _ApellidoPaterno;
-		
-		private string _ApellidoMaterno;
-		
-		private string _Correo;
-		
-		private EntitySet<Evaluacion> _Evaluacions;
-		
-		private EntityRef<TipoUsuario> _TipoUsuario;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdUsuarioChanging(int value);
-    partial void OnIdUsuarioChanged();
-    partial void OnIdTipoUsuarioChanging(int value);
-    partial void OnIdTipoUsuarioChanged();
-    partial void OnRutChanging(int value);
-    partial void OnRutChanged();
-    partial void OnNombreUsuarioChanging(string value);
-    partial void OnNombreUsuarioChanged();
-    partial void OnNombreChanging(string value);
-    partial void OnNombreChanged();
-    partial void OnApellidoPaternoChanging(string value);
-    partial void OnApellidoPaternoChanged();
-    partial void OnApellidoMaternoChanging(string value);
-    partial void OnApellidoMaternoChanged();
-    partial void OnCorreoChanging(string value);
-    partial void OnCorreoChanged();
-    #endregion
-		
-		public Usuario()
-		{
-			this._Evaluacions = new EntitySet<Evaluacion>(new Action<Evaluacion>(this.attach_Evaluacions), new Action<Evaluacion>(this.detach_Evaluacions));
-			this._TipoUsuario = default(EntityRef<TipoUsuario>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUsuario", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int IdUsuario
-		{
-			get
-			{
-				return this._IdUsuario;
-			}
-			set
-			{
-				if ((this._IdUsuario != value))
-				{
-					this.OnIdUsuarioChanging(value);
-					this.SendPropertyChanging();
-					this._IdUsuario = value;
-					this.SendPropertyChanged("IdUsuario");
-					this.OnIdUsuarioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdTipoUsuario", DbType="Int NOT NULL")]
-		public int IdTipoUsuario
-		{
-			get
-			{
-				return this._IdTipoUsuario;
-			}
-			set
-			{
-				if ((this._IdTipoUsuario != value))
-				{
-					if (this._TipoUsuario.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdTipoUsuarioChanging(value);
-					this.SendPropertyChanging();
-					this._IdTipoUsuario = value;
-					this.SendPropertyChanged("IdTipoUsuario");
-					this.OnIdTipoUsuarioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Rut", DbType="Int NOT NULL")]
-		public int Rut
-		{
-			get
-			{
-				return this._Rut;
-			}
-			set
-			{
-				if ((this._Rut != value))
-				{
-					this.OnRutChanging(value);
-					this.SendPropertyChanging();
-					this._Rut = value;
-					this.SendPropertyChanged("Rut");
-					this.OnRutChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NombreUsuario", DbType="NChar(10) NOT NULL", CanBeNull=false)]
-		public string NombreUsuario
-		{
-			get
-			{
-				return this._NombreUsuario;
-			}
-			set
-			{
-				if ((this._NombreUsuario != value))
-				{
-					this.OnNombreUsuarioChanging(value);
-					this.SendPropertyChanging();
-					this._NombreUsuario = value;
-					this.SendPropertyChanged("NombreUsuario");
-					this.OnNombreUsuarioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nombre", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
-		public string Nombre
-		{
-			get
-			{
-				return this._Nombre;
-			}
-			set
-			{
-				if ((this._Nombre != value))
-				{
-					this.OnNombreChanging(value);
-					this.SendPropertyChanging();
-					this._Nombre = value;
-					this.SendPropertyChanged("Nombre");
-					this.OnNombreChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApellidoPaterno", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
-		public string ApellidoPaterno
-		{
-			get
-			{
-				return this._ApellidoPaterno;
-			}
-			set
-			{
-				if ((this._ApellidoPaterno != value))
-				{
-					this.OnApellidoPaternoChanging(value);
-					this.SendPropertyChanging();
-					this._ApellidoPaterno = value;
-					this.SendPropertyChanged("ApellidoPaterno");
-					this.OnApellidoPaternoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApellidoMaterno", DbType="NChar(10)")]
-		public string ApellidoMaterno
-		{
-			get
-			{
-				return this._ApellidoMaterno;
-			}
-			set
-			{
-				if ((this._ApellidoMaterno != value))
-				{
-					this.OnApellidoMaternoChanging(value);
-					this.SendPropertyChanging();
-					this._ApellidoMaterno = value;
-					this.SendPropertyChanged("ApellidoMaterno");
-					this.OnApellidoMaternoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Correo", DbType="NChar(10) NOT NULL", CanBeNull=false)]
-		public string Correo
-		{
-			get
-			{
-				return this._Correo;
-			}
-			set
-			{
-				if ((this._Correo != value))
-				{
-					this.OnCorreoChanging(value);
-					this.SendPropertyChanging();
-					this._Correo = value;
-					this.SendPropertyChanged("Correo");
-					this.OnCorreoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Evaluacion", Storage="_Evaluacions", ThisKey="IdUsuario", OtherKey="IdUsuarioEvaluador")]
-		public EntitySet<Evaluacion> Evaluacions
-		{
-			get
-			{
-				return this._Evaluacions;
-			}
-			set
-			{
-				this._Evaluacions.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoUsuario_Usuario", Storage="_TipoUsuario", ThisKey="IdTipoUsuario", OtherKey="IdTipoUsuario", IsForeignKey=true)]
-		public TipoUsuario TipoUsuario
-		{
-			get
-			{
-				return this._TipoUsuario.Entity;
-			}
-			set
-			{
-				TipoUsuario previousValue = this._TipoUsuario.Entity;
-				if (((previousValue != value) 
-							|| (this._TipoUsuario.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TipoUsuario.Entity = null;
-						previousValue.Usuarios.Remove(this);
-					}
-					this._TipoUsuario.Entity = value;
-					if ((value != null))
-					{
-						value.Usuarios.Add(this);
-						this._IdTipoUsuario = value.IdTipoUsuario;
-					}
-					else
-					{
-						this._IdTipoUsuario = default(int);
-					}
-					this.SendPropertyChanged("TipoUsuario");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Evaluacions(Evaluacion entity)
-		{
-			this.SendPropertyChanging();
-			entity.Usuario = this;
-		}
-		
-		private void detach_Evaluacions(Evaluacion entity)
-		{
-			this.SendPropertyChanging();
-			entity.Usuario = null;
 		}
 	}
 	
@@ -1100,13 +801,13 @@ namespace Althus.Evaluaciones.Core
 		
 		private EntityRef<Cargo> _Cargo;
 		
-		private EntityRef<Usuario> _Usuario;
-		
 		private EntityRef<TipoDiagnostico> _TipoDiagnostico;
 		
 		private EntityRef<TipoEvaluacion> _TipoEvaluacion;
 		
 		private EntityRef<Evaluado> _Evaluado;
+		
+		private EntityRef<Usuario> _Usuario;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1135,10 +836,10 @@ namespace Althus.Evaluaciones.Core
 			this._EvaluacionAbiertas = new EntitySet<EvaluacionAbierta>(new Action<EvaluacionAbierta>(this.attach_EvaluacionAbiertas), new Action<EvaluacionAbierta>(this.detach_EvaluacionAbiertas));
 			this._EvaluacionCompetencias = new EntitySet<EvaluacionCompetencia>(new Action<EvaluacionCompetencia>(this.attach_EvaluacionCompetencias), new Action<EvaluacionCompetencia>(this.detach_EvaluacionCompetencias));
 			this._Cargo = default(EntityRef<Cargo>);
-			this._Usuario = default(EntityRef<Usuario>);
 			this._TipoDiagnostico = default(EntityRef<TipoDiagnostico>);
 			this._TipoEvaluacion = default(EntityRef<TipoEvaluacion>);
 			this._Evaluado = default(EntityRef<Evaluado>);
+			this._Usuario = default(EntityRef<Usuario>);
 			OnCreated();
 		}
 		
@@ -1382,40 +1083,6 @@ namespace Althus.Evaluaciones.Core
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Evaluacion", Storage="_Usuario", ThisKey="IdUsuarioEvaluador", OtherKey="IdUsuario", IsForeignKey=true)]
-		public Usuario Usuario
-		{
-			get
-			{
-				return this._Usuario.Entity;
-			}
-			set
-			{
-				Usuario previousValue = this._Usuario.Entity;
-				if (((previousValue != value) 
-							|| (this._Usuario.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Usuario.Entity = null;
-						previousValue.Evaluacions.Remove(this);
-					}
-					this._Usuario.Entity = value;
-					if ((value != null))
-					{
-						value.Evaluacions.Add(this);
-						this._IdUsuarioEvaluador = value.IdUsuario;
-					}
-					else
-					{
-						this._IdUsuarioEvaluador = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Usuario");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoDiagnostico_Evaluacion", Storage="_TipoDiagnostico", ThisKey="IdTipoDiagnostico", OtherKey="IdTipoDiagnostico", IsForeignKey=true)]
 		public TipoDiagnostico TipoDiagnostico
 		{
@@ -1514,6 +1181,40 @@ namespace Althus.Evaluaciones.Core
 						this._IdEvaluado = default(int);
 					}
 					this.SendPropertyChanged("Evaluado");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Evaluacion", Storage="_Usuario", ThisKey="IdUsuarioEvaluador", OtherKey="IdUsuario", IsForeignKey=true)]
+		public Usuario Usuario
+		{
+			get
+			{
+				return this._Usuario.Entity;
+			}
+			set
+			{
+				Usuario previousValue = this._Usuario.Entity;
+				if (((previousValue != value) 
+							|| (this._Usuario.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Usuario.Entity = null;
+						previousValue.Evaluacions.Remove(this);
+					}
+					this._Usuario.Entity = value;
+					if ((value != null))
+					{
+						value.Evaluacions.Add(this);
+						this._IdUsuarioEvaluador = value.IdUsuario;
+					}
+					else
+					{
+						this._IdUsuarioEvaluador = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Usuario");
 				}
 			}
 		}
@@ -2523,148 +2224,6 @@ namespace Althus.Evaluaciones.Core
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TipoUsuario")]
-	public partial class TipoUsuario : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _IdTipoUsuario;
-		
-		private string _TipoUsuario1;
-		
-		private EntitySet<Usuario> _Usuarios;
-		
-		private EntitySet<TipoUsuarioPermiso> _TipoUsuarioPermisos;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdTipoUsuarioChanging(int value);
-    partial void OnIdTipoUsuarioChanged();
-    partial void OnTipoUsuario1Changing(string value);
-    partial void OnTipoUsuario1Changed();
-    #endregion
-		
-		public TipoUsuario()
-		{
-			this._Usuarios = new EntitySet<Usuario>(new Action<Usuario>(this.attach_Usuarios), new Action<Usuario>(this.detach_Usuarios));
-			this._TipoUsuarioPermisos = new EntitySet<TipoUsuarioPermiso>(new Action<TipoUsuarioPermiso>(this.attach_TipoUsuarioPermisos), new Action<TipoUsuarioPermiso>(this.detach_TipoUsuarioPermisos));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdTipoUsuario", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int IdTipoUsuario
-		{
-			get
-			{
-				return this._IdTipoUsuario;
-			}
-			set
-			{
-				if ((this._IdTipoUsuario != value))
-				{
-					this.OnIdTipoUsuarioChanging(value);
-					this.SendPropertyChanging();
-					this._IdTipoUsuario = value;
-					this.SendPropertyChanged("IdTipoUsuario");
-					this.OnIdTipoUsuarioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="TipoUsuario", Storage="_TipoUsuario1", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
-		public string TipoUsuario1
-		{
-			get
-			{
-				return this._TipoUsuario1;
-			}
-			set
-			{
-				if ((this._TipoUsuario1 != value))
-				{
-					this.OnTipoUsuario1Changing(value);
-					this.SendPropertyChanging();
-					this._TipoUsuario1 = value;
-					this.SendPropertyChanged("TipoUsuario1");
-					this.OnTipoUsuario1Changed();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoUsuario_Usuario", Storage="_Usuarios", ThisKey="IdTipoUsuario", OtherKey="IdTipoUsuario")]
-		public EntitySet<Usuario> Usuarios
-		{
-			get
-			{
-				return this._Usuarios;
-			}
-			set
-			{
-				this._Usuarios.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoUsuario_TipoUsuarioPermiso", Storage="_TipoUsuarioPermisos", ThisKey="IdTipoUsuario", OtherKey="IdTipoUsuario")]
-		public EntitySet<TipoUsuarioPermiso> TipoUsuarioPermisos
-		{
-			get
-			{
-				return this._TipoUsuarioPermisos;
-			}
-			set
-			{
-				this._TipoUsuarioPermisos.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Usuarios(Usuario entity)
-		{
-			this.SendPropertyChanging();
-			entity.TipoUsuario = this;
-		}
-		
-		private void detach_Usuarios(Usuario entity)
-		{
-			this.SendPropertyChanging();
-			entity.TipoUsuario = null;
-		}
-		
-		private void attach_TipoUsuarioPermisos(TipoUsuarioPermiso entity)
-		{
-			this.SendPropertyChanging();
-			entity.TipoUsuario = this;
-		}
-		
-		private void detach_TipoUsuarioPermisos(TipoUsuarioPermiso entity)
-		{
-			this.SendPropertyChanging();
-			entity.TipoUsuario = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TipoUsuarioPermiso")]
 	public partial class TipoUsuarioPermiso : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -3247,6 +2806,423 @@ namespace Althus.Evaluaciones.Core
 					this._Cargo = value;
 				}
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TipoUsuario")]
+	public partial class TipoUsuario : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _IdTipoUsuario;
+		
+		private string _TipoUsuario1;
+		
+		private string _Descripcion;
+		
+		private EntitySet<TipoUsuarioPermiso> _TipoUsuarioPermisos;
+		
+		private EntitySet<Usuario> _Usuarios;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdTipoUsuarioChanging(int value);
+    partial void OnIdTipoUsuarioChanged();
+    partial void OnTipoUsuario1Changing(string value);
+    partial void OnTipoUsuario1Changed();
+    partial void OnDescripcionChanging(string value);
+    partial void OnDescripcionChanged();
+    #endregion
+		
+		public TipoUsuario()
+		{
+			this._TipoUsuarioPermisos = new EntitySet<TipoUsuarioPermiso>(new Action<TipoUsuarioPermiso>(this.attach_TipoUsuarioPermisos), new Action<TipoUsuarioPermiso>(this.detach_TipoUsuarioPermisos));
+			this._Usuarios = new EntitySet<Usuario>(new Action<Usuario>(this.attach_Usuarios), new Action<Usuario>(this.detach_Usuarios));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdTipoUsuario", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int IdTipoUsuario
+		{
+			get
+			{
+				return this._IdTipoUsuario;
+			}
+			set
+			{
+				if ((this._IdTipoUsuario != value))
+				{
+					this.OnIdTipoUsuarioChanging(value);
+					this.SendPropertyChanging();
+					this._IdTipoUsuario = value;
+					this.SendPropertyChanged("IdTipoUsuario");
+					this.OnIdTipoUsuarioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="TipoUsuario", Storage="_TipoUsuario1", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string TipoUsuario1
+		{
+			get
+			{
+				return this._TipoUsuario1;
+			}
+			set
+			{
+				if ((this._TipoUsuario1 != value))
+				{
+					this.OnTipoUsuario1Changing(value);
+					this.SendPropertyChanging();
+					this._TipoUsuario1 = value;
+					this.SendPropertyChanged("TipoUsuario1");
+					this.OnTipoUsuario1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Descripcion", DbType="NVarChar(1023)")]
+		public string Descripcion
+		{
+			get
+			{
+				return this._Descripcion;
+			}
+			set
+			{
+				if ((this._Descripcion != value))
+				{
+					this.OnDescripcionChanging(value);
+					this.SendPropertyChanging();
+					this._Descripcion = value;
+					this.SendPropertyChanged("Descripcion");
+					this.OnDescripcionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoUsuario_TipoUsuarioPermiso", Storage="_TipoUsuarioPermisos", ThisKey="IdTipoUsuario", OtherKey="IdTipoUsuario")]
+		public EntitySet<TipoUsuarioPermiso> TipoUsuarioPermisos
+		{
+			get
+			{
+				return this._TipoUsuarioPermisos;
+			}
+			set
+			{
+				this._TipoUsuarioPermisos.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoUsuario_Usuario", Storage="_Usuarios", ThisKey="IdTipoUsuario", OtherKey="IdTipoUsuario")]
+		public EntitySet<Usuario> Usuarios
+		{
+			get
+			{
+				return this._Usuarios;
+			}
+			set
+			{
+				this._Usuarios.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_TipoUsuarioPermisos(TipoUsuarioPermiso entity)
+		{
+			this.SendPropertyChanging();
+			entity.TipoUsuario = this;
+		}
+		
+		private void detach_TipoUsuarioPermisos(TipoUsuarioPermiso entity)
+		{
+			this.SendPropertyChanging();
+			entity.TipoUsuario = null;
+		}
+		
+		private void attach_Usuarios(Usuario entity)
+		{
+			this.SendPropertyChanging();
+			entity.TipoUsuario = this;
+		}
+		
+		private void detach_Usuarios(Usuario entity)
+		{
+			this.SendPropertyChanging();
+			entity.TipoUsuario = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Usuario")]
+	public partial class Usuario : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _IdUsuario;
+		
+		private System.Nullable<int> _IdTipoUsuario;
+		
+		private System.Nullable<int> _Rut;
+		
+		private string _NombreUsuario;
+		
+		private string _Nombre;
+		
+		private string _ApellidoPaterno;
+		
+		private EntitySet<Evaluacion> _Evaluacions;
+		
+		private EntityRef<TipoUsuario> _TipoUsuario;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdUsuarioChanging(int value);
+    partial void OnIdUsuarioChanged();
+    partial void OnIdTipoUsuarioChanging(System.Nullable<int> value);
+    partial void OnIdTipoUsuarioChanged();
+    partial void OnRutChanging(System.Nullable<int> value);
+    partial void OnRutChanged();
+    partial void OnNombreUsuarioChanging(string value);
+    partial void OnNombreUsuarioChanged();
+    partial void OnNombreChanging(string value);
+    partial void OnNombreChanged();
+    partial void OnApellidoPaternoChanging(string value);
+    partial void OnApellidoPaternoChanged();
+    #endregion
+		
+		public Usuario()
+		{
+			this._Evaluacions = new EntitySet<Evaluacion>(new Action<Evaluacion>(this.attach_Evaluacions), new Action<Evaluacion>(this.detach_Evaluacions));
+			this._TipoUsuario = default(EntityRef<TipoUsuario>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUsuario", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int IdUsuario
+		{
+			get
+			{
+				return this._IdUsuario;
+			}
+			set
+			{
+				if ((this._IdUsuario != value))
+				{
+					this.OnIdUsuarioChanging(value);
+					this.SendPropertyChanging();
+					this._IdUsuario = value;
+					this.SendPropertyChanged("IdUsuario");
+					this.OnIdUsuarioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdTipoUsuario", DbType="Int")]
+		public System.Nullable<int> IdTipoUsuario
+		{
+			get
+			{
+				return this._IdTipoUsuario;
+			}
+			set
+			{
+				if ((this._IdTipoUsuario != value))
+				{
+					if (this._TipoUsuario.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdTipoUsuarioChanging(value);
+					this.SendPropertyChanging();
+					this._IdTipoUsuario = value;
+					this.SendPropertyChanged("IdTipoUsuario");
+					this.OnIdTipoUsuarioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Rut", DbType="Int")]
+		public System.Nullable<int> Rut
+		{
+			get
+			{
+				return this._Rut;
+			}
+			set
+			{
+				if ((this._Rut != value))
+				{
+					this.OnRutChanging(value);
+					this.SendPropertyChanging();
+					this._Rut = value;
+					this.SendPropertyChanged("Rut");
+					this.OnRutChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NombreUsuario", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string NombreUsuario
+		{
+			get
+			{
+				return this._NombreUsuario;
+			}
+			set
+			{
+				if ((this._NombreUsuario != value))
+				{
+					this.OnNombreUsuarioChanging(value);
+					this.SendPropertyChanging();
+					this._NombreUsuario = value;
+					this.SendPropertyChanged("NombreUsuario");
+					this.OnNombreUsuarioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nombre", DbType="NVarChar(255)")]
+		public string Nombre
+		{
+			get
+			{
+				return this._Nombre;
+			}
+			set
+			{
+				if ((this._Nombre != value))
+				{
+					this.OnNombreChanging(value);
+					this.SendPropertyChanging();
+					this._Nombre = value;
+					this.SendPropertyChanged("Nombre");
+					this.OnNombreChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApellidoPaterno", DbType="NVarChar(255)")]
+		public string ApellidoPaterno
+		{
+			get
+			{
+				return this._ApellidoPaterno;
+			}
+			set
+			{
+				if ((this._ApellidoPaterno != value))
+				{
+					this.OnApellidoPaternoChanging(value);
+					this.SendPropertyChanging();
+					this._ApellidoPaterno = value;
+					this.SendPropertyChanged("ApellidoPaterno");
+					this.OnApellidoPaternoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Evaluacion", Storage="_Evaluacions", ThisKey="IdUsuario", OtherKey="IdUsuarioEvaluador")]
+		public EntitySet<Evaluacion> Evaluacions
+		{
+			get
+			{
+				return this._Evaluacions;
+			}
+			set
+			{
+				this._Evaluacions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoUsuario_Usuario", Storage="_TipoUsuario", ThisKey="IdTipoUsuario", OtherKey="IdTipoUsuario", IsForeignKey=true)]
+		public TipoUsuario TipoUsuario
+		{
+			get
+			{
+				return this._TipoUsuario.Entity;
+			}
+			set
+			{
+				TipoUsuario previousValue = this._TipoUsuario.Entity;
+				if (((previousValue != value) 
+							|| (this._TipoUsuario.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TipoUsuario.Entity = null;
+						previousValue.Usuarios.Remove(this);
+					}
+					this._TipoUsuario.Entity = value;
+					if ((value != null))
+					{
+						value.Usuarios.Add(this);
+						this._IdTipoUsuario = value.IdTipoUsuario;
+					}
+					else
+					{
+						this._IdTipoUsuario = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TipoUsuario");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Evaluacions(Evaluacion entity)
+		{
+			this.SendPropertyChanging();
+			entity.Usuario = this;
+		}
+		
+		private void detach_Evaluacions(Evaluacion entity)
+		{
+			this.SendPropertyChanging();
+			entity.Usuario = null;
 		}
 	}
 }

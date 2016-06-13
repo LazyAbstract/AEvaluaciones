@@ -25,7 +25,7 @@ namespace Althus.Evaluaciones.Web
 
             IList<IConfigurable> configurations = new List<IConfigurable>();
             configurations.Add(new MapperConfiguration());
-            configurations.Add(new InitSimpleMembership());
+            //configurations.Add(new InitSimpleMembership());
             foreach (var configuration in configurations)
             {
                 configuration.Configure();

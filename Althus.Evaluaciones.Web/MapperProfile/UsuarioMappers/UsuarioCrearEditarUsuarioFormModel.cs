@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Althus.Evaluaciones.Web.MapperProfile.UsuarioMappers
 {
-    public class UsuarioCrearEditarUsuarioFormModel
+    public class UsuarioCrearEditarUsuarioFormModel : Profile
     {
         public override string ToString()
         {

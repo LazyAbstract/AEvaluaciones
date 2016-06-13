@@ -167,7 +167,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
@@ -224,7 +223,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Configuration\CurrentCultureDateTimeBinder.cs" />
     <Compile Include="Configuration\IConfigurable.cs" />
-    <Compile Include="Configuration\InitSimpleMembership.cs" />
     <Compile Include="Configuration\MapperConfiguration.cs" />
     <Compile Include="Configuration\RutModelBinder.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -377,6 +375,7 @@
     <Content Include="Views\Evaluacion\CrearEvaluacion.cshtml" />
     <Content Include="Views\Evaluacion\ListadoEvaluaciones.cshtml" />
     <Content Include="Views\Usuario\ListarUsuario.cshtml" />
+    <Content Include="Views\Usuario\CrearEditarUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

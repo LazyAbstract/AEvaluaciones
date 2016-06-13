@@ -25,7 +25,6 @@ namespace Althus.Evaluaciones.Web.Models.UsuarioModels
         public string Correo { get; set; }
         [Required(ErrorMessage = "Debe elegir al menos un Tipo de usuario.")]
         public int IdTipoUsuario { get; set; }
-        public string Contrasena { get; set; }
 
         public bool CreacionUsuario { get; set; }
 

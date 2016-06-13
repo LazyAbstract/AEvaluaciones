@@ -47,19 +47,19 @@
                             {
                                 <li>@Html.ActionLink("Evaluaciones", "ListadoEvaluaciones", "Evaluacion")</li>
                             }
-                            @if (!User.IsInRole("CrearEvaluado"))
+                            @if (true)//!User.IsInRole("CrearEvaluado"))
                             {
                                 <li>@Html.ActionLink("Nueva Evaluación", "CrearEvaluado", "Evaluado")</li>
                             }
                         </ul>
                     </li>
-                    @if (!User.IsInRole("ListadoEvaluado"))
+                    @if (true)//!User.IsInRole("ListadoEvaluado"))
                     {
                         <li>@Html.ActionLink("Postulantes", "ListadoEvaluado", "Evaluado")</li>
                     }
-                    @if (!User.IsInRole("ListadoEvaluaciones"))
+                    @if (true)//!User.IsInRole("ListarUsuario"))
                     {
-                        <li>@Html.ActionLink("Usuarios", "ListadoUsuarios", "Usuario")</li>
+                        <li>@Html.ActionLink("Usuarios", "ListarUsuario", "Usuario")</li>
                     }
                 </ul>
                

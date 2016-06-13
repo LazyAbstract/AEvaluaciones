@@ -1,0 +1,159 @@
+﻿@model Althus.Evaluaciones.Web.Models.UsuarioModels.CrearEditarUsuarioViewModel
+
+@{
+    ViewBag.Title = "CrearEditarUsuario";
+}
+
+<div class="row">
+    <div class="col-md-9">
+        @if (Model.Form.IdUsuario.HasValue)
+        {
+            <h3>Editar Usuario</h3>
+        }
+        else
+        {
+            <h3>Agregar Usuario</h3>
+        }
+    </div>
+    <div class="col-md-3">
+        @Html.ActionLink("Volver", "ListarUsuario", null, new { @class = "btn btn-default" })
+    </div>
+</div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", id = "form-nuevo-usuario" }))
+{
+    <div>
+        @Html.HiddenFor(x => x.Form.IdUsuario)
+        @Html.HiddenFor(x => x.Form.CreacionUsuario)
+        @if (Model.Form.IdUsuario.HasValue)
+        {
+            @Html.HiddenFor(x => x.Form.Correo)
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @Html.ValidationSummary()
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Nombre" class="col-md-2 control-label">@Html.LabelFor(x => x.Form.Nombre)</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control" id="Form_Nombre" name="Form.Nombre" placeholder="Nombre" value="@Model.Form.Nombre" />
+        </div>
+        <div class="col-md-5">
+            @Html.ValidationMessageFor(x => x.Form.Nombre)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="ApellidoPaterno" class="col-md-2 control-label">@Html.LabelFor(x => x.Form.ApellidoPaterno)</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control" id="Form_ApellidoPaterno" name="Form.ApellidoPaterno" placeholder="Apellido Paterno" value="@Model.Form.ApellidoPaterno" />
+        </div>
+        <div class="col-md-5">
+            @Html.ValidationMessageFor(x => x.Form.ApellidoPaterno)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Nombre" class="col-md-2 control-label">@Html.LabelFor(x => x.Form.Rut)</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control" id="Form_Rut" name="Form.Rut" placeholder="sin puntos ni guión, ej.123456789" value="@Model.Form.Rut" />
+        </div>
+        <div class="col-md-5">
+            @Html.ValidationMessageFor(x => x.Form.Rut)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="NombreUsuario" class="col-md-2 control-label">@Html.LabelFor(x => x.Form.Correo)</label>
+        <div class="col-md-5">
+            @if (Model.Form.CreacionUsuario)
+            {
+                <input type="text" class="form-control" id="Form_Correo" name="Form.Correo" placeholder="Correo Electrónico" value="@Model.Form.Correo" />
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.Form.Correo, new { disabled = "disabled", @readonly = "readonly", @class = "form-control" })
+            }
+        </div>
+        <div class="col-md-5">
+            @Html.ValidationMessageFor(x => x.Form.Correo)
+        </div>
+    </div>
+    <br />
+    <h4>Seleccione el Tipo de Usuario</h4>
+    <table class="table table-striped">
+        <tr>
+            <th class="col-md-2">
+            </th>
+            <th class="col-md-5">
+                Tipo de Usuario
+            </th>
+            <th class="col-md-5">
+                Descripción
+            </th>
+        </tr>
+        @foreach (var item in Model.TiposUsuario)
+        {
+            <tr>
+                <td class="col-md-2">
+                    @if (Model.Form.IdTipoUsuario == item.IdTipoUsuario)
+                    {
+                        <input checked="checked" type="radio" name="FORM.idTipoUsuario" id="permiso-@item.TipoUsuario1"
+                               value="@item.IdTipoUsuario" />
+                    }
+                    else
+                    {
+                        <input type="radio" name="FORM.idTipoUsuario" id="permiso-@item.TipoUsuario1"
+                               value="@item.IdTipoUsuario" />
+                    }
+                </td>
+                <td class="col-md-5">
+                    @(item.TipoUsuario1)
+                </td>
+                <td class="col-md-5">
+                    @(item.Descripcion)
+                </td>
+            </tr>
+        }
+    </table>
+    <div>@Html.ValidationMessageFor(x => x.Form.IdTipoUsuario)</div>
+
+    //if (!Model.Form.CreacionUsuario)
+    //{
+        <div class="row">
+            <div class="col-md-3">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </div>
+    //}
+}
+
+@if (Model.Form.CreacionUsuario)
+{
+    <div class="row">
+        <div class="col-md-3">
+            @*<input type="button" id="boton_async" value="Guardar" class="btn btn-success" />*@
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+        </div>
+    </div>
+}
+
+@*<script type="text/javascript">
+    $('#boton_async').click(function (evt, ui) {
+        $.ajax({
+            url: '@Url.Action("CreacionUsuario")',
+            data: $('#form-nuevo-usuario').serialize(),
+            type: 'POST'
+        })
+        .error(function (data){
+            alert('No se ha completado la información necesaria. Todos los campos son necesarios y el correo no puede haber sido utilizado anteriomente.');
+        })
+        .success(function (data) {
+            alert('exito');
+        });
+    });
+</script>*@
+
+
