@@ -43,7 +43,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <input type="submit" value="Buscar" />
+                        <div class="col-md-12">
+                            <input class="btn-default btn" type="submit" value="Buscar" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -52,20 +54,29 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        @Html.PagedListPager(Model.Evaluaciones,x=> Url.Action("ListadoEvaluaciones", new { 
-        pagina = x, 
-        IdEMpresa = Model.FORM.IdEmpresa,
-        IdCargo = Model.FORM.IdCargo
+        @Html.PagedListPager(Model.Evaluaciones, x => Url.Action("ListadoEvaluaciones", new
+   {
+       pagina = x,
+       IdEMpresa = Model.FORM.IdEmpresa,
+       IdCargo = Model.FORM.IdCargo
    }))
-        
+
     </div>
 </div>
 <div class="row">
     <div class="col-md-12">
-        
-        @Html.Grid(Model.Evaluaciones).Columns(col => { 
-   
-   })
+
+        @Html.Grid(Model.Evaluaciones).Columns(col =>
+   {
+       col.For(x=> Html.ButtonIconActionLink("search","Detalle","DetalleEvaluacion","Evaluacion",null,new{ IdEvaluacion = x.IdEvaluacion}));
+       col.For(x => Html.ButtonIconActionLink("save-file", "Detalle", "ExportarEvaluacionPdf", "Evaluacion", null, new { IdEvaluacion = x.IdEvaluacion }));
+       col.For(x => x.Evaluado.NombreCompleto).Named("Nombre");
+       col.For(x => x.FechaEvaluacion.ToShortDateString()).Named("Fecha");
+       col.For(x => x.Cargo.Cargo1).Named("Cargo");
+       col.For(x => x.Cargo.Empresa.Empresa1).Named("Empresa");
+       col.For(x => x.TipoEvaluacion.TipoEvaluacion1).Named("Tipo");
+
+   }).Attributes(@class => "table");
     </div>
 </div>
 

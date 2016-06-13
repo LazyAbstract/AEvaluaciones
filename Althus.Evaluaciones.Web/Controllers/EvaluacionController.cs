@@ -111,5 +111,17 @@ namespace Althus.Evaluaciones.Web.Controllers
         {
             return View(db.Evaluacions.SingleOrDefault(x=>x.IdEvaluacion == IdEvaluacion));
         }
+
+        public ActionResult ExportarEvaluacionPdf(int IdEvaluacion)
+        {
+            Evaluacion evaluacion = db.Evaluacions.SingleOrDefault(x=>x.IdEvaluacion == IdEvaluacion);
+            GeneraEvaluacionPDF generador = new GeneraEvaluacionPDF(evaluacion);
+            return File(generador.GetFile(), "application/pdf", 
+                String.Format("{0}{1}{2}_Evaluacion.pdf", 
+                    evaluacion.FechaEvaluacion.Year.ToString("00"),
+                    evaluacion.FechaEvaluacion.Month.ToString("00"),
+                    evaluacion.FechaEvaluacion.Day.ToString("00")
+                    ));
+        }
     }
 }

@@ -9,9 +9,9 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
     public class ListadoEvaluacionesFormModel
     {
         [DisplayName("Empresa")]
-        public int IdEmpresa { get; set; }
+        public int? IdEmpresa { get; set; }
 
         [DisplayName("Cargo")]
-        public int IdCargo { get; set; }
+        public int? IdCargo { get; set; }
     }
 }

@@ -115,6 +115,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Windows.Forms.DataVisualization.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -245,6 +248,7 @@
     <Compile Include="Models\EvaluacionModels\CrearEvaluacionFormModel.cs" />
     <Compile Include="Models\EvaluacionModels\CrearEvaluacionViewModel.cs" />
     <Compile Include="Models\EvaluacionModels\GeneraEvaluacionPDF.cs" />
+    <Compile Include="Models\EvaluacionModels\GeneraGraficoEvaluacion.cs" />
     <Compile Include="Models\EvaluacionModels\ListadoEvaluacionesFormModel.cs" />
     <Compile Include="Models\EvaluacionModels\ListadoEvaluacionesViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
