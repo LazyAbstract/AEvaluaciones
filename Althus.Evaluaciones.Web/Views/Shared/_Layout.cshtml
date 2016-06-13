@@ -35,27 +35,56 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="@Url.Action("Application name", "Index", "Home")" class="navbar-brand">
-                    <img height="30px" src="@Url.Content("~/Content/images/logo-althus.png")" />
-                </a>
-               
+                <a href="@Url.Content("~/")" class="navbar-brand">ALTHUS Partners Evaluación Psicolaboral</a>      
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Evaluacion<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            @if (!User.IsInRole("ListadoEvaluaciones"))
+                            {
+                                <li>@Html.ActionLink("Evaluaciones", "ListadoEvaluaciones", "Evaluacion")</li>
+                            }
+                            @if (!User.IsInRole("CrearEvaluado"))
+                            {
+                                <li>@Html.ActionLink("Nueva Evaluación", "CrearEvaluado", "Evaluado")</li>
+                            }
+                        </ul>
+                    </li>
+                    @if (!User.IsInRole("ListadoEvaluado"))
+                    {
+                        <li>@Html.ActionLink("Postulantes", "ListadoEvaluado", "Evaluado")</li>
+                    }
+                    @if (!User.IsInRole("ListadoEvaluaciones"))
+                    {
+                        <li>@Html.ActionLink("Usuarios", "ListadoUsuarios", "Usuario")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
     <div class="container body-content">
+        @if (TempData["Mensaje"] != null)
+        {
+            <div style="color: white; text-align: center; font-weight: bold; font-size: larger; background-color: #009ce0;" class="fadeout-5">
+                @TempData["Mensaje"].ToString()
+            </div>
+        }
+        <br />
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Althus Partners</p>
-        </footer>
+        <div class="navbar navbar-default navbar-fixed-bottom" style="margin-bottom:0px;margin-left:0px;margin-right:0px;clear:both;">
+            <div class="navbar-inner">
+                <div class="container">
+                    <p class="navbar-text pull-right">
+                        <a class="brand" href="http://www.althuspartners.cl/" target="_blank">
+                            <img height="35px" src="@Url.Content("~/Content/images/logo-althus.png")" />
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
   

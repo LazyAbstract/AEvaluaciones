@@ -31,6 +31,9 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
         public CrearEvaluacionViewModel(CrearEvaluacionFormModel F) : this()
         {
             Form = F;
+            evaluacion = db.Evaluacions.Single(x => x.IdEvaluacion == Form.IdEvaluacion);
+            evaluado = evaluacion.Evaluado;
+            Competencias = evaluacion.Cargo.Competencias.OrderBy(x => x.IdCompetencia);
         }
     }
 }

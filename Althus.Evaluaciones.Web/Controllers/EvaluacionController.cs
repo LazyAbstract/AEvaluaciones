@@ -31,10 +31,20 @@ namespace Althus.Evaluaciones.Web.Controllers
         [HttpPost]
         public ActionResult CrearEvaluacion(CrearEvaluacionFormModel Form)
         {
+            int j = 0;
+            foreach(var item in Form.ValorObtenidoCompetencia)
+            {
+                if(item < 1 || item > 5)
+                {
+                    ModelState.AddModelError("Form.ValorObtenidoCompetencia[" + j.ToString() + "]", "Los valores de la evaluación deben ser entre 1 y 5.");
+                }
+                j++;
+            }
             if(ModelState.IsValid)
             {
                 //  evaluacion abierta primero, esto se puede hacer genércio
                 Evaluacion evaluacion = db.Evaluacions.Single(x => x.IdEvaluacion == Form.IdEvaluacion);
+                IEnumerable<Competencia> Competencias = evaluacion.Cargo.Competencias.OrderBy(x => x.IdCompetencia);
                 EvaluacionAbierta text1 = new EvaluacionAbierta()
                 {
                     IdTipoEvaluacionAbierta = TipoEvaluacionAbierta.ResumenEstudiosTrayectoriaLaboral,
@@ -62,7 +72,7 @@ namespace Althus.Evaluaciones.Web.Controllers
 
                 //  evaluacion de competencias                
                 int i = 0;
-                foreach(var competencia in evaluacion.Cargo.Competencias.OrderBy(x => x.IdCompetencia))
+                foreach(var competencia in Competencias)
                 {
                     EvaluacionCompetencia evalcomp = new EvaluacionCompetencia()
                     {
@@ -74,6 +84,21 @@ namespace Althus.Evaluaciones.Web.Controllers
                     db.EvaluacionCompetencias.InsertOnSubmit(evalcomp);
                     i++;
                 }
+                db.SubmitChanges();
+
+                int TotalEsperado = Competencias.Sum(x => x.ValorEsperado);
+                int TotalObtenido = 0;
+                foreach(var item in Form.ValorObtenidoCompetencia)
+                {
+                    TotalObtenido += item;
+                }
+                float PorcentajeIdionidad = (float)TotalObtenido / TotalEsperado;
+                if (PorcentajeIdionidad > 1) PorcentajeIdionidad = 1;
+                IEnumerable<TipoDiagnostico> TipoDiagnosticos = db.TipoDiagnosticos.Where(x => x.PorcentajeHasta >= PorcentajeIdionidad);
+                int IdTipoDiagnostico = TipoDiagnosticos.OrderBy(x => x.PorcentajeHasta).First().IdTipoDiagnostico;
+                evaluacion.PorcetajeIdioneidad = PorcentajeIdionidad;
+                evaluacion.IdTipoDiagnostico = IdTipoDiagnostico;
+                evaluacion.FechaEvaluacion = DateTime.Now;
                 db.SubmitChanges();
                 Mensaje = "La Evaluación fue ingresada correctamente.";
                 return RedirectToAction("ListadoEvaluaciones");
