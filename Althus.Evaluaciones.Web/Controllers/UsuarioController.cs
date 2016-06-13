@@ -44,5 +44,62 @@ namespace Althus.Evaluaciones.Web.Controllers
             }
             return View(Model);
         }
+
+        [HttpPost]
+        public ActionResult CrearEditarUsuario(CrearEditarUsuarioFormModel Form)
+        {
+            if (ModelState.IsValid)
+            {
+                if (Form.IdUsuario.HasValue)
+                {
+                    //Usuario user = db.Usuarios.Single(x => x.Id == Form.IdUsuario.Value);
+                    //user.PersonaNoColaborador.Nombre = Form.Nombre;
+                    //user.PersonaNoColaborador.ApellidoPaterno = Form.ApellidoPaterno;
+                    //user.PersonaNoColaborador.ApellidoMaterno = Form.ApellidoMaterno;
+                    //user.PersonaNoColaborador.Correo = Form.Mail;
+
+                    //IEnumerable<UsuarioTipoUsuario> TiposUsuario = db.UsuarioTipoUsuarios.Where(x => x.IdUsuario == Form.IdUsuario);
+                    //db.UsuarioTipoUsuarios.DeleteAllOnSubmit(TiposUsuario);
+                    //db.SubmitChanges();
+
+                    //foreach (var item in Form.IdTipoUsuario)
+                    //{
+                    //    UsuarioTipoUsuario utu = new UsuarioTipoUsuario()
+                    //    {
+                    //        IdUsuarioTipoUsuario = Guid.NewGuid(),
+                    //        idTipoUsuario = item,
+                    //        IdUsuario = Form.IdUsuario.Value,
+                    //    };
+                    //    db.UsuarioTipoUsuarios.InsertOnSubmit(utu);
+                    //}
+                    //db.SubmitChanges();
+
+                    //string[] roles = Roles.GetAllRoles();
+                    //foreach (string rol in roles)
+                    //{
+                    //    if (Roles.IsUserInRole(user.Nombre, rol))
+                    //    {
+                    //        Roles.RemoveUserFromRole(user.Nombre, rol);
+                    //    }
+                    //}
+
+                    //List<int> TipoUsuarios = db.UsuarioTipoUsuarios.Where(x => x.IdUsuario == user.Id).Select(x => x.idTipoUsuario).ToList();
+                    //string[] Permisos = db.TipoUsuarioPermisos.Where(x => TipoUsuarios.Contains(x.IdTipoUsuario.Value)).Select(x => x.Permiso.Valor).ToArray();
+
+                    //foreach (string permiso in Permisos)
+                    //{
+                    //    if (!Roles.IsUserInRole(user.Nombre, permiso))
+                    //    {
+                    //        Roles.AddUserToRole(user.Nombre, permiso);
+                    //    }
+                    //}
+                    Mensaje = "El usuario fue editado exitosamente";
+                    return RedirectToAction("ListarUsuario");
+                }
+            }
+            CrearEditarUsuarioViewModel Model = new CrearEditarUsuarioViewModel(Form);
+            Model.TiposUsuario = db.TipoUsuarios.OrderBy(x => x.TipoUsuario1);
+            return View(Model);
+        }
     }
 }

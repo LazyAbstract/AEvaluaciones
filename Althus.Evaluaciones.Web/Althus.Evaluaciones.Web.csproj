@@ -231,6 +231,8 @@
     </Compile>
     <Compile Include="MapperProfile\CrearEvaluadoFormModelEvaluado.cs" />
     <Compile Include="MapperProfile\DefaultProfileMapper.cs" />
+    <Compile Include="MapperProfile\UsuarioMappers\CrearEditarUsuarioFormModelUsuario.cs" />
+    <Compile Include="MapperProfile\UsuarioMappers\UsuarioCrearEditarUsuarioFormModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EvaluacionModels\CrearEvaluacionFormModel.cs" />
     <Compile Include="Models\EvaluacionModels\CrearEvaluacionViewModel.cs" />
@@ -363,7 +365,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="MapperProfile\UsuarioMappers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
