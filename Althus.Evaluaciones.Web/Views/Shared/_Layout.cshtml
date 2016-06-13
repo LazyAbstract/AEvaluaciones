@@ -40,7 +40,7 @@
             <div class="navbar-collapse collapse">
                 @Html.Partial("_LoginPartial")
                 <ul class="nav navbar-nav navbar-right">
-                    @if (!User.IsInRole("Evaluacion"))
+                    @if (User.IsInRole("Evaluacion"))
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Evaluacion<span class="caret"></span></a>
@@ -54,7 +54,7 @@
                     {
                         <li>@Html.ActionLink("Postulantes", "ListadoEvaluado", "Evaluado")</li>
                     }
-                    @if (!User.IsInRole("Usuario"))
+                    @if (User.IsInRole("Usuario"))
                     {
                         <li>@Html.ActionLink("Usuarios", "ListarUsuario", "Usuario")</li>
                     }

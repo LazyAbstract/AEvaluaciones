@@ -8,7 +8,7 @@
     <div class="col-md-12">
         @using (Html.BeginForm())
         {
-            <div class="panel panel-success">
+            <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h4>Nuevo Postulante</h4>
                 </div>
@@ -50,11 +50,11 @@
                             @Html.LabelFor(x => x.Form.Rut, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.Rut, new { @class = "form-control" })<br />
+                            @Html.TextBoxFor(x => x.Form.Rut, new { @class = "form-control", placeholder = "sin puntos ni guión, ej.123456789" })<br />
                             @Html.ValidationMessageFor(x => x.Form.Rut)
                         </div>
                         <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.Nombre, new { @class = "form-label", placeholder = "sin puntos ni guión, ej.123456789" })
+                            @Html.LabelFor(x => x.Form.Nombre, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
                             @Html.TextBoxFor(x => x.Form.Nombre, new { @class = "form-control" })

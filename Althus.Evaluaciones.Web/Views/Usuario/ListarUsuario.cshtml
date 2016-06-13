@@ -43,7 +43,9 @@
             {
                 col.For(x => x.ApellidoPaterno + ", " + x.Nombre).Named("Nombre Completo");
                 col.For(x => x.NombreUsuario);
+                col.For(x => x.TipoUsuario.TipoUsuario1).Named("Tipo Usuario");
                 col.For(x => Html.ButtonIconActionLink("pencil", "Editar Usuario", "CrearEditarUsuario", null, null, new { IdUsuario = x.IdUsuario }));
+                col.For(x => Html.ButtonIconActionLink("off", "Resetear Contraseña", "ResetContrasena", null, null, new { IdUsuario = x.IdUsuario }));
             }).Empty("No se han encontrado registros asociados a los filtros seleccionados"))
     </div>
 </div>

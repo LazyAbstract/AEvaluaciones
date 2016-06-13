@@ -20,5 +20,13 @@ namespace Althus.Evaluaciones.Web.Controllers
             }
         }
 
+        protected Usuario UsuarioActual
+        {
+            get
+            {
+                return db.Usuarios.SingleOrDefault(x => x.NombreUsuario == User.Identity.Name);
+            }
+        }
+
     }
 }

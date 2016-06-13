@@ -8,9 +8,9 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-success">
+        <div class="panel panel-primary">
             <div class="panel-heading">
-                <h4>Evaluación Psicolaboral</h4>
+                <h4>Evaluación Psicolaboral @Html.ActionLink("Exportar Pdf", "ExportarEvaluacionPdf", new { IdEvaluacion = Model.IdEvaluacion }, new { @class = "btn btn-default" })</h4>
                 <h5 class="text-right">Confidencial</h5>
             </div>
             <table class="table">
@@ -119,6 +119,12 @@
                 <div class="row">
                     <div class="col-md-12">
                         @Model.EvaluacionAbiertas.FirstOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ConclusionSugerencias).EvaluacionAbierta1
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.ActionLink("Exportar Pdf", "ExportarEvaluacionPdf", new { IdEvaluacion = Model.IdEvaluacion }, new { @class = "btn btn-primary" })
                     </div>
                 </div>
             </div>

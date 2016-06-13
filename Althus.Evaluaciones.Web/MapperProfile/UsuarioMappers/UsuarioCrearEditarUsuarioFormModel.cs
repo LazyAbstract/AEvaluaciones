@@ -18,7 +18,8 @@ namespace Althus.Evaluaciones.Web.MapperProfile.UsuarioMappers
         protected override void Configure()
         {
             //base.Configure();
-            Mapper.CreateMap<Usuario, CrearEditarUsuarioFormModel>();
+            Mapper.CreateMap<Usuario, CrearEditarUsuarioFormModel>()
+                .ForMember(d => d.Correo, prop => prop.MapFrom(x => x.NombreUsuario));
         }
     }
 }

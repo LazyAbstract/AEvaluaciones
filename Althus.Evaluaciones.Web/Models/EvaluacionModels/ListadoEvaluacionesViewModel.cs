@@ -12,29 +12,31 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
 {
     public class ListadoEvaluacionesViewModel
     {
-        public ListadoEvaluacionesFormModel FORM { get; set; }
+        //public ListadoEvaluacionesFormModel FORM { get; set; }
         public IPagedList<Evaluacion> Evaluaciones { get; set; }
-        public SelectList Empresas { get; set; }
-        public IEnumerable<SelectListItemCargo> Cargos { get; set; }
-        private EmpresaSelectListProvider eslp = new EmpresaSelectListProvider();
-        private CargoSelectListProvider cslp = new CargoSelectListProvider();
+        //public SelectList Empresas { get; set; }
+        //public IEnumerable<SelectListItemCargo> Cargos { get; set; }
+        //private EmpresaSelectListProvider eslp = new EmpresaSelectListProvider();
+        //private CargoSelectListProvider cslp = new CargoSelectListProvider();
+        public string filtro { get; set; }
 
-        public ListadoEvaluacionesViewModel()
-        {
-            FORM = new ListadoEvaluacionesFormModel();
-        }
+        //public ListadoEvaluacionesViewModel()
+        //{
+        //    //FORM = new ListadoEvaluacionesFormModel();
+        //}
 
-        public ListadoEvaluacionesViewModel(ListadoEvaluacionesFormModel form, ALTHUSEvaluacionesDataContext db)
-        {
-            FORM = form;
-            Empresas = eslp.Provide();
-            Cargos = db.vw_RelacionEmpresaCargos
-                .Select(x => new SelectListItemCargo()
-                {
-                    Value = x.IdCargo.ToString(),
-                    Text = x.Cargo,
-                    OptGroup = x.Empresa
-                });
-        }
+        //public ListadoEvaluacionesViewModel(//ListadoEvaluacionesFormModel form, 
+        //    ALTHUSEvaluacionesDataContext db)
+        //{
+        //    FORM = form;
+        //    Empresas = eslp.Provide();
+        //    Cargos = db.vw_RelacionEmpresaCargos
+        //        .Select(x => new SelectListItemCargo()
+        //        {
+        //            Value = x.IdCargo.ToString(),
+        //            Text = x.Cargo,
+        //            OptGroup = x.Empresa
+        //        });
+        //}
     }
 }
