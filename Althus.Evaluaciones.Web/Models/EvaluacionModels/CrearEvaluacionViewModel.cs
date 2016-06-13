@@ -12,16 +12,20 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
             .WithConnectionStringFromConfiguration();
         public CrearEvaluacionFormModel Form { get; set; }
         public IEnumerable<Competencia> Competencias { get; set; }
+        public Evaluacion evaluacion { get; set; }
+        public Evaluado evaluado { get; set; }
 
         public CrearEvaluacionViewModel()
         {
             Form = new CrearEvaluacionFormModel();
         }
 
-        public CrearEvaluacionViewModel(int IdEvaluacion) : this()
+        public CrearEvaluacionViewModel(int idEvaluacion) : this()
         {
-            Evaluacion evaluacion = db.Evaluacions.Single(x => x.IdEvaluacion == IdEvaluacion);
-            Competencias = evaluacion.Cargo.Competencias;
+            Form.IdEvaluacion = idEvaluacion;
+            evaluacion = db.Evaluacions.Single(x => x.IdEvaluacion == idEvaluacion);
+            evaluado = evaluacion.Evaluado;
+            Competencias = evaluacion.Cargo.Competencias.OrderBy(x => x.IdCompetencia);
         }
 
         public CrearEvaluacionViewModel(CrearEvaluacionFormModel F) : this()

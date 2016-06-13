@@ -13,7 +13,11 @@
                     <h4>Nuevo Postulante</h4>
                 </div>
                 <div class="panel-body">
-                    @Html.ValidationSummary()
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-2">
                             @Html.LabelFor(x => x.Form.IdEmpresa, new { @class = "form-label" })
