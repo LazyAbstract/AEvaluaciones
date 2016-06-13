@@ -124,5 +124,12 @@ namespace Althus.Evaluaciones.Web.Controllers
                     evaluacion.FechaEvaluacion.Day.ToString("00")
                     ));
         }
+
+        public ActionResult GetEvaluacionGrafico(int IdEvaluacion)
+        {
+            Evaluacion evaluacion = db.Evaluacions.SingleOrDefault(x=>x.IdEvaluacion == IdEvaluacion);
+            byte[] result = new GeneraGraficoEvaluacion().GenerarGrafico(evaluacion);
+            return File(result, "image/jpeg", "Evaluacion.png");
+        }
     }
 }
