@@ -15,6 +15,7 @@ using Microsoft.Owin.Security;
 
 namespace Althus.Evaluaciones.Web.Controllers
 {
+    //[Authorize(Roles = "Usuario")]
     public class UsuarioController : BaseController
     {
         private ApplicationSignInManager _signInManager;
@@ -149,12 +150,16 @@ namespace Althus.Evaluaciones.Web.Controllers
                 }
                 else
                 {
-                    string Password = Form.Nombre.Substring(0, 1).ToUpper() + Form.ApellidoPaterno.ToLower() 
-                        + "_" + Form.Rut.Numero.ToString().Substring(0, 6);
-                    var user = new ApplicationUser { UserName = Form.Correo, Email = Form.Correo };
+                    string Password = Form.Rut.Numero.ToString().Substring(0, 6);
+                    var user = new ApplicationUser { UserName = Form.Correo, Email = Form.Correo };                  
                     var result = await UserManager.CreateAsync(user, Password);
                     if (result.Succeeded)
                     {
+                        foreach(var permiso in db.TipoUsuarioPermisos.Where(x => x.IdTipoUsuario == Form.IdTipoUsuario).Select(x => x.Permiso.Permiso1))
+                        {
+                            var roleresult = UserManager.AddToRole(user.Id, permiso);
+                        }
+              
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         Usuario _user = new Usuario()
                         {

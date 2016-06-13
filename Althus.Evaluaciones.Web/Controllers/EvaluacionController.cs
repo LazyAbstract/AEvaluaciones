@@ -9,6 +9,7 @@ using Althus.Evaluaciones.Core;
 
 namespace Althus.Evaluaciones.Web.Controllers
 {
+    //[Authorize(Roles = "Evaluacion")]
     public class EvaluacionController : BaseController
     {
         public ActionResult ListadoEvaluaciones(int? pagina, ListadoEvaluacionesFormModel FORM)
