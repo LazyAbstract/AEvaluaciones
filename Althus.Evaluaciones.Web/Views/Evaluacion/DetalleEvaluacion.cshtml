@@ -1,0 +1,124 @@
+﻿@model Althus.Evaluaciones.Core.Evaluacion
+
+@{
+    ViewBag.Title = "DetalleEvaluacion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h4>Evaluación Psicolaboral</h4>
+                <h5 class="text-right">Confidencial</h5>
+            </div>
+            <table class="table">
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <td>
+                        @Model.Evaluado.NombreCompleto
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Cargo al cual postula
+                    </th>
+                    <td>
+                        @Model.Cargo.Cargo1
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Empresa
+                    </th>
+                    <td>
+                        @Model.Cargo.Empresa.Empresa1
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Profesión
+                    </th>
+                    <td>
+                        @Model.Evaluado.Profesion
+                    </td>
+                </tr>
+            </table>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        Trayectoria Laboral
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Model.EvaluacionAbiertas.FirstOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ResumenEstudiosTrayectoriaLaboral).EvaluacionAbierta1
+
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        Motivacion Por Cargo
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Model.EvaluacionAbiertas.FirstOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.MotivacionCargo).EvaluacionAbierta1
+                    </div>
+                </div>
+                <br />
+                <hr />
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.Label("Competencia")
+                    </div>
+                    <div class="col-md-1">
+                        @Html.Label("Valor Esperado")
+                    </div>
+                    <div class="col-md-1">
+                        @Html.Label("Valor Obtenido")
+                    </div>
+                    <div class="col-md-6">
+                        @Html.Label("Observaciones")
+                    </div>
+                </div>
+                @{int i = 0;}
+                @foreach (var competencia in Model.EvaluacionCompetencias)
+                {
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>@competencia.Competencia.Competencia1</p>
+                        </div>
+                        <div class="col-md-1">
+                            <p class="text-center">@competencia.Competencia.ValorEsperado</p>
+                        </div>
+                        <div class="col-md-1">
+                            @competencia.ValorObtenido
+                        </div>
+                        <div class="col-md-6">
+                            @competencia.Observacion
+                        </div>
+                    </div>
+                    <br />
+                }
+                <hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        Form.Conclusion o Sugerencia
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Model.EvaluacionAbiertas.FirstOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ConclusionSugerencias).EvaluacionAbierta1
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -109,8 +109,7 @@ namespace Althus.Evaluaciones.Web.Controllers
 
         public ActionResult DetalleEvaluacion(int IdEvaluacion)
         {
-            //  TODO XRUIZV: implementar despligue informa
-            throw new NotImplementedException("TODO XRUIZV: implementar despligue informa ");
+            return View(db.Evaluacions.SingleOrDefault(x=>x.IdEvaluacion == IdEvaluacion));
         }
     }
 }

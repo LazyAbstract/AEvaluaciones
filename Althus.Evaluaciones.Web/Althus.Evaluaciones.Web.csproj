@@ -370,6 +370,7 @@
     <Content Include="Views\Evaluado\CrearEvaluado.cshtml" />
     <Content Include="Views\Evaluacion\CrearEvaluacion.cshtml" />
     <Content Include="Views\Evaluacion\ListadoEvaluaciones.cshtml" />
+    <Content Include="Views\Evaluacion\DetalleEvaluacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
