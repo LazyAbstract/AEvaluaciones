@@ -80,10 +80,10 @@
                     <br />
                     <div class="row">
                         <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.FechaNacimiento, new { @class = "form-label fechaNacimiento" })
+                            @Html.LabelFor(x => x.Form.FechaNacimiento, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.FechaNacimiento, new { @class = "form-control" })
+                            @Html.TextBoxFor(x => x.Form.FechaNacimiento, new { @class = "form-control fechaNacimiento" })
                             @Html.ValidationMessageFor(x => x.Form.FechaNacimiento)
                         </div>
                         <div class="col-md-2">

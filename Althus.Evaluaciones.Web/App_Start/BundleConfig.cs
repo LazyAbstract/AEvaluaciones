@@ -20,15 +20,18 @@ namespace Althus.Evaluaciones.Web
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/myScripts").Include(
+                        "~/Scripts/jquery-ui-{version}.js",
                         "~/Scripts/ALTHUSEvaluacionesConfiguration.js",
-                        "~/Scripts/jquery.cascadingDropDown.js",
-                        "~/Scripts/jquery-ui-{version}.js"));
+                        "~/Scripts/jquery.cascadingDropDown.js"
+                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                "~/Content/themes/base/all.css",
+                "~/Content/themes/base/datepicker.css",
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
         }
