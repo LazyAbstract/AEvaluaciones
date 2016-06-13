@@ -101,10 +101,16 @@ namespace Althus.Evaluaciones.Web.Controllers
                 evaluacion.FechaEvaluacion = DateTime.Now;
                 db.SubmitChanges();
                 Mensaje = "La Evaluación fue ingresada correctamente.";
-                return RedirectToAction("ListadoEvaluaciones");
+                return RedirectToAction("DetalleEvaluacion", new { IdEvaluacion = evaluacion.IdEvaluacion });
             }
             CrearEvaluacionViewModel model = new CrearEvaluacionViewModel(Form);
             return View(model);
+        }
+
+        public ActionResult DetalleEvaluacion(int IdEvaluacion)
+        {
+            //  TODO XRUIZV: implementar despligue informa
+            throw new NotImplementedException("TODO XRUIZV: implementar despligue informa ");
         }
     }
 }
