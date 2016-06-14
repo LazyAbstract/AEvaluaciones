@@ -61,7 +61,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            @Html.TextAreaFor(x => x.Form.TrayectoriaLaboral, new { @class = "form-control", rows = "5", style = "min-width: 100%", placeholder = "Describir si cuenta con alguna formación académica y resumir su trayectoria laboral y experiencia en relación al cargo." })
+                            @Html.TextAreaFor(x => x.Form.TrayectoriaLaboral, new { @class = "form-control", rows = "3", style = "min-width: 100%", placeholder = "Describir si cuenta con alguna formación académica y resumir su trayectoria laboral y experiencia en relación al cargo." })
                         </div>
                     </div>
                     <br />
@@ -72,39 +72,39 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            @Html.TextAreaFor(x => x.Form.MotivacionPorCargo, new { @class = "form-control", rows = "5", style = "min-width: 100%", placeholder = "Aclarar en este sector no solamente la motivación económica, sino también como profesional, opinión del cargo al cual postula, etc." })
+                            @Html.TextAreaFor(x => x.Form.MotivacionPorCargo, new { @class = "form-control", rows = "3", style = "min-width: 100%", placeholder = "Aclarar en este sector no solamente la motivación económica, sino también como profesional, opinión del cargo al cual postula, etc." })
                         </div>
                     </div>
-                    <br />
-                    <hr />
-                    <div class="row">
-                        <div class="col-md-4">
+                </div>
+                <table class="table">
+                    <tr>
+                        <th colspan="4">
                             @Html.Label("Competencia")
-                        </div>
-                        <div class="col-md-1">
+                        </th>
+                        <th colspan="1">
                             @Html.Label("Valor Esperado")
-                        </div>
-                        <div class="col-md-1">
+                        </th>
+                        <th colspan="1">
                             @Html.Label("Valor Obtenido")
-                        </div>
-                        <div class="col-md-6">
+                        </th>
+                        <th colspan="6">
                             @Html.Label("Observaciones")
-                        </div>
-                    </div>
+                        </th>
+                    </tr>
                     @{int i = 0;}
                     @foreach (var competencia in Model.Competencias)
                     {
-                        <div class="row">
-                            <div class="col-md-4">
+                        <tr>
+                            <td colspan="4">
                                 <p>@competencia.Competencia1</p>
-                            </div>
-                            <div class="col-md-1">
+                            </td>
+                            <td colspan="1">
                                 <p class="text-center">@competencia.ValorEsperado</p>
-                            </div>
-                            <div class="col-md-1">
+                            </td>
+                            <td colspan="1">
                                 <input name="Form.ValorObtenidoCompetencia[@i]" id="Form.ValorObtenidoCompetencia[@i]" class="form-control" type="number" min="1" max="5" />
-                            </div>
-                            <div class="col-md-6">
+                            </td>
+                            <td colspan="6">
                                 @if (i == 0)
                                 {
                                     <textarea name="Form.Observacion[@i]" id="Form.Observacion[@i]" class="form-control" style="min-width: 100%" placeholder="Realizar breve descripción de las conductas observadas que hacen que la persona tenga tal valor en la competencia. Lo que hace y lo que debe mejorar o le falta o lo que sobresale."></textarea>
@@ -113,12 +113,12 @@
                                 {
                                     <textarea name="Form.Observacion[@i]" id="Form.Observacion[@i]" class="form-control" style="min-width: 100%"></textarea>
                                 }
-                            </div>
-                        </div>
-                        <br />
+                            </td>
+                        </tr>
                                 { i++; }
                     }
-                    <hr />
+                </table>                
+                <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
                             @Html.LabelFor(x => x.Form.ConclusionSugerencia)
@@ -126,7 +126,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            @Html.TextAreaFor(x => x.Form.ConclusionSugerencia, new { @class = "form-control", rows = "5", style = "min-width: 100%", placeholder = "En este segmento se debe hacer una descripción general del candidato en la entrevista, aludiendo a su nivel de compromiso, proactividad y orientación al logro. Asimismo, se deben incorporar las observaciones obtenidas en los test psicológicos, integrándolas a una breve descripción de las competencias asociadas. Por último, debe redactar un párrafo sobre los aspectos a destacar en el candidato y otro párrafo sobre las brechas y aspectos a desarrollar. Al concluir, debe señalar si el pronóstico del candidato es favorable o no, y entregar sugerencias." })
+                            @Html.TextAreaFor(x => x.Form.ConclusionSugerencia, new { @class = "form-control", rows = "3", style = "min-width: 100%", placeholder = "En este segmento se debe hacer una descripción general del candidato en la entrevista, aludiendo a su nivel de compromiso, proactividad y orientación al logro. Asimismo, se deben incorporar las observaciones obtenidas en los test psicológicos, integrándolas a una breve descripción de las competencias asociadas. Por último, debe redactar un párrafo sobre los aspectos a destacar en el candidato y otro párrafo sobre las brechas y aspectos a desarrollar. Al concluir, debe señalar si el pronóstico del candidato es favorable o no, y entregar sugerencias." })
                         </div>
                     </div>
                 </div>
