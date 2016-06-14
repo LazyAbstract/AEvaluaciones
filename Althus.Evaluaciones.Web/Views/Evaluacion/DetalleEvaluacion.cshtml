@@ -10,7 +10,7 @@
     <div class="col-md-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h4>Evaluación Psicolaboral @Html.ActionLink("Exportar Pdf", "ExportarEvaluacionPdf", new { IdEvaluacion = Model.IdEvaluacion }, new { @class = "btn btn-default" })</h4>
+                <h4>Evaluación Psicolaboral @Html.ActionLink("Exportar PDF", "ExportarEvaluacionPdf", new { IdEvaluacion = Model.IdEvaluacion }, new { @class = "btn btn-default" })</h4>
                 <h5 class="text-right">Confidencial</h5>
             </div>
             <table class="table">
@@ -70,41 +70,42 @@
                         @Model.EvaluacionAbiertas.FirstOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.MotivacionCargo).EvaluacionAbierta1
                     </div>
                 </div>
-                <br />
-                <hr />
-                <div class="row">
-                    <div class="col-md-4">
+            </div>
+            <table class="table table-striped">
+                <tr>
+                    <th>
                         @Html.Label("Competencia")
-                    </div>
-                    <div class="col-md-1">
+                    </th>
+                    <th>
                         @Html.Label("Valor Esperado")
-                    </div>
-                    <div class="col-md-1">
+                    </th>
+                    <th>
                         @Html.Label("Valor Obtenido")
-                    </div>
-                    <div class="col-md-6">
+                    </th>
+                    <th>
                         @Html.Label("Observaciones")
-                    </div>
-                </div>
+                    </th>
+                </tr>
                 @{int i = 0;}
                 @foreach (var competencia in Model.EvaluacionCompetencias)
                 {
-                    <div class="row">
-                        <div class="col-md-4">
+                    <tr>
+                        <td>
                             <p>@competencia.Competencia.Competencia1</p>
-                        </div>
-                        <div class="col-md-1">
+                        </td>
+                        <td>
                             <p class="text-center">@competencia.Competencia.ValorEsperado</p>
-                        </div>
-                        <div class="col-md-1">
-                            @competencia.ValorObtenido
-                        </div>
-                        <div class="col-md-6">
+                        </td>
+                        <td>
+                            <p class="text-center">@competencia.ValorObtenido</p>
+                        </td>
+                        <td>
                             @competencia.Observacion
-                        </div>
-                    </div>
-                    <br />
+                        </td>
+                    </tr>
                 }
+            </table>
+            <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
                         <img src="@Url.Action("GetEvaluacionGrafico",new { IdEvaluacion = Model.IdEvaluacion})" alt="Evaluacion" />
@@ -124,7 +125,7 @@
                 <hr/>
                 <div class="row">
                     <div class="col-md-12">
-                        @Html.ActionLink("Exportar Pdf", "ExportarEvaluacionPdf", new { IdEvaluacion = Model.IdEvaluacion }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Exportar PDF", "ExportarEvaluacionPdf", new { IdEvaluacion = Model.IdEvaluacion }, new { @class = "btn btn-primary" })
                     </div>
                 </div>
             </div>
