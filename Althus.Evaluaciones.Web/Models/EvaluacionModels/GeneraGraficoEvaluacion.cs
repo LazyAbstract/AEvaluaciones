@@ -26,7 +26,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                     chart.Series[1].Points.AddXY(i, competencia.ValorObtenido);
                     i++;
                 }
-                chart.SaveImage(ms, ChartImageFormat.Jpeg);
+                chart.SaveImage(ms, ChartImageFormat.Png);
                 ms.Close();
                 result = ms.GetBuffer();
             }

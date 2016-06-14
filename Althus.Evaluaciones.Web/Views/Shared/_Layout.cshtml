@@ -47,7 +47,7 @@
                             {
                                 <li>@Html.ActionLink("Evaluaciones", "ListadoEvaluaciones", "Evaluacion")</li>
                             }
-                            @if (true)//!User.IsInRole("CrearEvaluado"))
+                            @if (!User.IsInRole("CrearEvaluado"))
                             {
                                 <li>@Html.ActionLink("Nueva Evaluación", "CrearEvaluado", "Evaluado")</li>
                             }
