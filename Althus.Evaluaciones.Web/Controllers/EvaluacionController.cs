@@ -6,17 +6,19 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using Althus.Evaluaciones.Core;
+using iTextSharp.text;
+using System.IO;
 
 namespace Althus.Evaluaciones.Web.Controllers
 {
-    [Authorize(Roles = "Evaluacion")]
+    //[Authorize(Roles = "Evaluacion")]
     public class EvaluacionController : BaseController
     {
         public ActionResult ListadoEvaluaciones(int? pagina, string filtro)
         {
             ListadoEvaluacionesViewModel model = new ListadoEvaluacionesViewModel();
             IQueryable<Evaluacion> items = db.Evaluacions;
-            if(!User.IsInRole("Usuario") && UsuarioActual != null)
+            if (!User.IsInRole("Usuario") && UsuarioActual != null)
             {
                 items = items.Where(x => x.IdUsuarioEvaluador == UsuarioActual.IdUsuario);
             }
@@ -31,7 +33,7 @@ namespace Althus.Evaluaciones.Web.Controllers
                         || x.Evaluado.Correo.ToLower().Contains(filtro));
                 model.filtro = filtro;
             }
-            model.Evaluaciones = items.OrderByDescending(x=> x.FechaEvaluacion)
+            model.Evaluaciones = items.OrderByDescending(x => x.FechaEvaluacion)
                 .ToPagedList(pagina ?? 1, 10);
             return View(model);
         }
@@ -46,19 +48,19 @@ namespace Althus.Evaluaciones.Web.Controllers
         public ActionResult CrearEvaluacion(CrearEvaluacionFormModel Form)
         {
             int j = 0;
-            foreach(var item in Form.ValorObtenidoCompetencia)
+            foreach (var item in Form.ValorObtenidoCompetencia)
             {
-                if(item < 1 || item > 5)
+                if (item < 1 || item > 5)
                 {
                     ModelState.AddModelError("Form.ValorObtenidoCompetencia[" + j.ToString() + "]", "Los valores de la evaluación deben ser entre 1 y 5.");
                 }
                 j++;
             }
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 //  evaluacion abierta primero, esto se puede hacer genércio
                 Evaluacion evaluacion = db.Evaluacions.Single(x => x.IdEvaluacion == Form.IdEvaluacion);
-                if(UsuarioActual != null) evaluacion.IdUsuarioEvaluador = UsuarioActual.IdUsuario;
+                if (UsuarioActual != null) evaluacion.IdUsuarioEvaluador = UsuarioActual.IdUsuario;
                 IEnumerable<Competencia> Competencias = evaluacion.Cargo.Competencias.OrderBy(x => x.IdCompetencia);
                 EvaluacionAbierta text1 = new EvaluacionAbierta()
                 {
@@ -87,7 +89,7 @@ namespace Althus.Evaluaciones.Web.Controllers
 
                 //  evaluacion de competencias                
                 int i = 0;
-                foreach(var competencia in Competencias)
+                foreach (var competencia in Competencias)
                 {
                     EvaluacionCompetencia evalcomp = new EvaluacionCompetencia()
                     {
@@ -103,7 +105,7 @@ namespace Althus.Evaluaciones.Web.Controllers
 
                 int TotalEsperado = Competencias.Sum(x => x.ValorEsperado);
                 int TotalObtenido = 0;
-                foreach(var item in Form.ValorObtenidoCompetencia)
+                foreach (var item in Form.ValorObtenidoCompetencia)
                 {
                     TotalObtenido += item;
                 }
@@ -124,13 +126,17 @@ namespace Althus.Evaluaciones.Web.Controllers
 
         public ActionResult DetalleEvaluacion(int IdEvaluacion)
         {
-            return View(db.Evaluacions.SingleOrDefault(x=>x.IdEvaluacion == IdEvaluacion));
+            return View(db.Evaluacions.SingleOrDefault(x => x.IdEvaluacion == IdEvaluacion));
         }
 
         public ActionResult ExportarEvaluacionPdf(int IdEvaluacion)
         {
             Evaluacion evaluacion = db.Evaluacions.SingleOrDefault(x=>x.IdEvaluacion == IdEvaluacion);
-            GeneraEvaluacionPDF generador = new GeneraEvaluacionPDF(evaluacion);
+            var path = Request.MapPath("~/Content/images/logo_CCU.png");
+            var stream = new FileStream(path, FileMode.Open);
+            byte[] imageByteArray = new byte[stream.Length];
+            stream.Read(imageByteArray, 0, (int)stream.Length);
+            GeneraEvaluacionPDF generador = new GeneraEvaluacionPDF(evaluacion, imageByteArray);
             return File(generador.GetFile(), "application/pdf", 
                 String.Format("{0}{1}{2}_Evaluacion.pdf", 
                     evaluacion.FechaEvaluacion.Year.ToString("00"),
@@ -141,7 +147,7 @@ namespace Althus.Evaluaciones.Web.Controllers
 
         public ActionResult GetEvaluacionGrafico(int IdEvaluacion)
         {
-            Evaluacion evaluacion = db.Evaluacions.SingleOrDefault(x=>x.IdEvaluacion == IdEvaluacion);
+            Evaluacion evaluacion = db.Evaluacions.SingleOrDefault(x => x.IdEvaluacion == IdEvaluacion);
             byte[] result = new GeneraGraficoEvaluacion().GenerarGrafico(evaluacion);
             return File(result, "image/jpeg", "Evaluacion.png");
         }
