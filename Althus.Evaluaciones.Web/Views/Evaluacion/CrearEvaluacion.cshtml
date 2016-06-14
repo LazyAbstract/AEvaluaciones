@@ -78,16 +78,16 @@
                 </div>
                 <table class="table">
                     <tr>
-                        <th colspan="4">
+                        <th>
                             @Html.Label("Competencia")
                         </th>
-                        <th colspan="1">
+                        <th>
                             @Html.Label("Valor Esperado")
                         </th>
-                        <th colspan="1">
+                        <th>
                             @Html.Label("Valor Obtenido")
                         </th>
-                        <th colspan="6">
+                        <th>
                             @Html.Label("Observaciones")
                         </th>
                     </tr>
@@ -95,16 +95,16 @@
                     @foreach (var competencia in Model.Competencias)
                     {
                         <tr>
-                            <td colspan="4">
+                            <td>
                                 <p>@competencia.Competencia1</p>
                             </td>
-                            <td colspan="1">
+                            <td>
                                 <p class="text-center">@competencia.ValorEsperado</p>
                             </td>
-                            <td colspan="1">
+                            <td>
                                 <input name="Form.ValorObtenidoCompetencia[@i]" id="Form.ValorObtenidoCompetencia[@i]" class="form-control" type="number" min="1" max="5" />
                             </td>
-                            <td colspan="6">
+                            <td>
                                 @if (i == 0)
                                 {
                                     <textarea name="Form.Observacion[@i]" id="Form.Observacion[@i]" class="form-control" style="min-width: 100%" placeholder="Realizar breve descripción de las conductas observadas que hacen que la persona tenga tal valor en la competencia. Lo que hace y lo que debe mejorar o le falta o lo que sobresale."></textarea>
