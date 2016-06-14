@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Althus.Evaluaciones.Web.Controllers
 {
+    [Authorize]
     public class EvaluadoController : BaseController
     {
         public ActionResult CrearEvaluado()

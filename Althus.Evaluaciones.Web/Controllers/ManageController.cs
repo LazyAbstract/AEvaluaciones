@@ -11,7 +11,7 @@ using Althus.Evaluaciones.Web.Models;
 namespace Althus.Evaluaciones.Web.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -221,7 +221,7 @@ namespace Althus.Evaluaciones.Web.Controllers
         //
         // POST: /Manage/ChangePassword
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -236,7 +236,8 @@ namespace Althus.Evaluaciones.Web.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                Mensaje = "La contraseña fue cambiada exitosamente";
+                return RedirectToAction("ListadoEvaluaciones", "Evaluacion");
             }
             AddErrors(result);
             return View(model);

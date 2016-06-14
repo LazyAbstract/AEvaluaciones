@@ -9,13 +9,27 @@ using Althus.Evaluaciones.Core;
 
 namespace Althus.Evaluaciones.Web.Controllers
 {
+    [Authorize(Roles = "Evaluacion")]
     public class EvaluacionController : BaseController
     {
-        public ActionResult ListadoEvaluaciones(int? pagina, ListadoEvaluacionesFormModel FORM)
+        public ActionResult ListadoEvaluaciones(int? pagina, string filtro)
         {
-            ListadoEvaluacionesViewModel model = new ListadoEvaluacionesViewModel(FORM,db);
+            ListadoEvaluacionesViewModel model = new ListadoEvaluacionesViewModel();
             IQueryable<Evaluacion> items = db.Evaluacions;
-            if(ModelState.IsValid){
+            if(!User.IsInRole("Usuario") && UsuarioActual != null)
+            {
+                items = items.Where(x => x.IdUsuarioEvaluador == UsuarioActual.IdUsuario);
+            }
+            if (!String.IsNullOrEmpty(filtro))
+            {
+                filtro = filtro.ToLower();
+                items = db.Evaluacions
+                    .Where(x => x.Cargo.Empresa.Empresa1.ToLower().Contains(filtro)
+                        || x.Cargo.Cargo1.ToLower().Contains(filtro)
+                        || x.Evaluado.Nombre.ToLower().Contains(filtro)
+                        || x.Evaluado.ApellidoPaterno.ToLower().Contains(filtro)
+                        || x.Evaluado.Correo.ToLower().Contains(filtro));
+                model.filtro = filtro;
             }
             model.Evaluaciones = items.OrderByDescending(x=> x.FechaEvaluacion)
                 .ToPagedList(pagina ?? 1, 10);
@@ -44,6 +58,7 @@ namespace Althus.Evaluaciones.Web.Controllers
             {
                 //  evaluacion abierta primero, esto se puede hacer genércio
                 Evaluacion evaluacion = db.Evaluacions.Single(x => x.IdEvaluacion == Form.IdEvaluacion);
+                if(UsuarioActual != null) evaluacion.IdUsuarioEvaluador = UsuarioActual.IdUsuario;
                 IEnumerable<Competencia> Competencias = evaluacion.Cargo.Competencias.OrderBy(x => x.IdCompetencia);
                 EvaluacionAbierta text1 = new EvaluacionAbierta()
                 {
@@ -122,6 +137,13 @@ namespace Althus.Evaluaciones.Web.Controllers
                     evaluacion.FechaEvaluacion.Month.ToString("00"),
                     evaluacion.FechaEvaluacion.Day.ToString("00")
                     ));
+        }
+
+        public ActionResult GetEvaluacionGrafico(int IdEvaluacion)
+        {
+            Evaluacion evaluacion = db.Evaluacions.SingleOrDefault(x=>x.IdEvaluacion == IdEvaluacion);
+            byte[] result = new GeneraGraficoEvaluacion().GenerarGrafico(evaluacion);
+            return File(result, "image/jpeg", "Evaluacion.png");
         }
     }
 }

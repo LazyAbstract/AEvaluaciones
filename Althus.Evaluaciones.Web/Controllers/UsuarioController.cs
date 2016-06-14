@@ -15,6 +15,7 @@ using Microsoft.Owin.Security;
 
 namespace Althus.Evaluaciones.Web.Controllers
 {
+    [Authorize(Roles = "Usuario")]
     public class UsuarioController : BaseController
     {
         private ApplicationSignInManager _signInManager;
@@ -103,59 +104,46 @@ namespace Althus.Evaluaciones.Web.Controllers
             {
                 if (Form.IdUsuario.HasValue)
                 {
-                    //Usuario user = db.Usuarios.Single(x => x.Id == Form.IdUsuario.Value);
-                    //user.PersonaNoColaborador.Nombre = Form.Nombre;
-                    //user.PersonaNoColaborador.ApellidoPaterno = Form.ApellidoPaterno;
-                    //user.PersonaNoColaborador.ApellidoMaterno = Form.ApellidoMaterno;
-                    //user.PersonaNoColaborador.Correo = Form.Mail;
+                    
+                    Usuario _user = db.Usuarios.Single(x => x.IdUsuario == Form.IdUsuario);
+                    int AntigupoTipoUsuario = _user.IdTipoUsuario.Value;
+                    _user.Nombre = Form.Nombre;
+                    _user.ApellidoPaterno = Form.ApellidoPaterno;
+                    _user.IdTipoUsuario = Form.IdTipoUsuario;
 
-                    //IEnumerable<UsuarioTipoUsuario> TiposUsuario = db.UsuarioTipoUsuarios.Where(x => x.IdUsuario == Form.IdUsuario);
-                    //db.UsuarioTipoUsuarios.DeleteAllOnSubmit(TiposUsuario);
-                    //db.SubmitChanges();
+                    if(AntigupoTipoUsuario != Form.IdTipoUsuario)
+                    {
+                        var user = UserManager.FindByName(_user.NombreUsuario);
+                        var roles = UserManager.GetRoles(user.Id);
 
-                    //foreach (var item in Form.IdTipoUsuario)
-                    //{
-                    //    UsuarioTipoUsuario utu = new UsuarioTipoUsuario()
-                    //    {
-                    //        IdUsuarioTipoUsuario = Guid.NewGuid(),
-                    //        idTipoUsuario = item,
-                    //        IdUsuario = Form.IdUsuario.Value,
-                    //    };
-                    //    db.UsuarioTipoUsuarios.InsertOnSubmit(utu);
-                    //}
-                    //db.SubmitChanges();
+                        foreach (var rol in db.TipoUsuarioPermisos.Where(x => x.IdTipoUsuario == AntigupoTipoUsuario).Select(x => x.Permiso.Permiso1))
+                        {
+                            UserManager.RemoveFromRole(user.Id, rol);
+                        }
 
-                    //string[] roles = Roles.GetAllRoles();
-                    //foreach (string rol in roles)
-                    //{
-                    //    if (Roles.IsUserInRole(user.Nombre, rol))
-                    //    {
-                    //        Roles.RemoveUserFromRole(user.Nombre, rol);
-                    //    }
-                    //}
+                        foreach (var permiso in _user.TipoUsuario.TipoUsuarioPermisos.Select(x => x.Permiso.Permiso1))
+                        {
+                            var roleresult = UserManager.AddToRole(user.Id, permiso);
+                        }
+                    }
 
-                    //List<int> TipoUsuarios = db.UsuarioTipoUsuarios.Where(x => x.IdUsuario == user.Id).Select(x => x.idTipoUsuario).ToList();
-                    //string[] Permisos = db.TipoUsuarioPermisos.Where(x => TipoUsuarios.Contains(x.IdTipoUsuario.Value)).Select(x => x.Permiso.Valor).ToArray();
-
-                    //foreach (string permiso in Permisos)
-                    //{
-                    //    if (!Roles.IsUserInRole(user.Nombre, permiso))
-                    //    {
-                    //        Roles.AddUserToRole(user.Nombre, permiso);
-                    //    }
-                    //}
+                    db.SubmitChanges();
                     Mensaje = "El usuario fue editado exitosamente";
                     return RedirectToAction("ListarUsuario");
                 }
                 else
                 {
-                    string Password = Form.Nombre.Substring(0, 1).ToUpper() + Form.ApellidoPaterno.ToLower() 
-                        + "_" + Form.Rut.Numero.ToString().Substring(0, 6);
-                    var user = new ApplicationUser { UserName = Form.Correo, Email = Form.Correo };
+                    string Password = Form.Rut.Numero.ToString().Substring(0, 6);
+                    var user = new ApplicationUser { UserName = Form.Correo, Email = Form.Correo };                  
                     var result = await UserManager.CreateAsync(user, Password);
                     if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        foreach(var permiso in db.TipoUsuarioPermisos.Where(x => x.IdTipoUsuario == Form.IdTipoUsuario).Select(x => x.Permiso.Permiso1))
+                        {
+                            var roleresult = UserManager.AddToRole(user.Id, permiso);
+                        }
+              
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         Usuario _user = new Usuario()
                         {
                             IdTipoUsuario = Form.IdTipoUsuario,
@@ -168,18 +156,28 @@ namespace Althus.Evaluaciones.Web.Controllers
                         db.Usuarios.InsertOnSubmit(_user);
                         db.SubmitChanges();
                     }
-                    AddErrors(result);
-                    //IEnumerable<TipoUsuarioPermiso> Permisos = db
-                    //    .TipoUsuarioPermisos.Where(x => x.IdTipoUsuario == Form.IdTipoUsuario);
-                    //db.SubmitChanges();
-
+                    //AddErrors(result);
                     Mensaje = "El Usuario fue creado exitosamente.";
                     return RedirectToAction("ListarUsuario");
                 }
             }
             CrearEditarUsuarioViewModel Model = new CrearEditarUsuarioViewModel(Form);
             Model.TiposUsuario = db.TipoUsuarios.OrderBy(x => x.TipoUsuario1);
+            if (Form.IdUsuario.HasValue) Model.Form.CreacionUsuario = false;
             return View(Model);
+        }
+
+        [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetContrasena(int IdUsuario)
+        {
+            Usuario _user = db.Usuarios.Single(x => x.IdUsuario == IdUsuario);
+            var user = await UserManager.FindByNameAsync(_user.NombreUsuario);
+            string Password = _user.Rut.ToString().Substring(0, 6);
+            string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+            var result = await UserManager.ResetPasswordAsync(user.Id, code, Password);
+            Mensaje = "La contraseña fue reseteada exitosamente";
+            return RedirectToAction("ListarUsuario");
         }
     }
 }

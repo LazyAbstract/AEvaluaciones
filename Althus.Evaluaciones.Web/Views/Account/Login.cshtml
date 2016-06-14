@@ -1,63 +1,66 @@
 ﻿@using Althus.Evaluaciones.Web.Models
 @model LoginViewModel
 @{
-    ViewBag.Title = "Log in";
+    ViewBag.Title = "Athus Evaluación Psicolaboral";
 }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register")
-                </p>
-                 //Enable this once you have account confirmation enabled for password reset functionality
-                    @*<p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>*@
-            }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
+<div class="container-fluid">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4>Iniciar sesión</h4>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="form-group" style="padding-left:15px">
+                            @Html.LabelFor(m => m.Email)
 
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group" style="padding-left:15px">
+                        @Html.LabelFor(m => m.Password)
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </div>
+
+                    <input type="submit" value="Iniciar sesión" class="btn btn-primary" />
+                }
+
+            </div>
+        </div>
+
+        @*<div>
+                <table style="font-size: 1.25em">
+                    <tbody>
+                        <tr>
+                            <td><h3><span class="glyphicon glyphicon-signal text-success"></span></h3></td>
+                            <td>&nbsp;&nbsp;Revise indicadores sobre el PEC de manera autónoma y fácil</td>
+                        </tr>
+                        <tr>
+                            <td><h3><span class="glyphicon glyphicon-ok text-warning"></span></h3></td>
+                            <td>&nbsp;&nbsp;Monitoree desempeños individuales del personal en contacto</td>
+                        </tr>
+                        <tr>
+                            <td><h3><span class="glyphicon glyphicon-time text-danger"></span></h3></td>
+                            <td>&nbsp;&nbsp;Controle tendencias de los indicadores en el tiempo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>*@
+    </div>
+    <div class="col-md-6">
+        <center>
+            <a class="brand" href="http://www.althuspartners.cl/" target="_blank" alt="Responsive image">
+                <img src="@Url.Content("~/Content/images/logo-althus.png")" />
+            </a>
+        </center>
+    </div>
+    
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

@@ -16,19 +16,24 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
             byte[] result = new byte[]{};
             using (MemoryStream ms = new MemoryStream()){
                 Chart chart = new Chart();
-                Series serie0 = chart.Series.Add("Esperado");
-                serie0.ChartType = SeriesChartType.Bar;
-                Series serie1 = chart.Series.Add("Obtenido");
-                int i = 1;
-                foreach (var competencia in evaluacion.EvaluacionCompetencias)
-                {
-                    chart.Series[0].Points.AddXY(i, competencia.Competencia.ValorEsperado);
-                    chart.Series[1].Points.AddXY(i, competencia.ValorObtenido);
-                    i++;
-                }
-                chart.SaveImage(ms, ChartImageFormat.Png);
-                ms.Close();
-                result = ms.GetBuffer();
+                List<string> y = evaluacion.EvaluacionCompetencias.Select(x => x.Competencia.Competencia1).ToList();
+                List<int> xa = evaluacion.EvaluacionCompetencias.Select(x => x.Competencia.ValorEsperado).ToList();
+                List<int> xb = evaluacion.EvaluacionCompetencias.Select(x => x.ValorObtenido).ToList();
+                ChartArea chartArea = new ChartArea("Eval");
+                chart.ChartAreas.Add(chartArea);
+                Series serieA = new Series();
+                serieA.Points.DataBindXY(y,xa);
+                serieA.ChartType = SeriesChartType.Bar;
+                serieA.ChartArea = "Eval";
+                chart.Series.Add(serieA);
+                Series serieB = new Series();
+                serieB.Points.DataBindY(xb);
+                serieB.ChartType = SeriesChartType.Bar;
+                serieB.ChartArea = "Eval";
+                chart.Series.Add(serieB);
+                chart.SaveImage(ms, ChartImageFormat.Jpeg);
+                //ms.Close();
+                result = ms.ToArray();
             }
             return result;
         }
