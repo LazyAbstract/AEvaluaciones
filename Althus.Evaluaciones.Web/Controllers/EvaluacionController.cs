@@ -11,7 +11,7 @@ using System.IO;
 
 namespace Althus.Evaluaciones.Web.Controllers
 {
-    //[Authorize(Roles = "Evaluacion")]
+    [Authorize(Roles = "Evaluacion")]
     public class EvaluacionController : BaseController
     {
         public ActionResult ListadoEvaluaciones(int? pagina, string filtro)
