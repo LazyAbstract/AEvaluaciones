@@ -28,6 +28,7 @@ namespace Althus.Evaluaciones.Web.Helpers
             PdfPTable head = new PdfPTable(2);
             head.TotalWidth = page.Width;
             head.PaddingTop = 20;
+            head.SpacingAfter = 10;
 
             // add image; PdfPCell() overload sizes image to fit cell
             PdfPCell c = new PdfPCell(ImageHeader, true);

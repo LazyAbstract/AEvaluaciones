@@ -41,14 +41,13 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 document.AddKeywords("Evaluación, Althus, Partners");
                 document.AddCreator("Plataforma de Evaluación");
                 document.AddAuthor("Plataforma de Evaluación");
-                document.SetMargins(document.LeftMargin, document.RightMargin, document.TopMargin + 40, document.BottomMargin);
+                document.SetMargins(document.LeftMargin, document.RightMargin, document.TopMargin + 50, document.BottomMargin);
                 //Header
                 // the image we're using for the page header    
                 if (_imageEmpresa != null)
                 {
                     Image imageHeader = Image.GetInstance(_imageEmpresa);
-                    imageHeader.WidthPercentage = 20;
-                    // instantiate the custom PdfPageEventHelper
+                    imageHeader.ScaleAbsoluteWidth(100);
                     MyPageEventHandler e = new MyPageEventHandler()
                     {
                         ImageHeader = imageHeader
@@ -85,7 +84,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 firstTable.AddCell(GetHeaderCell("E-mail"));
                 firstTable.AddCell(GetNormalCell(_Evaluacion.Evaluado.Correo));
                 firstTable.AddCell(GetHeaderCell("Fecha de Evaluación"));
-                firstTable.AddCell(GetNormalCell(_Evaluacion.FechaEvaluacion.ToShortDateString()));
+                firstTable.AddCell(GetNormalCell(_Evaluacion.FechaEvaluacion.ToString("dd-MM-yyyy")));
                 document.Add(firstTable);
                 //Resumen Estudios y Trayectoria Laboral
                 PdfPTable secondTable = GetPdfTable(new float[] { 1 });
@@ -103,9 +102,13 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 document.Add(thirdTable);
                 //GRÁFICO DE COMPETENCIAS:
                 Paragraph titulo2 = new Paragraph("GRÁFICO DE COMPETENCIAS:", Title1Font);
-                document.Add(titulo2);
-                GeneraGraficoEvaluacion grafico = new GeneraGraficoEvaluacion();
-                document.Add(Image.GetInstance(grafico.GenerarGrafico(_Evaluacion)));
+                PdfPTable chartTable = GetPdfTable(1);
+                chartTable.AddCell(GetHeaderCell("GRÁFICO DE COMPETENCIAS"));
+                GeneraGraficoEvaluacion graficEvaluacion = new GeneraGraficoEvaluacion();
+                Image grafico = Image.GetInstance(graficEvaluacion.GenerarGrafico(_Evaluacion));
+                grafico.WidthPercentage = 100;
+                chartTable.AddCell(grafico);
+                document.Add(chartTable);
 
                 // Competencias
 
@@ -114,7 +117,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 fourthTable.AddCell(GetHeaderCell("Valor Obtenido"));
                 fourthTable.AddCell(GetHeaderCell("Valor Esperado"));
                 fourthTable.AddCell(GetHeaderCell("Observaciones"));
-                foreach (var competencia in _Evaluacion.EvaluacionCompetencias)
+                foreach (var competencia in _Evaluacion.EvaluacionCompetencias.OrderBy(x=>x.IdCompetencia))
                 {
                     fourthTable.AddCell(GetNormalCell(competencia.Competencia.Competencia1));
                     fourthTable.AddCell(GetNormalCell(competencia.Competencia.ValorEsperado.ToString()));
@@ -138,6 +141,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 document.Add(sixthTable);
 
                 //GLosario
+                document.NewPage();
                 document.Add(new Paragraph("CATEGORÍAS DE EVALUACIÓN PARA SELECCIÓN", Title1Font));
                 document.Add(new Paragraph("RECOMENDABLE:", Title2Font));
                 document.Add(new Paragraph("El postulante cumple cabalmente todas las exigencias y presenta un potencial de nivel sobresaliente.", normalFont));
