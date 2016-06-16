@@ -4,9 +4,35 @@
     ViewBag.Title = "Athus Evaluación Psicolaboral";
 }
 
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Postulantes: Rut</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav"></ul>
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="sin puntos ni guión, ej.123456789" name="filtro" id="input-filtro" value="@Model.filtro">
+                </div>
+                <button type="submit" class="btn btn-default">Buscar</button>
+            </form>
+            @*@Html.ActionLink("Agregar", "CrearEditarUsuario", null, new { @class = "btn btn-primary navbar-btn navbar-right" })*@
+        </div>
+    </div>
+</nav>
+
 <div class="row">
     <div class="col-md-12">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("CrearEvaluado", "Evaluado", FormMethod.Post))
         {
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -15,6 +41,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
+                            @Html.HiddenFor(x => x.Form.IdEvaluado)
                             @Html.ValidationSummary()
                         </div>
                     </div>
@@ -50,32 +77,64 @@
                             @Html.LabelFor(x => x.Form.Rut, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.Rut, new { @class = "form-control", placeholder = "sin puntos ni guión, ej.123456789" })<br />
+                            @if (Model.Form.IdEvaluado.HasValue)
+                            {
+                                @Html.TextBoxFor(x => x.Form.Rut, new { @class = "form-control", placeholder = "sin puntos ni guión, ej.123456789", disabled = "disabled" })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(x => x.Form.Rut, new { @class = "form-control", placeholder = "sin puntos ni guión, ej.123456789" })
+                            }
+
                             @Html.ValidationMessageFor(x => x.Form.Rut)
                         </div>
                         <div class="col-md-2">
                             @Html.LabelFor(x => x.Form.Nombre, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.Nombre, new { @class = "form-control" })
+@if (Model.Form.IdEvaluado.HasValue)
+{
+    @Html.TextBoxFor(x => x.Form.Nombre, new { @class = "form-control", disabled = "disabled" })
+}
+else
+{
+    @Html.TextBoxFor(x => x.Form.Nombre, new { @class = "form-control" })
+}
+                            
                             @Html.ValidationMessageFor(x => x.Form.Nombre)
-                        </div>
+                        </div>                       
                     </div>
-                    <div class="row">
+                    <br />
+                    <div class="row">         
                         <div class="col-md-2">
                             @Html.LabelFor(x => x.Form.ApellidoPaterno, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.ApellidoPaterno, new { @class = "form-control" })
+@if (Model.Form.IdEvaluado.HasValue)
+{
+                            @Html.TextBoxFor(x => x.Form.ApellidoPaterno, new { @class = "form-control", disabled = "disabled" })
+}
+else
+{
+    @Html.TextBoxFor(x => x.Form.ApellidoPaterno, new { @class = "form-control" })
+}
                             @Html.ValidationMessageFor(x => x.Form.ApellidoPaterno)
-                        </div>
+                        </div>             
                         <div class="col-md-2">
                             @Html.LabelFor(x => x.Form.ApellidoMaterno, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.ApellidoMaterno, new { @class = "form-control" })
+@if (Model.Form.IdEvaluado.HasValue)
+{
+                            @Html.TextBoxFor(x => x.Form.ApellidoMaterno, new { @class = "form-control", disabled = "disabled" })
+}
+else
+{
+    @Html.TextBoxFor(x => x.Form.ApellidoMaterno, new { @class = "form-control" })
+}
                             @Html.ValidationMessageFor(x => x.Form.ApellidoMaterno)
                         </div>
+                        
                     </div>
                     <br />
                     <div class="row">
@@ -83,32 +142,60 @@
                             @Html.LabelFor(x => x.Form.FechaNacimiento, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.FechaNacimiento, new { @class = "form-control fechaNacimiento" })
+@if (Model.Form.IdEvaluado.HasValue)
+{
+                            @Html.TextBoxFor(x => x.Form.FechaNacimiento, new { @class = "form-control fechaNacimiento", disabled = "disabled" })
+}
+else
+{
+    @Html.TextBoxFor(x => x.Form.FechaNacimiento, new { @class = "form-control fechaNacimiento" })
+}
                             @Html.ValidationMessageFor(x => x.Form.FechaNacimiento)
                         </div>
                         <div class="col-md-2">
                             @Html.LabelFor(x => x.Form.Celular, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.Celular, new { @class = "form-control" })
+@if (Model.Form.IdEvaluado.HasValue)
+{
+                            @Html.TextBoxFor(x => x.Form.Celular, new { @class = "form-control", placeholder = "ocho dígitos SIN incluir +569", disabled = "disabled" })
+}
+else
+{
+    @Html.TextBoxFor(x => x.Form.Celular, new { @class = "form-control", placeholder = "ocho dígitos SIN incluir +569" })
+}
                             @Html.ValidationMessageFor(x => x.Form.Celular)
-                        </div>
+                        </div>                       
                     </div>
                     <br />
-                    <div class="row">
-                        <div class="col-md-2">
-                            @Html.LabelFor(x => x.Form.Correo, new { @class = "form-label" })
-                        </div>
-                        <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.Correo, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x.Form.Correo)
-                        </div>
+                    <div class="row">                       
                         <div class="col-md-2">
                             @Html.LabelFor(x => x.Form.Profesion, new { @class = "form-label" })
                         </div>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(x => x.Form.Profesion, new { @class = "form-control" })
+@if (Model.Form.IdEvaluado.HasValue)
+{
+                            @Html.TextBoxFor(x => x.Form.Profesion, new { @class = "form-control", disabled = "disabled" })
+}
+else
+{
+    @Html.TextBoxFor(x => x.Form.Profesion, new { @class = "form-control" })
+}
                             @Html.ValidationMessageFor(x => x.Form.Profesion)
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.Correo, new { @class = "form-label" })
+                        </div>
+                        <div class="col-md-4">
+@if (Model.Form.IdEvaluado.HasValue)
+{
+                            @Html.TextBoxFor(x => x.Form.Correo, new { @class = "form-control", disabled = "disabled" })
+}
+else
+{
+    @Html.TextBoxFor(x => x.Form.Correo, new { @class = "form-control" })
+}
+                            @Html.ValidationMessageFor(x => x.Form.Correo)
                         </div>
                     </div>
                 </div>

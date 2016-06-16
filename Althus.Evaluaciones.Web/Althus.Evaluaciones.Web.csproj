@@ -243,6 +243,7 @@
     <Compile Include="Helpers\ImageHelpers.cs" />
     <Compile Include="MapperProfile\CrearEvaluadoFormModelEvaluado.cs" />
     <Compile Include="MapperProfile\DefaultProfileMapper.cs" />
+    <Compile Include="MapperProfile\EvaluadoCrearEvaluadoFormModel.cs" />
     <Compile Include="MapperProfile\UsuarioMappers\CrearEditarUsuarioFormModelUsuario.cs" />
     <Compile Include="MapperProfile\UsuarioMappers\UsuarioCrearEditarUsuarioFormModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />

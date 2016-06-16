@@ -12,10 +12,10 @@ namespace Althus.Evaluaciones.Web.Models.EvaluadoModels
     {
         [Required]
         [DisplayName("Empresa")]
-        public int IdEmpresa { get; set; }
+        public int? IdEmpresa { get; set; }
         [Required]
         [DisplayName("Cargo")]
-        public int IdCargo { get; set; }
+        public int? IdCargo { get; set; }
         [Required]
         public Rut Rut { get; set; }
         [Required]
@@ -41,6 +41,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluadoModels
         [Required]
         [EmailAddress]
         public string Correo { get; set; }
+        public int? IdEvaluado { get; set; }
 
         #region IDataErrorInfo Members
 
@@ -48,16 +49,16 @@ namespace Althus.Evaluaciones.Web.Models.EvaluadoModels
         {
             get
             {
-                ALTHUSEvaluacionesDataContext db = new ALTHUSEvaluacionesDataContext()
-                    .WithConnectionStringFromConfiguration();
-                if (db.Evaluados.Any(x => x.Correo == Correo))
-                {
-                    return "El Correo del postulante ingresado ya está en uso.";
-                }
-                if (db.Evaluados.Any(x => x.Rut == Rut.Numero))
-                {
-                    return "El Rut del postulante ya ingresado anteriormente.";
-                }
+                //ALTHUSEvaluacionesDataContext db = new ALTHUSEvaluacionesDataContext()
+                //    .WithConnectionStringFromConfiguration();
+                //if (db.Evaluados.Any(x => x.Correo == Correo))
+                //{
+                //    return "El Correo del postulante ingresado ya está en uso.";
+                //}
+                //if (db.Evaluados.Any(x => x.Rut == Rut.Numero))
+                //{
+                //    return "El Rut del postulante ya ingresado anteriormente.";
+                //}
                 return string.Empty;
             }
         }

@@ -17,6 +17,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluadoModels
         public IEnumerable<SelectListItemCargo> Cargos { get; set; }
         private EmpresaSelectListProvider eslp = new EmpresaSelectListProvider();
         private CargoSelectListProvider cslp = new CargoSelectListProvider();
+        public Rut filtro { get; set; }
 
         public CrearEvaluadoViewModel()
         {

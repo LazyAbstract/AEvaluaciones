@@ -15,7 +15,7 @@ namespace Althus.Evaluaciones.Web.Controllers
         public ActionResult ListadoEvaluaciones(int? pagina, string filtro)
         {
             ListadoEvaluacionesViewModel model = new ListadoEvaluacionesViewModel();
-            IQueryable<Evaluacion> items = db.Evaluacions;
+            IQueryable<Evaluacion> items = db.Evaluacions.Where(x => x.IdTipoDiagnostico != null);
             if(!User.IsInRole("Usuario") && UsuarioActual != null)
             {
                 items = items.Where(x => x.IdUsuarioEvaluador == UsuarioActual.IdUsuario);
@@ -87,6 +87,7 @@ namespace Althus.Evaluaciones.Web.Controllers
 
                 //  evaluacion de competencias                
                 int i = 0;
+                List<int> ValoresCalculoIdioneidad = new List<int>();
                 foreach(var competencia in Competencias)
                 {
                     EvaluacionCompetencia evalcomp = new EvaluacionCompetencia()
@@ -97,18 +98,27 @@ namespace Althus.Evaluaciones.Web.Controllers
                         Observacion = Form.Observacion[i],
                     };
                     db.EvaluacionCompetencias.InsertOnSubmit(evalcomp);
+
+                    if(evalcomp.ValorObtenido > evalcomp.Competencia.ValorEsperado)
+                    {
+                        ValoresCalculoIdioneidad.Add(evalcomp.Competencia.ValorEsperado);
+                    }
+                    else
+                    {
+                        ValoresCalculoIdioneidad.Add(evalcomp.ValorObtenido);
+                    }
                     i++;
                 }
                 db.SubmitChanges();
 
                 int TotalEsperado = Competencias.Sum(x => x.ValorEsperado);
                 int TotalObtenido = 0;
-                foreach(var item in Form.ValorObtenidoCompetencia)
+                foreach (var item in ValoresCalculoIdioneidad)
                 {
                     TotalObtenido += item;
                 }
                 float PorcentajeIdionidad = (float)TotalObtenido / TotalEsperado;
-                if (PorcentajeIdionidad > 1) PorcentajeIdionidad = 1;
+                //if (PorcentajeIdionidad > 1) PorcentajeIdionidad = 1;
                 IEnumerable<TipoDiagnostico> TipoDiagnosticos = db.TipoDiagnosticos.Where(x => x.PorcentajeHasta >= PorcentajeIdionidad);
                 int IdTipoDiagnostico = TipoDiagnosticos.OrderBy(x => x.PorcentajeHasta).First().IdTipoDiagnostico;
                 evaluacion.PorcetajeIdioneidad = PorcentajeIdionidad;
