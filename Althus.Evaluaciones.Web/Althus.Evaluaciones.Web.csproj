@@ -239,6 +239,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AccountHelpers.cs" />
+    <Compile Include="Helpers\CustomItextSharpPageEventHandler.cs" />
     <Compile Include="Helpers\HtmlHelpers.cs" />
     <Compile Include="Helpers\ImageHelpers.cs" />
     <Compile Include="MapperProfile\CrearEvaluadoFormModelEvaluado.cs" />

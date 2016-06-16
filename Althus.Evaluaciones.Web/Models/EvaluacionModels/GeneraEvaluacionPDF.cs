@@ -6,6 +6,7 @@ using Althus.Evaluaciones.Core;
 using System.IO;
 using iTextSharp.text.pdf;
 using iTextSharp.text;
+using Althus.Evaluaciones.Web.Helpers;
 
 namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
 {
@@ -13,20 +14,23 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
     {
         private Evaluacion _Evaluacion { get; set; }
         private byte[] _File { get; set; }
-        private Font headerFont = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.WHITE);
-        private Font normalFont = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK);
-        private Font Title1Font = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD, BaseColor.BLACK);
-        private Font Title2Font = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLACK);
+        private byte[] _imageEmpresa { get; set; }
+        private Font headerFont = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.WHITE);//new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.WHITE);
+        private Font normalFont = FontFactory.GetFont("Arial", 12, BaseColor.BLACK);//new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK);
+        private Font Title1Font = FontFactory.GetFont("Arial", 16, Font.BOLD, BaseColor.BLACK);
+        private Font Title2Font = FontFactory.GetFont("Arial", 14, Font.BOLD, BaseColor.BLACK);
 
-        public GeneraEvaluacionPDF(Evaluacion evaluacion)
+        public GeneraEvaluacionPDF(Evaluacion evaluacion, byte[] imageEmpresa)
         {
             _Evaluacion = evaluacion;
+            _imageEmpresa = imageEmpresa;
             GenerateFile();
         }
 
         private void GenerateFile()
         {
             Rectangle rectangle = new Rectangle(PageSize.LETTER);
+           
             using (MemoryStream ms = new MemoryStream())
             using (Document document = new Document(rectangle))
             using (PdfWriter writer = PdfWriter.GetInstance(document, ms))
@@ -37,11 +41,23 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 document.AddKeywords("Evaluación, Althus, Partners");
                 document.AddCreator("Plataforma de Evaluación");
                 document.AddAuthor("Plataforma de Evaluación");
-                //doc.AddHeader();
-
-                //Generación del contenido
+                document.SetMargins(document.LeftMargin, document.RightMargin, document.TopMargin + 40, document.BottomMargin);
+                //Header
+                // the image we're using for the page header    
+                if (_imageEmpresa != null)
+                {
+                    Image imageHeader = Image.GetInstance(_imageEmpresa);
+                    imageHeader.WidthPercentage = 20;
+                    // instantiate the custom PdfPageEventHelper
+                    MyPageEventHandler e = new MyPageEventHandler()
+                    {
+                        ImageHeader = imageHeader
+                    };
+                    
+                    writer.PageEvent = e;
+                }
                 document.Open();
-
+                //Generación del contenido
                 // Título 
                 Paragraph titulo = new Paragraph("IDENTIFICACION DEL CANDIDATO:", Title1Font);
                 document.Add(titulo);
@@ -92,7 +108,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 document.Add(Image.GetInstance(grafico.GenerarGrafico(_Evaluacion)));
 
                 // Competencias
-                
+
                 PdfPTable fourthTable = GetPdfTable(new float[] { 4, 1, 1, 6 });
                 fourthTable.AddCell(GetHeaderCell("Competencia"));
                 fourthTable.AddCell(GetHeaderCell("Valor Obtenido"));
@@ -144,6 +160,8 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
         {
             PdfPTable table = new PdfPTable(numColumns);
             table.HorizontalAlignment = Rectangle.ALIGN_LEFT;
+            table.SpacingBefore = 10;
+            table.WidthPercentage = 100;
             return table;
         }
 
@@ -152,6 +170,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
             PdfPTable table = new PdfPTable(arreglo);
             table.HorizontalAlignment = Rectangle.ALIGN_LEFT;
             table.SpacingBefore = 10;
+            table.WidthPercentage = 100;
             return table;
         }
 
@@ -160,6 +179,10 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
             Phrase frase = new Phrase(texto ?? String.Empty, headerFont);
             PdfPCell cel = new PdfPCell(frase);
             cel.BackgroundColor = new BaseColor(0, 102, 0);
+            cel.BorderColor = BaseColor.LIGHT_GRAY;
+            cel.VerticalAlignment = Rectangle.ALIGN_CENTER;
+            cel.BorderWidth = 0.5f;
+            cel.Padding = 5;
             return cel;
         }
 
@@ -167,6 +190,10 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
         {
             Phrase frase = new Phrase(texto ?? String.Empty, normalFont);
             PdfPCell cel = new PdfPCell(frase);
+            cel.BorderColor = BaseColor.LIGHT_GRAY;
+            cel.VerticalAlignment = Rectangle.ALIGN_CENTER;
+            cel.BorderWidth = 0.5f;
+            cel.Padding = 5;
             return cel;
         }
 
