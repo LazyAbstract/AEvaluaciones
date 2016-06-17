@@ -11,7 +11,7 @@ using System.IO;
 
 namespace Althus.Evaluaciones.Web.Controllers
 {
-   [Authorize(Roles = "Evaluacion")]
+    [Authorize(Roles = "Evaluacion")]
     public class EvaluacionController : BaseController
     {
         public ActionResult ListadoEvaluaciones(int? pagina, string filtro)
@@ -100,6 +100,7 @@ namespace Althus.Evaluaciones.Web.Controllers
                         Observacion = Form.Observacion[i],
                     };
                     db.EvaluacionCompetencias.InsertOnSubmit(evalcomp);
+                    db.SubmitChanges();
 
                     if(evalcomp.ValorObtenido > evalcomp.Competencia.ValorEsperado)
                     {
