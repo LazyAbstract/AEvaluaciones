@@ -1,6 +1,7 @@
 ﻿using Althus.Evaluaciones.Core;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -35,7 +36,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 serieA.ChartArea = "Eval";
                 serieA.Color = System.Drawing.ColorTranslator.FromHtml("#4F81BD");
                 serieA.IsVisibleInLegend = true;
-                serieA.Legend = "Valor Esperado";
+                serieA.Name = "Valor Esperado";
                 chart.Series.Add(serieA);
                 Series serieB = new Series();
                 serieB.Points.DataBindY(xb);
@@ -43,12 +44,16 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 serieB.ChartArea = "Eval";
                 serieB.Color = System.Drawing.ColorTranslator.FromHtml("#B7CCE4");
                 serieB.IsVisibleInLegend = true;
-                serieB.Legend = "Valor Obtenido";
+                serieB.Name = "Valor Obtenido";
                 chart.Series.Add(serieB);
-                chart.Width = 500;
-                
-                chart.SaveImage(ms, ChartImageFormat.Jpeg);
-                //ms.Close();
+                chart.Width = 800;
+                Legend legend = new Legend();
+                legend.DockedToChartArea = "Eval";
+                legend.Docking = Docking.Right;
+                legend.IsDockedInsideChartArea = true;
+                chart.Legends.Add(legend);
+                Title title = new Title("Evaluación de Competencias");
+                chart.SaveImage(ms, ChartImageFormat.Png);
                 result = ms.ToArray();
             }
             return result;

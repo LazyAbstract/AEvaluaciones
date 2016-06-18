@@ -15,8 +15,8 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
         private Evaluacion _Evaluacion { get; set; }
         private byte[] _File { get; set; }
         private byte[] _imageEmpresa { get; set; }
-        private Font headerFont = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.WHITE);//new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.WHITE);
-        private Font normalFont = FontFactory.GetFont("Arial", 12, BaseColor.BLACK);//new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.NORMAL, BaseColor.BLACK);
+        private Font headerFont = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.WHITE);
+        private Font normalFont = FontFactory.GetFont("Arial", 12, BaseColor.BLACK);
         private Font Title1Font = FontFactory.GetFont("Arial", 16, Font.BOLD, BaseColor.BLACK);
         private Font Title2Font = FontFactory.GetFont("Arial", 14, Font.BOLD, BaseColor.BLACK);
 
@@ -117,12 +117,14 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 fourthTable.AddCell(GetHeaderCell("Valor Obtenido"));
                 fourthTable.AddCell(GetHeaderCell("Valor Esperado"));
                 fourthTable.AddCell(GetHeaderCell("Observaciones"));
-                foreach (var competencia in _Evaluacion.EvaluacionCompetencias.OrderBy(x=>x.IdCompetencia))
+                
+                foreach (var competencia in  _Evaluacion.Cargo.Competencias.OrderByDescending(x=> x.IdCompetencia))
                 {
-                    fourthTable.AddCell(GetNormalCell(competencia.Competencia.Competencia1));
-                    fourthTable.AddCell(GetNormalCell(competencia.Competencia.ValorEsperado.ToString()));
-                    fourthTable.AddCell(GetNormalCell(competencia.ValorObtenido.ToString()));
-                    fourthTable.AddCell(GetNormalCell(competencia.Observacion));
+                    EvaluacionCompetencia evaluacion = _Evaluacion.EvaluacionCompetencias.SingleOrDefault(x => x.IdCompetencia == competencia.IdCompetencia);
+                    fourthTable.AddCell(GetNormalCell(competencia.Competencia1));
+                    fourthTable.AddCell(GetNormalCell(competencia.ValorEsperado.ToString()));
+                    fourthTable.AddCell(GetNormalCell(evaluacion!=null ? evaluacion.ValorObtenido.ToString() : String.Empty));
+                    fourthTable.AddCell(GetNormalCell(evaluacion!=null ? evaluacion.Observacion : String.Empty));
                 }
                 document.Add(fourthTable);
 
