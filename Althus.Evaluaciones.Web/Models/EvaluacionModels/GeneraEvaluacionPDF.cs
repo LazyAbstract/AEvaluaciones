@@ -47,7 +47,6 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 if (_imageEmpresa != null)
                 {
                     Image imageHeader = Image.GetInstance(_imageEmpresa);
-                    imageHeader.ScaleAbsoluteWidth(100);
                     MyPageEventHandler e = new MyPageEventHandler()
                     {
                         ImageHeader = imageHeader

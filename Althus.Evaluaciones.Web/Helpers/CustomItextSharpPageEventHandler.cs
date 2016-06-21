@@ -25,15 +25,17 @@ namespace Althus.Evaluaciones.Web.Helpers
             Rectangle page = document.PageSize;
 
             // create two column table
-            PdfPTable head = new PdfPTable(2);
+            PdfPTable head = new PdfPTable(1);
             head.TotalWidth = page.Width;
             head.PaddingTop = 20;
             head.SpacingAfter = 10;
 
             // add image; PdfPCell() overload sizes image to fit cell
+            ImageHeader.ScaleAbsoluteHeight(cellHeight);
+            ImageHeader.ScaleAbsoluteWidth(page.Width);
             PdfPCell c = new PdfPCell(ImageHeader, true);
-            c.HorizontalAlignment = Element.ALIGN_LEFT;
-            c.FixedHeight = cellHeight;
+            c.HorizontalAlignment = Element.ALIGN_CENTER;
+            c.FixedHeight = cellHeight-20;
             c.Border = PdfPCell.NO_BORDER;
             c.PaddingLeft = 40;
             head.AddCell(c);
@@ -44,9 +46,9 @@ namespace Althus.Evaluaciones.Web.Helpers
               FontFactory.GetFont("Arial", 14, Font.BOLD, new BaseColor(0, 102, 0))
             ));
             c.Border = PdfPCell.NO_BORDER;
-            c.VerticalAlignment = Element.ALIGN_BOTTOM;
+            c.VerticalAlignment = Element.ALIGN_TOP;
             c.HorizontalAlignment = Element.ALIGN_RIGHT;
-            c.FixedHeight = cellHeight;
+            c.FixedHeight = 20;
             c.PaddingRight = 40;
             head.AddCell(c);
 
