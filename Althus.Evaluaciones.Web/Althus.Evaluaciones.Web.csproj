@@ -230,11 +230,13 @@
     <Compile Include="Configuration\RutModelBinder.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EmpresaController.cs" />
     <Compile Include="Controllers\EvaluacionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\EvaluadoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="CustomValidation\AvalidFileAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -248,6 +250,8 @@
     <Compile Include="MapperProfile\UsuarioMappers\CrearEditarUsuarioFormModelUsuario.cs" />
     <Compile Include="MapperProfile\UsuarioMappers\UsuarioCrearEditarUsuarioFormModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EmpresaModels\CrearEditarEmpresaFormModel.cs" />
+    <Compile Include="Models\EmpresaModels\CrearEditarEmpresaViewModel.cs" />
     <Compile Include="Models\EvaluacionModels\CrearEvaluacionFormModel.cs" />
     <Compile Include="Models\EvaluacionModels\CrearEvaluacionViewModel.cs" />
     <Compile Include="Models\EvaluacionModels\GeneraEvaluacionPDF.cs" />
@@ -386,6 +390,7 @@
     <Content Include="Views\Evaluacion\DetalleEvaluacion.cshtml" />
     <Content Include="Views\Usuario\ListarUsuario.cshtml" />
     <Content Include="Views\Usuario\CrearEditarUsuario.cshtml" />
+    <Content Include="Views\Empresa\CrearEditarEmpresa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

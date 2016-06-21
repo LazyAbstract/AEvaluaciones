@@ -1,0 +1,47 @@
+﻿@model Althus.Evaluaciones.Web.Models.EmpresaModels.CrearEditarEmpresaViewModel
+
+@{
+    ViewBag.Title = "CrearEditarEmpresa";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+        {
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4>Empresa</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.HiddenFor(x => x.Form.IdEmpresa)
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.Empresa1, new { @class = "form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.EditorFor(x => x.Form.Empresa1, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Form.Empresa1)
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(x => x.Form.Logo, new { @class = "form-label" })
+                        </div>
+                        <div class="col-md-4">
+                            <input class="form-control" type="file" name="Form.Logo" id="Form_Logo" />
+                            @Html.ValidationMessageFor(x => x.Form.Logo)
+                        </div>
+                    </div>
+                    <br />             
+                </div>
+                <div class="panel-body">
+                    <input type="submit" class="btn btn-primary" value="Guardar" name="Form.Guardar" id="Form_Guardar" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

@@ -36,9 +36,6 @@ namespace Althus.Evaluaciones.Core
     partial void InsertCompetencia(Competencia instance);
     partial void UpdateCompetencia(Competencia instance);
     partial void DeleteCompetencia(Competencia instance);
-    partial void InsertEmpresa(Empresa instance);
-    partial void UpdateEmpresa(Empresa instance);
-    partial void DeleteEmpresa(Empresa instance);
     partial void InsertEvaluacion(Evaluacion instance);
     partial void UpdateEvaluacion(Evaluacion instance);
     partial void DeleteEvaluacion(Evaluacion instance);
@@ -72,6 +69,9 @@ namespace Althus.Evaluaciones.Core
     partial void InsertUsuario(Usuario instance);
     partial void UpdateUsuario(Usuario instance);
     partial void DeleteUsuario(Usuario instance);
+    partial void InsertEmpresa(Empresa instance);
+    partial void UpdateEmpresa(Empresa instance);
+    partial void DeleteEmpresa(Empresa instance);
     #endregion
 		
 		public ALTHUSEvaluacionesDataContext() : 
@@ -117,14 +117,6 @@ namespace Althus.Evaluaciones.Core
 			get
 			{
 				return this.GetTable<Competencia>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Empresa> Empresas
-		{
-			get
-			{
-				return this.GetTable<Empresa>();
 			}
 		}
 		
@@ -221,6 +213,14 @@ namespace Althus.Evaluaciones.Core
 			get
 			{
 				return this.GetTable<Usuario>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Empresa> Empresas
+		{
+			get
+			{
+				return this.GetTable<Empresa>();
 			}
 		}
 	}
@@ -632,144 +632,6 @@ namespace Althus.Evaluaciones.Core
 		{
 			this.SendPropertyChanging();
 			entity.Competencia = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Empresa")]
-	public partial class Empresa : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _IdEmpresa;
-		
-		private string _Empresa1;
-		
-		private System.Data.Linq.Binary _Logo;
-		
-		private EntitySet<Cargo> _Cargos;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdEmpresaChanging(int value);
-    partial void OnIdEmpresaChanged();
-    partial void OnEmpresa1Changing(string value);
-    partial void OnEmpresa1Changed();
-    partial void OnLogoChanging(System.Data.Linq.Binary value);
-    partial void OnLogoChanged();
-    #endregion
-		
-		public Empresa()
-		{
-			this._Cargos = new EntitySet<Cargo>(new Action<Cargo>(this.attach_Cargos), new Action<Cargo>(this.detach_Cargos));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEmpresa", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int IdEmpresa
-		{
-			get
-			{
-				return this._IdEmpresa;
-			}
-			set
-			{
-				if ((this._IdEmpresa != value))
-				{
-					this.OnIdEmpresaChanging(value);
-					this.SendPropertyChanging();
-					this._IdEmpresa = value;
-					this.SendPropertyChanged("IdEmpresa");
-					this.OnIdEmpresaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="Empresa", Storage="_Empresa1", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
-		public string Empresa1
-		{
-			get
-			{
-				return this._Empresa1;
-			}
-			set
-			{
-				if ((this._Empresa1 != value))
-				{
-					this.OnEmpresa1Changing(value);
-					this.SendPropertyChanging();
-					this._Empresa1 = value;
-					this.SendPropertyChanged("Empresa1");
-					this.OnEmpresa1Changed();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Logo", DbType="VarBinary(255)", UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary Logo
-		{
-			get
-			{
-				return this._Logo;
-			}
-			set
-			{
-				if ((this._Logo != value))
-				{
-					this.OnLogoChanging(value);
-					this.SendPropertyChanging();
-					this._Logo = value;
-					this.SendPropertyChanged("Logo");
-					this.OnLogoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Empresa_Cargo", Storage="_Cargos", ThisKey="IdEmpresa", OtherKey="IdEmpresa")]
-		public EntitySet<Cargo> Cargos
-		{
-			get
-			{
-				return this._Cargos;
-			}
-			set
-			{
-				this._Cargos.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Cargos(Cargo entity)
-		{
-			this.SendPropertyChanging();
-			entity.Empresa = this;
-		}
-		
-		private void detach_Cargos(Cargo entity)
-		{
-			this.SendPropertyChanging();
-			entity.Empresa = null;
 		}
 	}
 	
@@ -3223,6 +3085,144 @@ namespace Althus.Evaluaciones.Core
 		{
 			this.SendPropertyChanging();
 			entity.Usuario = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Empresa")]
+	public partial class Empresa : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _IdEmpresa;
+		
+		private string _Empresa1;
+		
+		private System.Data.Linq.Binary _Logo;
+		
+		private EntitySet<Cargo> _Cargos;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdEmpresaChanging(int value);
+    partial void OnIdEmpresaChanged();
+    partial void OnEmpresa1Changing(string value);
+    partial void OnEmpresa1Changed();
+    partial void OnLogoChanging(System.Data.Linq.Binary value);
+    partial void OnLogoChanged();
+    #endregion
+		
+		public Empresa()
+		{
+			this._Cargos = new EntitySet<Cargo>(new Action<Cargo>(this.attach_Cargos), new Action<Cargo>(this.detach_Cargos));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEmpresa", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int IdEmpresa
+		{
+			get
+			{
+				return this._IdEmpresa;
+			}
+			set
+			{
+				if ((this._IdEmpresa != value))
+				{
+					this.OnIdEmpresaChanging(value);
+					this.SendPropertyChanging();
+					this._IdEmpresa = value;
+					this.SendPropertyChanged("IdEmpresa");
+					this.OnIdEmpresaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="Empresa", Storage="_Empresa1", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Empresa1
+		{
+			get
+			{
+				return this._Empresa1;
+			}
+			set
+			{
+				if ((this._Empresa1 != value))
+				{
+					this.OnEmpresa1Changing(value);
+					this.SendPropertyChanging();
+					this._Empresa1 = value;
+					this.SendPropertyChanged("Empresa1");
+					this.OnEmpresa1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Logo", DbType="VarBinary(MAX)", UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary Logo
+		{
+			get
+			{
+				return this._Logo;
+			}
+			set
+			{
+				if ((this._Logo != value))
+				{
+					this.OnLogoChanging(value);
+					this.SendPropertyChanging();
+					this._Logo = value;
+					this.SendPropertyChanged("Logo");
+					this.OnLogoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Empresa_Cargo", Storage="_Cargos", ThisKey="IdEmpresa", OtherKey="IdEmpresa")]
+		public EntitySet<Cargo> Cargos
+		{
+			get
+			{
+				return this._Cargos;
+			}
+			set
+			{
+				this._Cargos.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Cargos(Cargo entity)
+		{
+			this.SendPropertyChanging();
+			entity.Empresa = this;
+		}
+		
+		private void detach_Cargos(Cargo entity)
+		{
+			this.SendPropertyChanging();
+			entity.Empresa = null;
 		}
 	}
 }

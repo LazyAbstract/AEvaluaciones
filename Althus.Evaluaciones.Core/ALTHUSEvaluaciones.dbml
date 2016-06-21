@@ -20,14 +20,6 @@
       <Association Name="Cargo_Competencia" Member="Cargo" ThisKey="IdCargo" OtherKey="IdCargo" Type="Cargo" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Empresa" Member="Empresas">
-    <Type Name="Empresa">
-      <Column Name="IdEmpresa" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Empresa" Member="Empresa1" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
-      <Column Name="Logo" Type="System.Data.Linq.Binary" DbType="VarBinary(255)" CanBeNull="true" UpdateCheck="Never" />
-      <Association Name="Empresa_Cargo" Member="Cargos" ThisKey="IdEmpresa" OtherKey="IdEmpresa" Type="Cargo" />
-    </Type>
-  </Table>
   <Table Name="dbo.Evaluacion" Member="Evaluacions">
     <Type Name="Evaluacion">
       <Column Name="IdEvaluacion" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -149,6 +141,14 @@
       <Column Name="ApellidoPaterno" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Association Name="Usuario_Evaluacion" Member="Evaluacions" ThisKey="IdUsuario" OtherKey="IdUsuarioEvaluador" Type="Evaluacion" />
       <Association Name="TipoUsuario_Usuario" Member="TipoUsuario" ThisKey="IdTipoUsuario" OtherKey="IdTipoUsuario" Type="TipoUsuario" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Empresa" Member="Empresas">
+    <Type Name="Empresa">
+      <Column Name="IdEmpresa" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Empresa" Member="Empresa1" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Logo" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Empresa_Cargo" Member="Cargos" ThisKey="IdEmpresa" OtherKey="IdEmpresa" Type="Cargo" />
     </Type>
   </Table>
 </Database>
