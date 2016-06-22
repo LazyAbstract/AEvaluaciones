@@ -142,14 +142,9 @@ namespace Althus.Evaluaciones.Web.Controllers
 
         public ActionResult ExportarEvaluacionPdf(int IdEvaluacion)
         {
-            Evaluacion evaluacion = db.Evaluacions.SingleOrDefault(x=>x.IdEvaluacion == IdEvaluacion);
-            var path = Request.MapPath("~/Content/images/logo_CCU_Althus.png");
-            var stream = new FileStream(path, FileMode.Open);
-            byte[] imageByteArray = new byte[stream.Length];
-            stream.Read(imageByteArray, 0, (int)stream.Length);
-            stream.Close();
-            stream.Dispose();
-            GeneraEvaluacionPDF generador = new GeneraEvaluacionPDF(evaluacion, imageByteArray);
+            Evaluacion evaluacion = db.Evaluacions.SingleOrDefault(x=>x.IdEvaluacion == IdEvaluacion);    
+            GeneraEvaluacionPDF generador = 
+                new GeneraEvaluacionPDF(evaluacion, evaluacion.Cargo.Empresa.Logo.ToArray());
             return File(generador.GetFile(), "application/pdf", 
                 String.Format("{0}{1}{2}_Evaluacion.pdf", 
                     evaluacion.FechaEvaluacion.Year.ToString("00"),
