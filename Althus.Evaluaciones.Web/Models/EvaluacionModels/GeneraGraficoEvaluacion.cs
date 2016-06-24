@@ -50,7 +50,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 Legend legend = new Legend();
                 legend.DockedToChartArea = "Eval";
                 legend.Docking = Docking.Right;
-                legend.IsDockedInsideChartArea = true;
+                legend.IsDockedInsideChartArea = false;
                 chart.Legends.Add(legend);
                 Title title = new Title("Evaluación de Competencias");
                 chart.SaveImage(ms, ChartImageFormat.Png);
