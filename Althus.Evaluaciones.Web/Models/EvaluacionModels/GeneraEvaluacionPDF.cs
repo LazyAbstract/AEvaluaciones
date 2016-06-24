@@ -110,7 +110,6 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 document.Add(chartTable);
 
                 // Competencias
-
                 PdfPTable fourthTable = GetPdfTable(new float[] { 4, 2, 2, 4 });
                 fourthTable.AddCell(GetHeaderCell("Competencia"));
                 fourthTable.AddCell(GetHeaderCell("Valor Esperado"));
@@ -150,7 +149,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 document.Add(new Paragraph("Satisface las condiciones exigidas presentando un nivel de potencial adecuado.", normalFont));
                 document.Add(new Paragraph("ADECUADO CON OBSERVACIONES:", Title2Font));
                 document.Add(new Paragraph("Cumple con condiciones básicas para el cargo, presentando debilidades específicas que pueden evolucionar positivamente.", normalFont));
-                document.Add(new Paragraph("NO RECOMENDABLE", Title2Font));
+                document.Add(new Paragraph("NO RECOMENDABLE:", Title2Font));
                 document.Add(new Paragraph("Satisface algunas condiciones, pero presenta debilidades significativas, características intelectuales, de personalidad o motivacionales que limitarían su nivel de desempeño.", normalFont));
 
                 //Exportar archivo                                    

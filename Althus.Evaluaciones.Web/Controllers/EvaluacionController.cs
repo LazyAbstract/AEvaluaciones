@@ -25,7 +25,7 @@ namespace Althus.Evaluaciones.Web.Controllers
             if (!String.IsNullOrEmpty(filtro))
             {
                 filtro = filtro.ToLower();
-                items = db.Evaluacions
+                items = items
                     .Where(x => x.Cargo.Empresa.Empresa1.ToLower().Contains(filtro)
                         || x.Cargo.Cargo1.ToLower().Contains(filtro)
                         || x.Evaluado.Nombre.ToLower().Contains(filtro)
