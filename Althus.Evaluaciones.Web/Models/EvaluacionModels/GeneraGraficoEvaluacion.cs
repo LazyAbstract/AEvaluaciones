@@ -20,7 +20,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 List<string> y = new List<string>();
                 List<int> xa = new List<int>();
                 List<int> xb = new List<int>();
-                foreach (var evalCompetencia in evaluacion.EvaluacionCompetencias.OrderBy(x => x.IdCompetencia))
+                foreach (var evalCompetencia in evaluacion.EvaluacionCompetencias.OrderByDescending(x => x.IdCompetencia))
                 {
                     y.Add(evalCompetencia.Competencia.Competencia1);
                     xa.Add(evalCompetencia.Competencia.ValorEsperado);

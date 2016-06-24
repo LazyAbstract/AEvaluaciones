@@ -87,7 +87,7 @@
                     </th>
                 </tr>
                 @{int i = 0;}
-                @foreach (var competencia in Model.EvaluacionCompetencias)
+                @foreach (var competencia in Model.EvaluacionCompetencias.OrderBy(x => x.IdCompetencia))
                 {
                     <tr>
                         <td>

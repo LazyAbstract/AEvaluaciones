@@ -328,7 +328,9 @@
     <Content Include="Scripts\ALTHUSEvaluacionesConfiguration.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\althuspartners - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\althuspartners - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\althuspartners - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\althuspartners - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />

@@ -113,8 +113,8 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
 
                 PdfPTable fourthTable = GetPdfTable(new float[] { 4, 2, 2, 4 });
                 fourthTable.AddCell(GetHeaderCell("Competencia"));
-                fourthTable.AddCell(GetHeaderCell("Valor Obtenido"));
                 fourthTable.AddCell(GetHeaderCell("Valor Esperado"));
+                fourthTable.AddCell(GetHeaderCell("Valor Obtenido"));
                 fourthTable.AddCell(GetHeaderCell("Observaciones"));
                 
                 foreach (var competencia in  _Evaluacion.Cargo.Competencias.OrderByDescending(x=> x.IdCompetencia))
