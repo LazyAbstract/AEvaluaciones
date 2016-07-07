@@ -22,5 +22,14 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
         [Required]
         public List<int> ValorObtenidoCompetencia { get; set; }
         public List<string> Observacion { get; set; }
+        [DisplayName("Marque esta opción si ha finalizado la evaluación. Una vez finalizada no podrá efectuar más cambios sobre la misma.")]
+        public bool Finalizada { get; set; }
+
+        public CrearEvaluacionFormModel()
+        {
+            ValorObtenidoCompetencia = new List<int>();
+            Observacion = new List<string>();
+            Finalizada = false;
+        }
     }
 }

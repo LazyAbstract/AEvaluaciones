@@ -26,6 +26,39 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
             evaluacion = db.Evaluacions.Single(x => x.IdEvaluacion == idEvaluacion);
             evaluado = evaluacion.Evaluado;
             Competencias = evaluacion.Cargo.Competencias.OrderBy(x => x.IdCompetencia);
+
+            EvaluacionAbierta hola = evaluacion.EvaluacionAbiertas.SingleOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ResumenEstudiosTrayectoriaLaboral);
+            if(hola != null )Form.TrayectoriaLaboral = hola.EvaluacionAbierta1;
+
+            EvaluacionAbierta hola2 = evaluacion.EvaluacionAbiertas.SingleOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.MotivacionCargo);
+            if (hola2 != null) Form.MotivacionPorCargo = hola2.EvaluacionAbierta1;
+
+
+            EvaluacionAbierta hola3 = evaluacion.EvaluacionAbiertas.SingleOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ConclusionSugerencias);
+            if (hola3 != null) Form.ConclusionSugerencia = hola3.EvaluacionAbierta1;
+
+            int i = 0;
+            foreach(var comp in evaluacion.Cargo.Competencias.OrderBy(x => x.IdCompetencia))
+            {
+                EvaluacionCompetencia evalcomp = evaluacion.EvaluacionCompetencias.SingleOrDefault(x => x.IdCompetencia == comp.IdCompetencia);
+                if (evalcomp != null)
+                {
+                    Form.ValorObtenidoCompetencia.Add(evalcomp.ValorObtenido);
+                    Form.Observacion.Add(evalcomp.Observacion);
+                }
+                else
+                {
+                    Form.ValorObtenidoCompetencia.Add(0);
+                    Form.Observacion.Add("");
+                }
+                i++;
+            }
+
+            if(evaluacion.IdTipoEstadoEvaluacion == TipoEstadoEvaluacion.Finalizada)
+            {
+                Form.Finalizada = true;
+            }
+
         }
 
         public CrearEvaluacionViewModel(CrearEvaluacionFormModel F) : this()

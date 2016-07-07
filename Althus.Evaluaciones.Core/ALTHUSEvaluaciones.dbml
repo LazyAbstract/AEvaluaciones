@@ -20,33 +20,14 @@
       <Association Name="Cargo_Competencia" Member="Cargo" ThisKey="IdCargo" OtherKey="IdCargo" Type="Cargo" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Evaluacion" Member="Evaluacions">
-    <Type Name="Evaluacion">
-      <Column Name="IdEvaluacion" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="IdTipoEvaluacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IdCargo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IdEvaluado" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IdTipoDiagnostico" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IdUsuarioEvaluador" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="PorcetajeIdioneidad" Type="System.Double" DbType="Float" CanBeNull="true" />
-      <Column Name="FechaEvaluacion" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Association Name="Evaluacion_EvaluacionAbierta" Member="EvaluacionAbiertas" ThisKey="IdEvaluacion" OtherKey="IdEvaluacion" Type="EvaluacionAbierta" />
-      <Association Name="Evaluacion_EvaluacionCompetencia" Member="EvaluacionCompetencias" ThisKey="IdEvaluacion" OtherKey="IdEvaluacion" Type="EvaluacionCompetencia" />
-      <Association Name="Cargo_Evaluacion" Member="Cargo" ThisKey="IdCargo" OtherKey="IdCargo" Type="Cargo" IsForeignKey="true" />
-      <Association Name="TipoDiagnostico_Evaluacion" Member="TipoDiagnostico" ThisKey="IdTipoDiagnostico" OtherKey="IdTipoDiagnostico" Type="TipoDiagnostico" IsForeignKey="true" />
-      <Association Name="TipoEvaluacion_Evaluacion" Member="TipoEvaluacion" ThisKey="IdTipoEvaluacion" OtherKey="IdTipoEvaluacion" Type="TipoEvaluacion" IsForeignKey="true" />
-      <Association Name="Evaluado_Evaluacion" Member="Evaluado" ThisKey="IdEvaluado" OtherKey="IdEvaluado" Type="Evaluado" IsForeignKey="true" />
-      <Association Name="Usuario_Evaluacion" Member="Usuario" ThisKey="IdUsuarioEvaluador" OtherKey="IdUsuario" Type="Usuario" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.EvaluacionAbierta" Member="EvaluacionAbiertas">
     <Type Name="EvaluacionAbierta">
       <Column Name="IdEvaluacionAbierta" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="IdTipoEvaluacionAbierta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IdEvaluacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="EvaluacionAbierta" Member="EvaluacionAbierta1" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Association Name="Evaluacion_EvaluacionAbierta" Member="Evaluacion" ThisKey="IdEvaluacion" OtherKey="IdEvaluacion" Type="Evaluacion" IsForeignKey="true" />
       <Association Name="TipoEvaluacionAbierta_EvaluacionAbierta" Member="TipoEvaluacionAbierta" ThisKey="IdTipoEvaluacionAbierta" OtherKey="IdTipoEvaluacionAbierta" Type="TipoEvaluacionAbierta" IsForeignKey="true" />
+      <Association Name="Evaluacion_EvaluacionAbierta" Member="Evaluacion" ThisKey="IdEvaluacion" OtherKey="IdEvaluacion" Type="Evaluacion" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.EvaluacionCompetencia" Member="EvaluacionCompetencias">
@@ -149,6 +130,34 @@
       <Column Name="Empresa" Member="Empresa1" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="Logo" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
       <Association Name="Empresa_Cargo" Member="Cargos" ThisKey="IdEmpresa" OtherKey="IdEmpresa" Type="Cargo" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TipoEstadoEvaluacion" Member="TipoEstadoEvaluacions">
+    <Type Name="TipoEstadoEvaluacion">
+      <Column Name="IdTipoEstadoEvaluacion" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="NVarChar(63) NOT NULL" CanBeNull="false" />
+      <Association Name="TipoEstadoEvaluacion_Evaluacion" Member="Evaluacions" ThisKey="IdTipoEstadoEvaluacion" OtherKey="IdTipoEstadoEvaluacion" Type="Evaluacion" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Evaluacion" Member="Evaluacions">
+    <Type Name="Evaluacion">
+      <Column Name="IdEvaluacion" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdTipoEstadoEvaluacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdTipoEvaluacion" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdCargo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdEvaluado" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdTipoDiagnostico" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdUsuarioEvaluador" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PorcetajeIdioneidad" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="FechaEvaluacion" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="Evaluacion_EvaluacionAbierta" Member="EvaluacionAbiertas" ThisKey="IdEvaluacion" OtherKey="IdEvaluacion" Type="EvaluacionAbierta" />
+      <Association Name="Evaluacion_EvaluacionCompetencia" Member="EvaluacionCompetencias" ThisKey="IdEvaluacion" OtherKey="IdEvaluacion" Type="EvaluacionCompetencia" />
+      <Association Name="Cargo_Evaluacion" Member="Cargo" ThisKey="IdCargo" OtherKey="IdCargo" Type="Cargo" IsForeignKey="true" />
+      <Association Name="Evaluado_Evaluacion" Member="Evaluado" ThisKey="IdEvaluado" OtherKey="IdEvaluado" Type="Evaluado" IsForeignKey="true" />
+      <Association Name="TipoDiagnostico_Evaluacion" Member="TipoDiagnostico" ThisKey="IdTipoDiagnostico" OtherKey="IdTipoDiagnostico" Type="TipoDiagnostico" IsForeignKey="true" />
+      <Association Name="TipoEstadoEvaluacion_Evaluacion" Member="TipoEstadoEvaluacion" ThisKey="IdTipoEstadoEvaluacion" OtherKey="IdTipoEstadoEvaluacion" Type="TipoEstadoEvaluacion" IsForeignKey="true" />
+      <Association Name="TipoEvaluacion_Evaluacion" Member="TipoEvaluacion" ThisKey="IdTipoEvaluacion" OtherKey="IdTipoEvaluacion" Type="TipoEvaluacion" IsForeignKey="true" />
+      <Association Name="Usuario_Evaluacion" Member="Usuario" ThisKey="IdUsuarioEvaluador" OtherKey="IdUsuario" Type="Usuario" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

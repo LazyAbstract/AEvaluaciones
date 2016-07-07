@@ -17,7 +17,7 @@ namespace Althus.Evaluaciones.Web.Controllers
         public ActionResult ListadoEvaluaciones(int? pagina, string filtro)
         {
             ListadoEvaluacionesViewModel model = new ListadoEvaluacionesViewModel();
-            IQueryable<Evaluacion> items = db.Evaluacions.Where(x => x.IdTipoDiagnostico != null);
+            IQueryable<Evaluacion> items = db.Evaluacions;
             if(!User.IsInRole("Usuario") && UsuarioActual != null)
             {
                 items = items.Where(x => x.IdUsuarioEvaluador == UsuarioActual.IdUsuario);
@@ -47,90 +47,208 @@ namespace Althus.Evaluaciones.Web.Controllers
         [HttpPost]
         public ActionResult CrearEvaluacion(CrearEvaluacionFormModel Form)
         {
-            int j = 0;
-            foreach (var item in Form.ValorObtenidoCompetencia)
+            Evaluacion evaluacion = db.Evaluacions.Single(x => x.IdEvaluacion == Form.IdEvaluacion);
+            if (UsuarioActual != null) evaluacion.IdUsuarioEvaluador = UsuarioActual.IdUsuario;
+            IEnumerable<Competencia> Competencias = evaluacion.Cargo.Competencias.OrderBy(x => x.IdCompetencia);
+
+            #region Si la Evaluación no está completa
+            if (!Form.Finalizada)
             {
-                if (item < 1 || item > 5)
+                EvaluacionAbierta text1 = evaluacion.EvaluacionAbiertas
+                    .SingleOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ResumenEstudiosTrayectoriaLaboral);
+                if (text1 != null)
                 {
-                    ModelState.AddModelError("Form.ValorObtenidoCompetencia[" + j.ToString() + "]", "Los valores de la evaluación deben ser entre 1 y 5.");
+                    text1.EvaluacionAbierta1 = String.IsNullOrEmpty(Form.TrayectoriaLaboral) ? "" : Form.TrayectoriaLaboral;
                 }
-                j++;
-            }
-            if (ModelState.IsValid)
-            {
-                //  evaluacion abierta primero, esto se puede hacer genércio
-                Evaluacion evaluacion = db.Evaluacions.Single(x => x.IdEvaluacion == Form.IdEvaluacion);
-                if (UsuarioActual != null) evaluacion.IdUsuarioEvaluador = UsuarioActual.IdUsuario;
-                IEnumerable<Competencia> Competencias = evaluacion.Cargo.Competencias.OrderBy(x => x.IdCompetencia);
-                EvaluacionAbierta text1 = new EvaluacionAbierta()
+                else
                 {
-                    IdTipoEvaluacionAbierta = TipoEvaluacionAbierta.ResumenEstudiosTrayectoriaLaboral,
-                    IdEvaluacion = evaluacion.IdEvaluacion,
-                    EvaluacionAbierta1 = Form.TrayectoriaLaboral,
-                };
-                db.EvaluacionAbiertas.InsertOnSubmit(text1);
-
-                EvaluacionAbierta text2 = new EvaluacionAbierta()
-                {
-                    IdTipoEvaluacionAbierta = TipoEvaluacionAbierta.MotivacionCargo,
-                    IdEvaluacion = evaluacion.IdEvaluacion,
-                    EvaluacionAbierta1 = Form.MotivacionPorCargo,
-                };
-                db.EvaluacionAbiertas.InsertOnSubmit(text2);
-
-                EvaluacionAbierta text3 = new EvaluacionAbierta()
-                {
-                    IdTipoEvaluacionAbierta = TipoEvaluacionAbierta.ConclusionSugerencias,
-                    IdEvaluacion = evaluacion.IdEvaluacion,
-                    EvaluacionAbierta1 = Form.ConclusionSugerencia,
-                };
-                db.EvaluacionAbiertas.InsertOnSubmit(text3);
-                db.SubmitChanges();
-
-                //  evaluacion de competencias                
-                int i = 0;
-                List<int> ValoresCalculoIdioneidad = new List<int>();
-                foreach(var competencia in Competencias)
-                {
-                    EvaluacionCompetencia evalcomp = new EvaluacionCompetencia()
+                    text1 = new EvaluacionAbierta()
                     {
+                        IdTipoEvaluacionAbierta = TipoEvaluacionAbierta.ResumenEstudiosTrayectoriaLaboral,
                         IdEvaluacion = evaluacion.IdEvaluacion,
-                        IdCompetencia = competencia.IdCompetencia,
-                        ValorObtenido = Form.ValorObtenidoCompetencia[i],
-                        Observacion = Form.Observacion[i],
+                        EvaluacionAbierta1 = String.IsNullOrEmpty(Form.TrayectoriaLaboral) ? "" : Form.TrayectoriaLaboral,
                     };
-                    db.EvaluacionCompetencias.InsertOnSubmit(evalcomp);
-                    db.SubmitChanges();
+                    db.EvaluacionAbiertas.InsertOnSubmit(text1);
+                }
 
-                    if(evalcomp.ValorObtenido > evalcomp.Competencia.ValorEsperado)
+                EvaluacionAbierta text2 = evaluacion.EvaluacionAbiertas
+                    .SingleOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.MotivacionCargo);
+                if (text2 != null)
+                {
+                    text2.EvaluacionAbierta1 = String.IsNullOrEmpty(Form.MotivacionPorCargo) ? "" : Form.MotivacionPorCargo;
+                }
+                else
+                {
+                    text2 = new EvaluacionAbierta()
                     {
-                        ValoresCalculoIdioneidad.Add(evalcomp.Competencia.ValorEsperado);
+                        IdTipoEvaluacionAbierta = TipoEvaluacionAbierta.MotivacionCargo,
+                        IdEvaluacion = evaluacion.IdEvaluacion,
+                        EvaluacionAbierta1 = String.IsNullOrEmpty(Form.MotivacionPorCargo) ? "" : Form.MotivacionPorCargo,
+                    };
+                    db.EvaluacionAbiertas.InsertOnSubmit(text2);
+                }
+
+                EvaluacionAbierta text3 = evaluacion.EvaluacionAbiertas
+                   .SingleOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ConclusionSugerencias);
+                if (text3 != null)
+                {
+                    text3.EvaluacionAbierta1 = String.IsNullOrEmpty(Form.ConclusionSugerencia) ? "" : Form.ConclusionSugerencia;
+                }
+                else
+                {
+                    text3 = new EvaluacionAbierta()
+                    {
+                        IdTipoEvaluacionAbierta = TipoEvaluacionAbierta.ConclusionSugerencias,
+                        IdEvaluacion = evaluacion.IdEvaluacion,
+                        EvaluacionAbierta1 = String.IsNullOrEmpty(Form.ConclusionSugerencia) ? "" : Form.ConclusionSugerencia,
+                    };
+                    db.EvaluacionAbiertas.InsertOnSubmit(text3);
+                }
+
+                //  evaluacion de competencias    
+                int i = 0;
+                foreach (var competencia in Competencias.OrderBy(x => x.IdCompetencia))
+                {
+                    EvaluacionCompetencia evalcomp = evaluacion.EvaluacionCompetencias.SingleOrDefault(x => x.IdCompetencia == competencia.IdCompetencia);
+                    if(evalcomp != null)
+                    {
+                        evalcomp.ValorObtenido = Form.ValorObtenidoCompetencia[i];
+                        evalcomp.Observacion = Form.Observacion[i];
                     }
                     else
                     {
-                        ValoresCalculoIdioneidad.Add(evalcomp.ValorObtenido);
+                        evalcomp = new EvaluacionCompetencia()
+                        {
+                            IdEvaluacion = evaluacion.IdEvaluacion,
+                            IdCompetencia = competencia.IdCompetencia,
+                            ValorObtenido = Form.ValorObtenidoCompetencia[i],
+                            Observacion = Form.Observacion[i],
+                        };
+                        db.EvaluacionCompetencias.InsertOnSubmit(evalcomp);
                     }
                     i++;
-                }
-                db.SubmitChanges();
+                }                
 
-                int TotalEsperado = Competencias.Sum(x => x.ValorEsperado);
-                int TotalObtenido = 0;
-                foreach (var item in ValoresCalculoIdioneidad)
-                {
-                    TotalObtenido += item;
-                }
-                float PorcentajeIdionidad = (float)TotalObtenido / TotalEsperado;
-                //if (PorcentajeIdionidad > 1) PorcentajeIdionidad = 1;
-                IEnumerable<TipoDiagnostico> TipoDiagnosticos = db.TipoDiagnosticos.Where(x => x.PorcentajeHasta >= PorcentajeIdionidad);
-                int IdTipoDiagnostico = TipoDiagnosticos.OrderBy(x => x.PorcentajeHasta).First().IdTipoDiagnostico;
-                evaluacion.PorcetajeIdioneidad = PorcentajeIdionidad;
-                evaluacion.IdTipoDiagnostico = IdTipoDiagnostico;
-                evaluacion.FechaEvaluacion = DateTime.Now;
+                evaluacion.IdTipoEstadoEvaluacion = TipoEstadoEvaluacion.EnProgreso;
                 db.SubmitChanges();
-                Mensaje = "La Evaluación fue ingresada correctamente.";
-                return RedirectToAction("DetalleEvaluacion", new { IdEvaluacion = evaluacion.IdEvaluacion });
+                Mensaje = "La Evaluación no ha sido finalizada! Recurde que debe completar todos los campos para ver el detalle.";
+                return RedirectToAction("ListadoEvaluaciones", new { IdEvaluacion = evaluacion.IdEvaluacion });
             }
+            #endregion
+
+            #region Si la evaluación está completa
+            else
+            {
+                if(ModelState.IsValid)
+                {
+                    EvaluacionAbierta text1 = evaluacion.EvaluacionAbiertas
+                    .SingleOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ResumenEstudiosTrayectoriaLaboral);
+                    if (text1 != null)
+                    {
+                        text1.EvaluacionAbierta1 = Form.TrayectoriaLaboral;
+                    }
+                    else
+                    {
+                        text1 = new EvaluacionAbierta()
+                        {
+                            IdTipoEvaluacionAbierta = TipoEvaluacionAbierta.ResumenEstudiosTrayectoriaLaboral,
+                            IdEvaluacion = evaluacion.IdEvaluacion,
+                            EvaluacionAbierta1 = Form.TrayectoriaLaboral,
+                        };
+                        db.EvaluacionAbiertas.InsertOnSubmit(text1);
+                    }
+
+                    EvaluacionAbierta text2 = evaluacion.EvaluacionAbiertas
+                        .SingleOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.MotivacionCargo);
+                    if (text2 != null)
+                    {
+                        text2.EvaluacionAbierta1 = Form.MotivacionPorCargo;
+                    }
+                    else
+                    {
+                        text2 = new EvaluacionAbierta()
+                        {
+                            IdTipoEvaluacionAbierta = TipoEvaluacionAbierta.MotivacionCargo,
+                            IdEvaluacion = evaluacion.IdEvaluacion,
+                            EvaluacionAbierta1 = Form.MotivacionPorCargo,
+                        };
+                        db.EvaluacionAbiertas.InsertOnSubmit(text2);
+                    }
+
+                    EvaluacionAbierta text3 = evaluacion.EvaluacionAbiertas
+                       .SingleOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ConclusionSugerencias);
+                    if (text3 != null)
+                    {
+                        text3.EvaluacionAbierta1 = Form.ConclusionSugerencia;
+                    }
+                    else
+                    {
+                        text3 = new EvaluacionAbierta()
+                        {
+                            IdTipoEvaluacionAbierta = TipoEvaluacionAbierta.ConclusionSugerencias,
+                            IdEvaluacion = evaluacion.IdEvaluacion,
+                            EvaluacionAbierta1 = Form.ConclusionSugerencia,
+                        };
+                        db.EvaluacionAbiertas.InsertOnSubmit(text3);
+                    }
+
+                    //  evaluacion de competencias                
+                    int i = 0;
+                    List<int> ValoresCalculoIdioneidad = new List<int>();
+                    foreach (var competencia in Competencias)
+                    {
+                        EvaluacionCompetencia evalcomp = evaluacion.EvaluacionCompetencias.SingleOrDefault(x => x.IdCompetencia == competencia.IdCompetencia);
+                        if (evalcomp != null)
+                        {
+                            evalcomp.ValorObtenido = Form.ValorObtenidoCompetencia[i];
+                            evalcomp.Observacion = Form.Observacion[i];
+                        }
+                        else
+                        {
+                            evalcomp = new EvaluacionCompetencia()
+                            {
+                                IdEvaluacion = evaluacion.IdEvaluacion,
+                                IdCompetencia = competencia.IdCompetencia,
+                                ValorObtenido = Form.ValorObtenidoCompetencia[i],
+                                Observacion = Form.Observacion[i],
+                            };
+                            db.EvaluacionCompetencias.InsertOnSubmit(evalcomp);
+                        }
+                        db.SubmitChanges();
+
+                        if (evalcomp.ValorObtenido > evalcomp.Competencia.ValorEsperado)
+                        {
+                            ValoresCalculoIdioneidad.Add(evalcomp.Competencia.ValorEsperado);
+                        }
+                        else
+                        {
+                            ValoresCalculoIdioneidad.Add(evalcomp.ValorObtenido);
+                        }
+                        i++;
+                    }
+                    int TotalEsperado = Competencias.Sum(x => x.ValorEsperado);
+                    int TotalObtenido = 0;
+                    foreach (var item in ValoresCalculoIdioneidad)
+                    {
+                        TotalObtenido += item;
+                    }
+                    float PorcentajeIdionidad = (float)TotalObtenido / TotalEsperado;
+                    //if (PorcentajeIdionidad > 1) PorcentajeIdionidad = 1;
+                    IEnumerable<TipoDiagnostico> TipoDiagnosticos = db.TipoDiagnosticos.Where(x => x.PorcentajeHasta >= PorcentajeIdionidad);
+                    int IdTipoDiagnostico = TipoDiagnosticos.OrderBy(x => x.PorcentajeHasta).First().IdTipoDiagnostico;
+                    evaluacion.PorcetajeIdioneidad = PorcentajeIdionidad;
+                    evaluacion.IdTipoDiagnostico = IdTipoDiagnostico;
+                    evaluacion.FechaEvaluacion = DateTime.Now;
+                    db.SubmitChanges();
+
+                    evaluacion.IdTipoEstadoEvaluacion = TipoEstadoEvaluacion.Finalizada;
+                    db.SubmitChanges();
+                    Mensaje = "La Evaluación ha sido finalizada correctamente.";
+                    return RedirectToAction("DetalleEvaluacion", new { IdEvaluacion = evaluacion.IdEvaluacion });
+                }
+            }
+            #endregion
+
             CrearEvaluacionViewModel model = new CrearEvaluacionViewModel(Form);
             return View(model);
         }

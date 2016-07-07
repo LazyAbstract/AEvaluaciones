@@ -36,9 +36,6 @@ namespace Althus.Evaluaciones.Core
     partial void InsertCompetencia(Competencia instance);
     partial void UpdateCompetencia(Competencia instance);
     partial void DeleteCompetencia(Competencia instance);
-    partial void InsertEvaluacion(Evaluacion instance);
-    partial void UpdateEvaluacion(Evaluacion instance);
-    partial void DeleteEvaluacion(Evaluacion instance);
     partial void InsertEvaluacionAbierta(EvaluacionAbierta instance);
     partial void UpdateEvaluacionAbierta(EvaluacionAbierta instance);
     partial void DeleteEvaluacionAbierta(EvaluacionAbierta instance);
@@ -72,6 +69,12 @@ namespace Althus.Evaluaciones.Core
     partial void InsertEmpresa(Empresa instance);
     partial void UpdateEmpresa(Empresa instance);
     partial void DeleteEmpresa(Empresa instance);
+    partial void InsertTipoEstadoEvaluacion(TipoEstadoEvaluacion instance);
+    partial void UpdateTipoEstadoEvaluacion(TipoEstadoEvaluacion instance);
+    partial void DeleteTipoEstadoEvaluacion(TipoEstadoEvaluacion instance);
+    partial void InsertEvaluacion(Evaluacion instance);
+    partial void UpdateEvaluacion(Evaluacion instance);
+    partial void DeleteEvaluacion(Evaluacion instance);
     #endregion
 		
 		public ALTHUSEvaluacionesDataContext() : 
@@ -117,14 +120,6 @@ namespace Althus.Evaluaciones.Core
 			get
 			{
 				return this.GetTable<Competencia>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Evaluacion> Evaluacions
-		{
-			get
-			{
-				return this.GetTable<Evaluacion>();
 			}
 		}
 		
@@ -221,6 +216,22 @@ namespace Althus.Evaluaciones.Core
 			get
 			{
 				return this.GetTable<Empresa>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TipoEstadoEvaluacion> TipoEstadoEvaluacions
+		{
+			get
+			{
+				return this.GetTable<TipoEstadoEvaluacion>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Evaluacion> Evaluacions
+		{
+			get
+			{
+				return this.GetTable<Evaluacion>();
 			}
 		}
 	}
@@ -635,497 +646,6 @@ namespace Althus.Evaluaciones.Core
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Evaluacion")]
-	public partial class Evaluacion : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _IdEvaluacion;
-		
-		private int _IdTipoEvaluacion;
-		
-		private int _IdCargo;
-		
-		private int _IdEvaluado;
-		
-		private System.Nullable<int> _IdTipoDiagnostico;
-		
-		private System.Nullable<int> _IdUsuarioEvaluador;
-		
-		private System.Nullable<double> _PorcetajeIdioneidad;
-		
-		private System.DateTime _FechaEvaluacion;
-		
-		private EntitySet<EvaluacionAbierta> _EvaluacionAbiertas;
-		
-		private EntitySet<EvaluacionCompetencia> _EvaluacionCompetencias;
-		
-		private EntityRef<Cargo> _Cargo;
-		
-		private EntityRef<TipoDiagnostico> _TipoDiagnostico;
-		
-		private EntityRef<TipoEvaluacion> _TipoEvaluacion;
-		
-		private EntityRef<Evaluado> _Evaluado;
-		
-		private EntityRef<Usuario> _Usuario;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdEvaluacionChanging(int value);
-    partial void OnIdEvaluacionChanged();
-    partial void OnIdTipoEvaluacionChanging(int value);
-    partial void OnIdTipoEvaluacionChanged();
-    partial void OnIdCargoChanging(int value);
-    partial void OnIdCargoChanged();
-    partial void OnIdEvaluadoChanging(int value);
-    partial void OnIdEvaluadoChanged();
-    partial void OnIdTipoDiagnosticoChanging(System.Nullable<int> value);
-    partial void OnIdTipoDiagnosticoChanged();
-    partial void OnIdUsuarioEvaluadorChanging(System.Nullable<int> value);
-    partial void OnIdUsuarioEvaluadorChanged();
-    partial void OnPorcetajeIdioneidadChanging(System.Nullable<double> value);
-    partial void OnPorcetajeIdioneidadChanged();
-    partial void OnFechaEvaluacionChanging(System.DateTime value);
-    partial void OnFechaEvaluacionChanged();
-    #endregion
-		
-		public Evaluacion()
-		{
-			this._EvaluacionAbiertas = new EntitySet<EvaluacionAbierta>(new Action<EvaluacionAbierta>(this.attach_EvaluacionAbiertas), new Action<EvaluacionAbierta>(this.detach_EvaluacionAbiertas));
-			this._EvaluacionCompetencias = new EntitySet<EvaluacionCompetencia>(new Action<EvaluacionCompetencia>(this.attach_EvaluacionCompetencias), new Action<EvaluacionCompetencia>(this.detach_EvaluacionCompetencias));
-			this._Cargo = default(EntityRef<Cargo>);
-			this._TipoDiagnostico = default(EntityRef<TipoDiagnostico>);
-			this._TipoEvaluacion = default(EntityRef<TipoEvaluacion>);
-			this._Evaluado = default(EntityRef<Evaluado>);
-			this._Usuario = default(EntityRef<Usuario>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEvaluacion", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int IdEvaluacion
-		{
-			get
-			{
-				return this._IdEvaluacion;
-			}
-			set
-			{
-				if ((this._IdEvaluacion != value))
-				{
-					this.OnIdEvaluacionChanging(value);
-					this.SendPropertyChanging();
-					this._IdEvaluacion = value;
-					this.SendPropertyChanged("IdEvaluacion");
-					this.OnIdEvaluacionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdTipoEvaluacion", DbType="Int NOT NULL")]
-		public int IdTipoEvaluacion
-		{
-			get
-			{
-				return this._IdTipoEvaluacion;
-			}
-			set
-			{
-				if ((this._IdTipoEvaluacion != value))
-				{
-					if (this._TipoEvaluacion.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdTipoEvaluacionChanging(value);
-					this.SendPropertyChanging();
-					this._IdTipoEvaluacion = value;
-					this.SendPropertyChanged("IdTipoEvaluacion");
-					this.OnIdTipoEvaluacionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdCargo", DbType="Int NOT NULL")]
-		public int IdCargo
-		{
-			get
-			{
-				return this._IdCargo;
-			}
-			set
-			{
-				if ((this._IdCargo != value))
-				{
-					if (this._Cargo.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdCargoChanging(value);
-					this.SendPropertyChanging();
-					this._IdCargo = value;
-					this.SendPropertyChanged("IdCargo");
-					this.OnIdCargoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEvaluado", DbType="Int NOT NULL")]
-		public int IdEvaluado
-		{
-			get
-			{
-				return this._IdEvaluado;
-			}
-			set
-			{
-				if ((this._IdEvaluado != value))
-				{
-					if (this._Evaluado.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdEvaluadoChanging(value);
-					this.SendPropertyChanging();
-					this._IdEvaluado = value;
-					this.SendPropertyChanged("IdEvaluado");
-					this.OnIdEvaluadoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdTipoDiagnostico", DbType="Int")]
-		public System.Nullable<int> IdTipoDiagnostico
-		{
-			get
-			{
-				return this._IdTipoDiagnostico;
-			}
-			set
-			{
-				if ((this._IdTipoDiagnostico != value))
-				{
-					if (this._TipoDiagnostico.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdTipoDiagnosticoChanging(value);
-					this.SendPropertyChanging();
-					this._IdTipoDiagnostico = value;
-					this.SendPropertyChanged("IdTipoDiagnostico");
-					this.OnIdTipoDiagnosticoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUsuarioEvaluador", DbType="Int")]
-		public System.Nullable<int> IdUsuarioEvaluador
-		{
-			get
-			{
-				return this._IdUsuarioEvaluador;
-			}
-			set
-			{
-				if ((this._IdUsuarioEvaluador != value))
-				{
-					if (this._Usuario.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdUsuarioEvaluadorChanging(value);
-					this.SendPropertyChanging();
-					this._IdUsuarioEvaluador = value;
-					this.SendPropertyChanged("IdUsuarioEvaluador");
-					this.OnIdUsuarioEvaluadorChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PorcetajeIdioneidad", DbType="Float")]
-		public System.Nullable<double> PorcetajeIdioneidad
-		{
-			get
-			{
-				return this._PorcetajeIdioneidad;
-			}
-			set
-			{
-				if ((this._PorcetajeIdioneidad != value))
-				{
-					this.OnPorcetajeIdioneidadChanging(value);
-					this.SendPropertyChanging();
-					this._PorcetajeIdioneidad = value;
-					this.SendPropertyChanged("PorcetajeIdioneidad");
-					this.OnPorcetajeIdioneidadChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FechaEvaluacion", DbType="Date NOT NULL")]
-		public System.DateTime FechaEvaluacion
-		{
-			get
-			{
-				return this._FechaEvaluacion;
-			}
-			set
-			{
-				if ((this._FechaEvaluacion != value))
-				{
-					this.OnFechaEvaluacionChanging(value);
-					this.SendPropertyChanging();
-					this._FechaEvaluacion = value;
-					this.SendPropertyChanged("FechaEvaluacion");
-					this.OnFechaEvaluacionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Evaluacion_EvaluacionAbierta", Storage="_EvaluacionAbiertas", ThisKey="IdEvaluacion", OtherKey="IdEvaluacion")]
-		public EntitySet<EvaluacionAbierta> EvaluacionAbiertas
-		{
-			get
-			{
-				return this._EvaluacionAbiertas;
-			}
-			set
-			{
-				this._EvaluacionAbiertas.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Evaluacion_EvaluacionCompetencia", Storage="_EvaluacionCompetencias", ThisKey="IdEvaluacion", OtherKey="IdEvaluacion")]
-		public EntitySet<EvaluacionCompetencia> EvaluacionCompetencias
-		{
-			get
-			{
-				return this._EvaluacionCompetencias;
-			}
-			set
-			{
-				this._EvaluacionCompetencias.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Cargo_Evaluacion", Storage="_Cargo", ThisKey="IdCargo", OtherKey="IdCargo", IsForeignKey=true)]
-		public Cargo Cargo
-		{
-			get
-			{
-				return this._Cargo.Entity;
-			}
-			set
-			{
-				Cargo previousValue = this._Cargo.Entity;
-				if (((previousValue != value) 
-							|| (this._Cargo.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Cargo.Entity = null;
-						previousValue.Evaluacions.Remove(this);
-					}
-					this._Cargo.Entity = value;
-					if ((value != null))
-					{
-						value.Evaluacions.Add(this);
-						this._IdCargo = value.IdCargo;
-					}
-					else
-					{
-						this._IdCargo = default(int);
-					}
-					this.SendPropertyChanged("Cargo");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoDiagnostico_Evaluacion", Storage="_TipoDiagnostico", ThisKey="IdTipoDiagnostico", OtherKey="IdTipoDiagnostico", IsForeignKey=true)]
-		public TipoDiagnostico TipoDiagnostico
-		{
-			get
-			{
-				return this._TipoDiagnostico.Entity;
-			}
-			set
-			{
-				TipoDiagnostico previousValue = this._TipoDiagnostico.Entity;
-				if (((previousValue != value) 
-							|| (this._TipoDiagnostico.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TipoDiagnostico.Entity = null;
-						previousValue.Evaluacions.Remove(this);
-					}
-					this._TipoDiagnostico.Entity = value;
-					if ((value != null))
-					{
-						value.Evaluacions.Add(this);
-						this._IdTipoDiagnostico = value.IdTipoDiagnostico;
-					}
-					else
-					{
-						this._IdTipoDiagnostico = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("TipoDiagnostico");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoEvaluacion_Evaluacion", Storage="_TipoEvaluacion", ThisKey="IdTipoEvaluacion", OtherKey="IdTipoEvaluacion", IsForeignKey=true)]
-		public TipoEvaluacion TipoEvaluacion
-		{
-			get
-			{
-				return this._TipoEvaluacion.Entity;
-			}
-			set
-			{
-				TipoEvaluacion previousValue = this._TipoEvaluacion.Entity;
-				if (((previousValue != value) 
-							|| (this._TipoEvaluacion.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TipoEvaluacion.Entity = null;
-						previousValue.Evaluacions.Remove(this);
-					}
-					this._TipoEvaluacion.Entity = value;
-					if ((value != null))
-					{
-						value.Evaluacions.Add(this);
-						this._IdTipoEvaluacion = value.IdTipoEvaluacion;
-					}
-					else
-					{
-						this._IdTipoEvaluacion = default(int);
-					}
-					this.SendPropertyChanged("TipoEvaluacion");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Evaluado_Evaluacion", Storage="_Evaluado", ThisKey="IdEvaluado", OtherKey="IdEvaluado", IsForeignKey=true)]
-		public Evaluado Evaluado
-		{
-			get
-			{
-				return this._Evaluado.Entity;
-			}
-			set
-			{
-				Evaluado previousValue = this._Evaluado.Entity;
-				if (((previousValue != value) 
-							|| (this._Evaluado.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Evaluado.Entity = null;
-						previousValue.Evaluacions.Remove(this);
-					}
-					this._Evaluado.Entity = value;
-					if ((value != null))
-					{
-						value.Evaluacions.Add(this);
-						this._IdEvaluado = value.IdEvaluado;
-					}
-					else
-					{
-						this._IdEvaluado = default(int);
-					}
-					this.SendPropertyChanged("Evaluado");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Evaluacion", Storage="_Usuario", ThisKey="IdUsuarioEvaluador", OtherKey="IdUsuario", IsForeignKey=true)]
-		public Usuario Usuario
-		{
-			get
-			{
-				return this._Usuario.Entity;
-			}
-			set
-			{
-				Usuario previousValue = this._Usuario.Entity;
-				if (((previousValue != value) 
-							|| (this._Usuario.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Usuario.Entity = null;
-						previousValue.Evaluacions.Remove(this);
-					}
-					this._Usuario.Entity = value;
-					if ((value != null))
-					{
-						value.Evaluacions.Add(this);
-						this._IdUsuarioEvaluador = value.IdUsuario;
-					}
-					else
-					{
-						this._IdUsuarioEvaluador = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Usuario");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_EvaluacionAbiertas(EvaluacionAbierta entity)
-		{
-			this.SendPropertyChanging();
-			entity.Evaluacion = this;
-		}
-		
-		private void detach_EvaluacionAbiertas(EvaluacionAbierta entity)
-		{
-			this.SendPropertyChanging();
-			entity.Evaluacion = null;
-		}
-		
-		private void attach_EvaluacionCompetencias(EvaluacionCompetencia entity)
-		{
-			this.SendPropertyChanging();
-			entity.Evaluacion = this;
-		}
-		
-		private void detach_EvaluacionCompetencias(EvaluacionCompetencia entity)
-		{
-			this.SendPropertyChanging();
-			entity.Evaluacion = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.EvaluacionAbierta")]
 	public partial class EvaluacionAbierta : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1140,9 +660,9 @@ namespace Althus.Evaluaciones.Core
 		
 		private string _EvaluacionAbierta1;
 		
-		private EntityRef<Evaluacion> _Evaluacion;
-		
 		private EntityRef<TipoEvaluacionAbierta> _TipoEvaluacionAbierta;
+		
+		private EntityRef<Evaluacion> _Evaluacion;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1160,8 +680,8 @@ namespace Althus.Evaluaciones.Core
 		
 		public EvaluacionAbierta()
 		{
-			this._Evaluacion = default(EntityRef<Evaluacion>);
 			this._TipoEvaluacionAbierta = default(EntityRef<TipoEvaluacionAbierta>);
+			this._Evaluacion = default(EntityRef<Evaluacion>);
 			OnCreated();
 		}
 		
@@ -1253,40 +773,6 @@ namespace Althus.Evaluaciones.Core
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Evaluacion_EvaluacionAbierta", Storage="_Evaluacion", ThisKey="IdEvaluacion", OtherKey="IdEvaluacion", IsForeignKey=true)]
-		public Evaluacion Evaluacion
-		{
-			get
-			{
-				return this._Evaluacion.Entity;
-			}
-			set
-			{
-				Evaluacion previousValue = this._Evaluacion.Entity;
-				if (((previousValue != value) 
-							|| (this._Evaluacion.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Evaluacion.Entity = null;
-						previousValue.EvaluacionAbiertas.Remove(this);
-					}
-					this._Evaluacion.Entity = value;
-					if ((value != null))
-					{
-						value.EvaluacionAbiertas.Add(this);
-						this._IdEvaluacion = value.IdEvaluacion;
-					}
-					else
-					{
-						this._IdEvaluacion = default(int);
-					}
-					this.SendPropertyChanged("Evaluacion");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoEvaluacionAbierta_EvaluacionAbierta", Storage="_TipoEvaluacionAbierta", ThisKey="IdTipoEvaluacionAbierta", OtherKey="IdTipoEvaluacionAbierta", IsForeignKey=true)]
 		public TipoEvaluacionAbierta TipoEvaluacionAbierta
 		{
@@ -1317,6 +803,40 @@ namespace Althus.Evaluaciones.Core
 						this._IdTipoEvaluacionAbierta = default(int);
 					}
 					this.SendPropertyChanged("TipoEvaluacionAbierta");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Evaluacion_EvaluacionAbierta", Storage="_Evaluacion", ThisKey="IdEvaluacion", OtherKey="IdEvaluacion", IsForeignKey=true)]
+		public Evaluacion Evaluacion
+		{
+			get
+			{
+				return this._Evaluacion.Entity;
+			}
+			set
+			{
+				Evaluacion previousValue = this._Evaluacion.Entity;
+				if (((previousValue != value) 
+							|| (this._Evaluacion.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Evaluacion.Entity = null;
+						previousValue.EvaluacionAbiertas.Remove(this);
+					}
+					this._Evaluacion.Entity = value;
+					if ((value != null))
+					{
+						value.EvaluacionAbiertas.Add(this);
+						this._IdEvaluacion = value.IdEvaluacion;
+					}
+					else
+					{
+						this._IdEvaluacion = default(int);
+					}
+					this.SendPropertyChanged("Evaluacion");
 				}
 			}
 		}
@@ -3223,6 +2743,676 @@ namespace Althus.Evaluaciones.Core
 		{
 			this.SendPropertyChanging();
 			entity.Empresa = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TipoEstadoEvaluacion")]
+	public partial class TipoEstadoEvaluacion : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _IdTipoEstadoEvaluacion;
+		
+		private string _Nombre;
+		
+		private EntitySet<Evaluacion> _Evaluacions;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdTipoEstadoEvaluacionChanging(int value);
+    partial void OnIdTipoEstadoEvaluacionChanged();
+    partial void OnNombreChanging(string value);
+    partial void OnNombreChanged();
+    #endregion
+		
+		public TipoEstadoEvaluacion()
+		{
+			this._Evaluacions = new EntitySet<Evaluacion>(new Action<Evaluacion>(this.attach_Evaluacions), new Action<Evaluacion>(this.detach_Evaluacions));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdTipoEstadoEvaluacion", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int IdTipoEstadoEvaluacion
+		{
+			get
+			{
+				return this._IdTipoEstadoEvaluacion;
+			}
+			set
+			{
+				if ((this._IdTipoEstadoEvaluacion != value))
+				{
+					this.OnIdTipoEstadoEvaluacionChanging(value);
+					this.SendPropertyChanging();
+					this._IdTipoEstadoEvaluacion = value;
+					this.SendPropertyChanged("IdTipoEstadoEvaluacion");
+					this.OnIdTipoEstadoEvaluacionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nombre", DbType="NVarChar(63) NOT NULL", CanBeNull=false)]
+		public string Nombre
+		{
+			get
+			{
+				return this._Nombre;
+			}
+			set
+			{
+				if ((this._Nombre != value))
+				{
+					this.OnNombreChanging(value);
+					this.SendPropertyChanging();
+					this._Nombre = value;
+					this.SendPropertyChanged("Nombre");
+					this.OnNombreChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoEstadoEvaluacion_Evaluacion", Storage="_Evaluacions", ThisKey="IdTipoEstadoEvaluacion", OtherKey="IdTipoEstadoEvaluacion")]
+		public EntitySet<Evaluacion> Evaluacions
+		{
+			get
+			{
+				return this._Evaluacions;
+			}
+			set
+			{
+				this._Evaluacions.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Evaluacions(Evaluacion entity)
+		{
+			this.SendPropertyChanging();
+			entity.TipoEstadoEvaluacion = this;
+		}
+		
+		private void detach_Evaluacions(Evaluacion entity)
+		{
+			this.SendPropertyChanging();
+			entity.TipoEstadoEvaluacion = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Evaluacion")]
+	public partial class Evaluacion : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _IdEvaluacion;
+		
+		private int _IdTipoEstadoEvaluacion;
+		
+		private int _IdTipoEvaluacion;
+		
+		private int _IdCargo;
+		
+		private int _IdEvaluado;
+		
+		private System.Nullable<int> _IdTipoDiagnostico;
+		
+		private System.Nullable<int> _IdUsuarioEvaluador;
+		
+		private System.Nullable<double> _PorcetajeIdioneidad;
+		
+		private System.DateTime _FechaEvaluacion;
+		
+		private EntitySet<EvaluacionAbierta> _EvaluacionAbiertas;
+		
+		private EntitySet<EvaluacionCompetencia> _EvaluacionCompetencias;
+		
+		private EntityRef<Cargo> _Cargo;
+		
+		private EntityRef<Evaluado> _Evaluado;
+		
+		private EntityRef<TipoDiagnostico> _TipoDiagnostico;
+		
+		private EntityRef<TipoEstadoEvaluacion> _TipoEstadoEvaluacion;
+		
+		private EntityRef<TipoEvaluacion> _TipoEvaluacion;
+		
+		private EntityRef<Usuario> _Usuario;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdEvaluacionChanging(int value);
+    partial void OnIdEvaluacionChanged();
+    partial void OnIdTipoEstadoEvaluacionChanging(int value);
+    partial void OnIdTipoEstadoEvaluacionChanged();
+    partial void OnIdTipoEvaluacionChanging(int value);
+    partial void OnIdTipoEvaluacionChanged();
+    partial void OnIdCargoChanging(int value);
+    partial void OnIdCargoChanged();
+    partial void OnIdEvaluadoChanging(int value);
+    partial void OnIdEvaluadoChanged();
+    partial void OnIdTipoDiagnosticoChanging(System.Nullable<int> value);
+    partial void OnIdTipoDiagnosticoChanged();
+    partial void OnIdUsuarioEvaluadorChanging(System.Nullable<int> value);
+    partial void OnIdUsuarioEvaluadorChanged();
+    partial void OnPorcetajeIdioneidadChanging(System.Nullable<double> value);
+    partial void OnPorcetajeIdioneidadChanged();
+    partial void OnFechaEvaluacionChanging(System.DateTime value);
+    partial void OnFechaEvaluacionChanged();
+    #endregion
+		
+		public Evaluacion()
+		{
+			this._EvaluacionAbiertas = new EntitySet<EvaluacionAbierta>(new Action<EvaluacionAbierta>(this.attach_EvaluacionAbiertas), new Action<EvaluacionAbierta>(this.detach_EvaluacionAbiertas));
+			this._EvaluacionCompetencias = new EntitySet<EvaluacionCompetencia>(new Action<EvaluacionCompetencia>(this.attach_EvaluacionCompetencias), new Action<EvaluacionCompetencia>(this.detach_EvaluacionCompetencias));
+			this._Cargo = default(EntityRef<Cargo>);
+			this._Evaluado = default(EntityRef<Evaluado>);
+			this._TipoDiagnostico = default(EntityRef<TipoDiagnostico>);
+			this._TipoEstadoEvaluacion = default(EntityRef<TipoEstadoEvaluacion>);
+			this._TipoEvaluacion = default(EntityRef<TipoEvaluacion>);
+			this._Usuario = default(EntityRef<Usuario>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEvaluacion", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int IdEvaluacion
+		{
+			get
+			{
+				return this._IdEvaluacion;
+			}
+			set
+			{
+				if ((this._IdEvaluacion != value))
+				{
+					this.OnIdEvaluacionChanging(value);
+					this.SendPropertyChanging();
+					this._IdEvaluacion = value;
+					this.SendPropertyChanged("IdEvaluacion");
+					this.OnIdEvaluacionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdTipoEstadoEvaluacion", DbType="Int NOT NULL")]
+		public int IdTipoEstadoEvaluacion
+		{
+			get
+			{
+				return this._IdTipoEstadoEvaluacion;
+			}
+			set
+			{
+				if ((this._IdTipoEstadoEvaluacion != value))
+				{
+					if (this._TipoEstadoEvaluacion.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdTipoEstadoEvaluacionChanging(value);
+					this.SendPropertyChanging();
+					this._IdTipoEstadoEvaluacion = value;
+					this.SendPropertyChanged("IdTipoEstadoEvaluacion");
+					this.OnIdTipoEstadoEvaluacionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdTipoEvaluacion", DbType="Int NOT NULL")]
+		public int IdTipoEvaluacion
+		{
+			get
+			{
+				return this._IdTipoEvaluacion;
+			}
+			set
+			{
+				if ((this._IdTipoEvaluacion != value))
+				{
+					if (this._TipoEvaluacion.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdTipoEvaluacionChanging(value);
+					this.SendPropertyChanging();
+					this._IdTipoEvaluacion = value;
+					this.SendPropertyChanged("IdTipoEvaluacion");
+					this.OnIdTipoEvaluacionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdCargo", DbType="Int NOT NULL")]
+		public int IdCargo
+		{
+			get
+			{
+				return this._IdCargo;
+			}
+			set
+			{
+				if ((this._IdCargo != value))
+				{
+					if (this._Cargo.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdCargoChanging(value);
+					this.SendPropertyChanging();
+					this._IdCargo = value;
+					this.SendPropertyChanged("IdCargo");
+					this.OnIdCargoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEvaluado", DbType="Int NOT NULL")]
+		public int IdEvaluado
+		{
+			get
+			{
+				return this._IdEvaluado;
+			}
+			set
+			{
+				if ((this._IdEvaluado != value))
+				{
+					if (this._Evaluado.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdEvaluadoChanging(value);
+					this.SendPropertyChanging();
+					this._IdEvaluado = value;
+					this.SendPropertyChanged("IdEvaluado");
+					this.OnIdEvaluadoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdTipoDiagnostico", DbType="Int")]
+		public System.Nullable<int> IdTipoDiagnostico
+		{
+			get
+			{
+				return this._IdTipoDiagnostico;
+			}
+			set
+			{
+				if ((this._IdTipoDiagnostico != value))
+				{
+					if (this._TipoDiagnostico.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdTipoDiagnosticoChanging(value);
+					this.SendPropertyChanging();
+					this._IdTipoDiagnostico = value;
+					this.SendPropertyChanged("IdTipoDiagnostico");
+					this.OnIdTipoDiagnosticoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUsuarioEvaluador", DbType="Int")]
+		public System.Nullable<int> IdUsuarioEvaluador
+		{
+			get
+			{
+				return this._IdUsuarioEvaluador;
+			}
+			set
+			{
+				if ((this._IdUsuarioEvaluador != value))
+				{
+					if (this._Usuario.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdUsuarioEvaluadorChanging(value);
+					this.SendPropertyChanging();
+					this._IdUsuarioEvaluador = value;
+					this.SendPropertyChanged("IdUsuarioEvaluador");
+					this.OnIdUsuarioEvaluadorChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PorcetajeIdioneidad", DbType="Float")]
+		public System.Nullable<double> PorcetajeIdioneidad
+		{
+			get
+			{
+				return this._PorcetajeIdioneidad;
+			}
+			set
+			{
+				if ((this._PorcetajeIdioneidad != value))
+				{
+					this.OnPorcetajeIdioneidadChanging(value);
+					this.SendPropertyChanging();
+					this._PorcetajeIdioneidad = value;
+					this.SendPropertyChanged("PorcetajeIdioneidad");
+					this.OnPorcetajeIdioneidadChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FechaEvaluacion", DbType="Date NOT NULL")]
+		public System.DateTime FechaEvaluacion
+		{
+			get
+			{
+				return this._FechaEvaluacion;
+			}
+			set
+			{
+				if ((this._FechaEvaluacion != value))
+				{
+					this.OnFechaEvaluacionChanging(value);
+					this.SendPropertyChanging();
+					this._FechaEvaluacion = value;
+					this.SendPropertyChanged("FechaEvaluacion");
+					this.OnFechaEvaluacionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Evaluacion_EvaluacionAbierta", Storage="_EvaluacionAbiertas", ThisKey="IdEvaluacion", OtherKey="IdEvaluacion")]
+		public EntitySet<EvaluacionAbierta> EvaluacionAbiertas
+		{
+			get
+			{
+				return this._EvaluacionAbiertas;
+			}
+			set
+			{
+				this._EvaluacionAbiertas.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Evaluacion_EvaluacionCompetencia", Storage="_EvaluacionCompetencias", ThisKey="IdEvaluacion", OtherKey="IdEvaluacion")]
+		public EntitySet<EvaluacionCompetencia> EvaluacionCompetencias
+		{
+			get
+			{
+				return this._EvaluacionCompetencias;
+			}
+			set
+			{
+				this._EvaluacionCompetencias.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Cargo_Evaluacion", Storage="_Cargo", ThisKey="IdCargo", OtherKey="IdCargo", IsForeignKey=true)]
+		public Cargo Cargo
+		{
+			get
+			{
+				return this._Cargo.Entity;
+			}
+			set
+			{
+				Cargo previousValue = this._Cargo.Entity;
+				if (((previousValue != value) 
+							|| (this._Cargo.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Cargo.Entity = null;
+						previousValue.Evaluacions.Remove(this);
+					}
+					this._Cargo.Entity = value;
+					if ((value != null))
+					{
+						value.Evaluacions.Add(this);
+						this._IdCargo = value.IdCargo;
+					}
+					else
+					{
+						this._IdCargo = default(int);
+					}
+					this.SendPropertyChanged("Cargo");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Evaluado_Evaluacion", Storage="_Evaluado", ThisKey="IdEvaluado", OtherKey="IdEvaluado", IsForeignKey=true)]
+		public Evaluado Evaluado
+		{
+			get
+			{
+				return this._Evaluado.Entity;
+			}
+			set
+			{
+				Evaluado previousValue = this._Evaluado.Entity;
+				if (((previousValue != value) 
+							|| (this._Evaluado.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Evaluado.Entity = null;
+						previousValue.Evaluacions.Remove(this);
+					}
+					this._Evaluado.Entity = value;
+					if ((value != null))
+					{
+						value.Evaluacions.Add(this);
+						this._IdEvaluado = value.IdEvaluado;
+					}
+					else
+					{
+						this._IdEvaluado = default(int);
+					}
+					this.SendPropertyChanged("Evaluado");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoDiagnostico_Evaluacion", Storage="_TipoDiagnostico", ThisKey="IdTipoDiagnostico", OtherKey="IdTipoDiagnostico", IsForeignKey=true)]
+		public TipoDiagnostico TipoDiagnostico
+		{
+			get
+			{
+				return this._TipoDiagnostico.Entity;
+			}
+			set
+			{
+				TipoDiagnostico previousValue = this._TipoDiagnostico.Entity;
+				if (((previousValue != value) 
+							|| (this._TipoDiagnostico.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TipoDiagnostico.Entity = null;
+						previousValue.Evaluacions.Remove(this);
+					}
+					this._TipoDiagnostico.Entity = value;
+					if ((value != null))
+					{
+						value.Evaluacions.Add(this);
+						this._IdTipoDiagnostico = value.IdTipoDiagnostico;
+					}
+					else
+					{
+						this._IdTipoDiagnostico = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TipoDiagnostico");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoEstadoEvaluacion_Evaluacion", Storage="_TipoEstadoEvaluacion", ThisKey="IdTipoEstadoEvaluacion", OtherKey="IdTipoEstadoEvaluacion", IsForeignKey=true)]
+		public TipoEstadoEvaluacion TipoEstadoEvaluacion
+		{
+			get
+			{
+				return this._TipoEstadoEvaluacion.Entity;
+			}
+			set
+			{
+				TipoEstadoEvaluacion previousValue = this._TipoEstadoEvaluacion.Entity;
+				if (((previousValue != value) 
+							|| (this._TipoEstadoEvaluacion.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TipoEstadoEvaluacion.Entity = null;
+						previousValue.Evaluacions.Remove(this);
+					}
+					this._TipoEstadoEvaluacion.Entity = value;
+					if ((value != null))
+					{
+						value.Evaluacions.Add(this);
+						this._IdTipoEstadoEvaluacion = value.IdTipoEstadoEvaluacion;
+					}
+					else
+					{
+						this._IdTipoEstadoEvaluacion = default(int);
+					}
+					this.SendPropertyChanged("TipoEstadoEvaluacion");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TipoEvaluacion_Evaluacion", Storage="_TipoEvaluacion", ThisKey="IdTipoEvaluacion", OtherKey="IdTipoEvaluacion", IsForeignKey=true)]
+		public TipoEvaluacion TipoEvaluacion
+		{
+			get
+			{
+				return this._TipoEvaluacion.Entity;
+			}
+			set
+			{
+				TipoEvaluacion previousValue = this._TipoEvaluacion.Entity;
+				if (((previousValue != value) 
+							|| (this._TipoEvaluacion.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TipoEvaluacion.Entity = null;
+						previousValue.Evaluacions.Remove(this);
+					}
+					this._TipoEvaluacion.Entity = value;
+					if ((value != null))
+					{
+						value.Evaluacions.Add(this);
+						this._IdTipoEvaluacion = value.IdTipoEvaluacion;
+					}
+					else
+					{
+						this._IdTipoEvaluacion = default(int);
+					}
+					this.SendPropertyChanged("TipoEvaluacion");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Evaluacion", Storage="_Usuario", ThisKey="IdUsuarioEvaluador", OtherKey="IdUsuario", IsForeignKey=true)]
+		public Usuario Usuario
+		{
+			get
+			{
+				return this._Usuario.Entity;
+			}
+			set
+			{
+				Usuario previousValue = this._Usuario.Entity;
+				if (((previousValue != value) 
+							|| (this._Usuario.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Usuario.Entity = null;
+						previousValue.Evaluacions.Remove(this);
+					}
+					this._Usuario.Entity = value;
+					if ((value != null))
+					{
+						value.Evaluacions.Add(this);
+						this._IdUsuarioEvaluador = value.IdUsuario;
+					}
+					else
+					{
+						this._IdUsuarioEvaluador = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Usuario");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_EvaluacionAbiertas(EvaluacionAbierta entity)
+		{
+			this.SendPropertyChanging();
+			entity.Evaluacion = this;
+		}
+		
+		private void detach_EvaluacionAbiertas(EvaluacionAbierta entity)
+		{
+			this.SendPropertyChanging();
+			entity.Evaluacion = null;
+		}
+		
+		private void attach_EvaluacionCompetencias(EvaluacionCompetencia entity)
+		{
+			this.SendPropertyChanging();
+			entity.Evaluacion = this;
+		}
+		
+		private void detach_EvaluacionCompetencias(EvaluacionCompetencia entity)
+		{
+			this.SendPropertyChanging();
+			entity.Evaluacion = null;
 		}
 	}
 }

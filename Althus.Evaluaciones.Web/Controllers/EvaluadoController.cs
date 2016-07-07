@@ -55,6 +55,7 @@ namespace Althus.Evaluaciones.Web.Controllers
                         IdEvaluado = evaluado.IdEvaluado,
                         IdUsuarioEvaluador = IdUsuarioEvaluador,
                         FechaEvaluacion = DateTime.Now,
+                        IdTipoEstadoEvaluacion = TipoEstadoEvaluacion.Creada,
                     };
 
                     db.Evaluacions.InsertOnSubmit(evaluacion);
@@ -90,6 +91,7 @@ namespace Althus.Evaluaciones.Web.Controllers
                     IdEvaluado = evaluado.IdEvaluado,
                     IdUsuarioEvaluador = IdUsuarioEvaluador,
                     FechaEvaluacion = DateTime.Now,
+                    IdTipoEstadoEvaluacion = TipoEstadoEvaluacion.Creada,
                 };
 
                 db.Evaluacions.InsertOnSubmit(evaluacion);
