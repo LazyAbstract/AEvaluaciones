@@ -24,6 +24,7 @@ namespace Althus.Evaluaciones.Web.Helpers
             // PDF document size      
             Rectangle page = document.PageSize;
 
+            
             // create two column table
             PdfPTable head = new PdfPTable(1);
             head.TotalWidth = page.Width;
@@ -42,12 +43,12 @@ namespace Althus.Evaluaciones.Web.Helpers
 
             // add the header text
             c = new PdfPCell(new Phrase(
-              "Evaluación de Competencias",
+              "Evaluación pSICOLABORAL",
               FontFactory.GetFont("Arial", 14, Font.BOLD, new BaseColor(0, 102, 0))
             ));
             c.Border = PdfPCell.NO_BORDER;
             c.VerticalAlignment = Element.ALIGN_TOP;
-            c.HorizontalAlignment = Element.ALIGN_RIGHT;
+            c.HorizontalAlignment = Element.ALIGN_LEFT;
             c.FixedHeight = 20;
             c.PaddingRight = 40;
             head.AddCell(c);

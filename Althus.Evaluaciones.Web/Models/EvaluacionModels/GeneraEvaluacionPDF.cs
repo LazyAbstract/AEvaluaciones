@@ -15,10 +15,10 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
         private Evaluacion _Evaluacion { get; set; }
         private byte[] _File { get; set; }
         private byte[] _imageEmpresa { get; set; }
-        private Font headerFont = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.WHITE);
-        private Font normalFont = FontFactory.GetFont("Arial", 12, BaseColor.BLACK);
-        private Font Title1Font = FontFactory.GetFont("Arial", 16, Font.BOLD, BaseColor.BLACK);
-        private Font Title2Font = FontFactory.GetFont("Arial", 14, Font.BOLD, BaseColor.BLACK);
+        private Font headerFont = FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.WHITE);
+        private Font normalFont = FontFactory.GetFont("Arial", 10, BaseColor.BLACK);
+        private Font Title1Font = FontFactory.GetFont("Arial", 14, Font.BOLD, BaseColor.BLACK);
+        private Font Title2Font = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.BLACK);
 
         public GeneraEvaluacionPDF(Evaluacion evaluacion, byte[] imageEmpresa)
         {
@@ -30,6 +30,10 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
         private void GenerateFile()
         {
             Rectangle rectangle = new Rectangle(PageSize.LETTER);
+            rectangle.Top = rectangle.Top + 20;
+            rectangle.Bottom = rectangle.Bottom - 20;
+            rectangle.Left = rectangle.Left + 20;
+            rectangle.Right = rectangle.Right - 20;
            
             using (MemoryStream ms = new MemoryStream())
             using (Document document = new Document(rectangle))
@@ -41,7 +45,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 document.AddKeywords("Evaluación, Althus, Partners");
                 document.AddCreator("Plataforma de Evaluación");
                 document.AddAuthor("Plataforma de Evaluación");
-                document.SetMargins(document.LeftMargin, document.RightMargin, document.TopMargin + 50, document.BottomMargin);
+                document.SetMargins(document.LeftMargin, document.RightMargin, document.TopMargin + 100, document.BottomMargin);
                 //Header
                 // the image we're using for the page header    
                 if (_imageEmpresa != null)
