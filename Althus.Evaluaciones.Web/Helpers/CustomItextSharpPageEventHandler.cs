@@ -70,6 +70,27 @@ namespace Althus.Evaluaciones.Web.Helpers
               page.Height - cellHeight + head.TotalHeight,
               writer.DirectContent
             );
+
+            // Footer 
+            PdfPTable foot = new PdfPTable(1);
+            foot.TotalWidth = page.Width - (document.LeftMargin + document.RightMargin);
+            foot.SpacingBefore = 10;
+            c = new PdfPCell(new Phrase(
+              document.PageNumber.ToString(),
+              FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK)
+            ));
+            c.Border = PdfPCell.TOP_BORDER;
+            c.VerticalAlignment = Element.ALIGN_MIDDLE;
+            c.HorizontalAlignment = Element.ALIGN_CENTER;
+            c.FixedHeight = 20;
+            foot.AddCell(c);
+            foot.WriteSelectedRows(
+              0, -1,  // first/last row; -1 flags all write all rows
+              document.LeftMargin,      // left offset
+                // ** bottom** yPos of the table
+               document.Bottom-foot.TotalHeight,
+              writer.DirectContent
+            );
         }
     }
 }
