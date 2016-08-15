@@ -27,37 +27,45 @@ namespace Althus.Evaluaciones.Web.Helpers
             
             // create two column table
             PdfPTable head = new PdfPTable(1);
-            head.TotalWidth = page.Width;
-            head.PaddingTop = 20;
+            head.TotalWidth = page.Width-(document.LeftMargin+document.RightMargin);
             head.SpacingAfter = 10;
 
             // add image; PdfPCell() overload sizes image to fit cell
             ImageHeader.ScaleAbsoluteHeight(cellHeight);
-            ImageHeader.ScaleAbsoluteWidth(page.Width);
+            ImageHeader.ScaleAbsoluteWidth(page.Width - (document.LeftMargin + document.RightMargin));
             PdfPCell c = new PdfPCell(ImageHeader, true);
             c.HorizontalAlignment = Element.ALIGN_CENTER;
-            c.FixedHeight = cellHeight-20;
+            c.VerticalAlignment = Element.ALIGN_BOTTOM;
+            c.FixedHeight = cellHeight-35;
             c.Border = PdfPCell.NO_BORDER;
-            c.PaddingLeft = 40;
             head.AddCell(c);
 
             // add the header text
             c = new PdfPCell(new Phrase(
-              "Evaluación pSICOLABORAL",
-              FontFactory.GetFont("Arial", 14, Font.BOLD, new BaseColor(0, 102, 0))
+              "Evaluación PSICOLABORAL",
+              FontFactory.GetFont("Arial", 12, Font.BOLD, new BaseColor(0, 102, 0))
             ));
             c.Border = PdfPCell.NO_BORDER;
             c.VerticalAlignment = Element.ALIGN_TOP;
             c.HorizontalAlignment = Element.ALIGN_LEFT;
             c.FixedHeight = 20;
-            c.PaddingRight = 40;
+            head.AddCell(c);
+
+            c = new PdfPCell(new Phrase(
+              "Confidencial",
+              FontFactory.GetFont("Arial", 10, Font.BOLD, new BaseColor(0, 102, 0))
+            ));
+            c.Border = PdfPCell.BOTTOM_BORDER;
+            c.VerticalAlignment = Element.ALIGN_TOP;
+            c.HorizontalAlignment = Element.ALIGN_LEFT;
+            c.FixedHeight = 15;
             head.AddCell(c);
 
             // since the table header is implemented using a PdfPTable, we call
             // WriteSelectedRows(), which requires absolute positions!
             head.WriteSelectedRows(
               0, -1,  // first/last row; -1 flags all write all rows
-              0,      // left offset
+              document.LeftMargin,      // left offset
                 // ** bottom** yPos of the table
               page.Height - cellHeight + head.TotalHeight,
               writer.DirectContent
