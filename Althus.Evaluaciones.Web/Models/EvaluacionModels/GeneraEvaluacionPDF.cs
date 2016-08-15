@@ -202,7 +202,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
             cel.VerticalAlignment = Rectangle.ALIGN_MIDDLE;
             cel.HorizontalAlignment = Rectangle.ALIGN_CENTER;
             cel.BorderWidth = 0.5f;
-            cel.Padding = 5;
+            cel.Padding = 5;            
             return cel;
         }
 
@@ -225,10 +225,11 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
             PdfPCell cel = new PdfPCell(frase);
             cel.BorderColor = BaseColor.LIGHT_GRAY;
             cel.VerticalAlignment = Rectangle.ALIGN_MIDDLE;
+            cel.HorizontalAlignment = Element.ALIGN_JUSTIFIED;
             cel.BorderWidth = 0.5f;
             cel.Padding = 5;
             return cel;
-        }
+        }       
 
         private PdfPCell GetNormalCellCenter(string texto)
         {
