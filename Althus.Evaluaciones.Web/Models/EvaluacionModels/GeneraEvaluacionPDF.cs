@@ -18,6 +18,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
         private Font headerFont = FontFactory.GetFont("Arial", 9, Font.BOLD, BaseColor.WHITE);
         private Font normalFont = FontFactory.GetFont("Arial", 9, BaseColor.BLACK);
         private Font Title1Font = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.BLACK);
+        private Font Title1FontUnderline = FontFactory.GetFont("Arial", 12, Font.UNDERLINE, BaseColor.BLACK);
         private Font Title2Font = FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK);
 
         public GeneraEvaluacionPDF(Evaluacion evaluacion, byte[] imageEmpresa)
@@ -40,7 +41,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 document.AddKeywords("Evaluación, Althus, Partners");
                 document.AddCreator("Plataforma de Evaluación");
                 document.AddAuthor("Plataforma de Evaluación");
-                document.SetMargins(document.LeftMargin+20, document.RightMargin+20, document.TopMargin+65, document.BottomMargin);
+                document.SetMargins(document.LeftMargin+20, document.RightMargin+20, document.TopMargin+65, document.BottomMargin+20);
                 //Header
                 // the image we're using for the page header    
                 if (_imageEmpresa != null)
@@ -87,16 +88,22 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 //Resumen Estudios y Trayectoria Laboral
                 PdfPTable secondTable = GetPdfTable(new float[] { 1 });
                 secondTable.AddCell(GetHeaderCell("Resumen Estudios y Trayectoria Laboral"));
-                secondTable.AddCell(GetNormalCell(_Evaluacion.EvaluacionAbiertas
+                PdfPCell celdaContenido = GetNormalCell(_Evaluacion.EvaluacionAbiertas
                     .FirstOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ResumenEstudiosTrayectoriaLaboral)
-                    .EvaluacionAbierta1));
+                    .EvaluacionAbierta1);
+                celdaContenido.PaddingTop = 20f;
+                celdaContenido.PaddingBottom = 20f;
+                secondTable.AddCell(celdaContenido);
                 document.Add(secondTable);
                 //Motivación
                 PdfPTable thirdTable = GetPdfTable(new float[] { 1 });
                 thirdTable.AddCell(GetHeaderCell("Motivación Por Cargo"));
-                thirdTable.AddCell(GetNormalCell(_Evaluacion.EvaluacionAbiertas
+                celdaContenido = GetNormalCell(_Evaluacion.EvaluacionAbiertas
                     .FirstOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.MotivacionCargo)
-                    .EvaluacionAbierta1));
+                    .EvaluacionAbierta1);
+                celdaContenido.PaddingTop = 20f;
+                celdaContenido.PaddingBottom = 20f;
+                thirdTable.AddCell(celdaContenido);
                 document.Add(thirdTable);
                 //GRÁFICO DE COMPETENCIAS:
                 document.NewPage();
@@ -132,28 +139,36 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 // Conclusiones
                 PdfPTable fifthTable = GetPdfTable(new float[] { 1 });
                 fifthTable.AddCell(GetHeaderCell("Conclusión y Sugerencias"));
+                fifthTable.KeepTogether = true;
                 fifthTable.AddCell(GetNormalCell(_Evaluacion.EvaluacionAbiertas
                     .FirstOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ConclusionSugerencias)
                     .EvaluacionAbierta1));
                 document.Add(fifthTable);
 
-                // Conclusiones
+                // Diagnóstico
                 PdfPTable sixthTable = GetPdfTable(new float[] { 1 });
+                sixthTable.KeepTogether = true;
                 sixthTable.AddCell(GetHeaderCell("Diagnóstico Psicolaboral"));
                 sixthTable.AddCell(GetNormalCell(_Evaluacion.TipoDiagnostico.TipoDiagnostico1));
                 document.Add(sixthTable);
 
                 //GLosario
                 document.NewPage();
-                document.Add(new Paragraph("CATEGORÍAS DE EVALUACIÓN PARA SELECCIÓN", Title1Font));
-                document.Add(new Paragraph("RECOMENDABLE:", Title2Font));
-                document.Add(new Paragraph("El postulante cumple cabalmente todas las exigencias y presenta un potencial de nivel sobresaliente.", normalFont));
-                document.Add(new Paragraph("ADECUADO:", Title2Font));
-                document.Add(new Paragraph("Satisface las condiciones exigidas presentando un nivel de potencial adecuado.", normalFont));
-                document.Add(new Paragraph("ADECUADO CON OBSERVACIONES:", Title2Font));
-                document.Add(new Paragraph("Cumple con condiciones básicas para el cargo, presentando debilidades específicas que pueden evolucionar positivamente.", normalFont));
-                document.Add(new Paragraph("NO RECOMENDABLE:", Title2Font));
-                document.Add(new Paragraph("Satisface algunas condiciones, pero presenta debilidades significativas, características intelectuales, de personalidad o motivacionales que limitarían su nivel de desempeño.", normalFont));
+                
+                document.Add(new Paragraph("CATEGORÍAS DE EVALUACIÓN PARA SELECCIÓN", Title1FontUnderline)
+                { 
+                    Alignment = Rectangle.ALIGN_CENTER, 
+                    SpacingBefore=10f, 
+                    SpacingAfter=10f 
+                });
+                document.Add(new Paragraph("RECOMENDABLE:", Title2Font) { SpacingBefore = 10f });
+                document.Add(new Paragraph("El postulante cumple cabalmente todas las exigencias y presenta un potencial de nivel sobresaliente.", normalFont) { Alignment = Rectangle.ALIGN_JUSTIFIED });
+                document.Add(new Paragraph("ADECUADO:", Title2Font) { SpacingBefore = 10f });
+                document.Add(new Paragraph("Satisface las condiciones exigidas presentando un nivel de potencial adecuado.", normalFont) { Alignment = Rectangle.ALIGN_JUSTIFIED });
+                document.Add(new Paragraph("ADECUADO CON OBSERVACIONES:", Title2Font) { SpacingBefore = 10f });
+                document.Add(new Paragraph("Cumple con condiciones básicas para el cargo, presentando debilidades específicas que pueden evolucionar positivamente.", normalFont) { Alignment = Rectangle.ALIGN_JUSTIFIED });
+                document.Add(new Paragraph("NO RECOMENDABLE:", Title2Font) { SpacingBefore=10f});
+                document.Add(new Paragraph("Satisface algunas condiciones, pero presenta debilidades significativas, características intelectuales, de personalidad o motivacionales que limitarían su nivel de desempeño.", normalFont) { Alignment = Rectangle.ALIGN_JUSTIFIED });
 
                 //Exportar archivo                                    
                 document.Close();
@@ -209,6 +224,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
         private PdfPCell GetHeaderLeftCellCenter(string texto)
         {
             Phrase frase = new Phrase(texto ?? String.Empty, headerFont);
+            frase.MultipliedLeading = 2f;
             PdfPCell cel = new PdfPCell(frase);
             cel.BackgroundColor = new BaseColor(51, 153, 51);
             cel.BorderColor = BaseColor.LIGHT_GRAY;
@@ -222,10 +238,11 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
         private PdfPCell GetNormalCell(string texto)
         {
             Phrase frase = new Phrase(texto ?? String.Empty, normalFont);
+            frase.SetLeading(0.0f, 2.0f);
             PdfPCell cel = new PdfPCell(frase);
             cel.BorderColor = BaseColor.LIGHT_GRAY;
             cel.VerticalAlignment = Rectangle.ALIGN_MIDDLE;
-            cel.HorizontalAlignment = Element.ALIGN_JUSTIFIED;
+            cel.HorizontalAlignment = Rectangle.ALIGN_JUSTIFIED;
             cel.BorderWidth = 0.5f;
             cel.Padding = 5;
             return cel;
@@ -234,6 +251,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
         private PdfPCell GetNormalCellCenter(string texto)
         {
             Phrase frase = new Phrase(texto ?? String.Empty, normalFont);
+            frase.SetLeading(0.0f, 2.0f);
             PdfPCell cel = new PdfPCell(frase);
             cel.BorderColor = BaseColor.LIGHT_GRAY;
             cel.VerticalAlignment = Rectangle.ALIGN_MIDDLE;
