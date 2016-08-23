@@ -34,7 +34,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 serieA.Points.DataBindXY(y,xa);
                 serieA.ChartType = SeriesChartType.Bar;
                 serieA.ChartArea = "Eval";
-                serieA.Color = System.Drawing.ColorTranslator.FromHtml("#4F81BD");
+                serieA.Color = System.Drawing.ColorTranslator.FromHtml("#026702");
                 serieA.IsVisibleInLegend = true;
                 serieA.Name = "Valor Esperado";
                 chart.Series.Add(serieA);
@@ -42,7 +42,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 serieB.Points.DataBindY(xb);
                 serieB.ChartType = SeriesChartType.Bar;
                 serieB.ChartArea = "Eval";
-                serieB.Color = System.Drawing.ColorTranslator.FromHtml("#B7CCE4");
+                serieB.Color = System.Drawing.ColorTranslator.FromHtml("#11B411");
                 serieB.IsVisibleInLegend = true;
                 serieB.Name = "Valor Obtenido";
                 chart.Series.Add(serieB);
