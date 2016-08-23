@@ -17,6 +17,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
         private byte[] _imageEmpresa { get; set; }
         private Font headerFont = FontFactory.GetFont("Arial", 9, Font.BOLD, BaseColor.WHITE);
         private Font normalFont = FontFactory.GetFont("Arial", 9, BaseColor.BLACK);
+        private Font diagnosticoFont = FontFactory.GetFont("Arial", 12, BaseColor.BLACK);
         private Font Title1Font = FontFactory.GetFont("Arial", 12, Font.BOLD, BaseColor.BLACK);
         private Font Title1FontUnderline = FontFactory.GetFont("Arial", 12, Font.UNDERLINE, BaseColor.BLACK);
         private Font Title2Font = FontFactory.GetFont("Arial", 10, Font.BOLD, BaseColor.BLACK);
@@ -88,21 +89,19 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 //Resumen Estudios y Trayectoria Laboral
                 PdfPTable secondTable = GetPdfTable(new float[] { 1 });
                 secondTable.AddCell(GetHeaderCell("Resumen Estudios y Trayectoria Laboral"));
-                PdfPCell celdaContenido = GetNormalCell(_Evaluacion.EvaluacionAbiertas
+                PdfPCell celdaContenido = GetNormalCellRA(_Evaluacion.EvaluacionAbiertas
                     .FirstOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ResumenEstudiosTrayectoriaLaboral)
                     .EvaluacionAbierta1);
-                celdaContenido.PaddingTop = 20f;
-                celdaContenido.PaddingBottom = 20f;
+                //celdaContenido.PaddingTop = 10f;
+                //celdaContenido.PaddingBottom = 10f;
                 secondTable.AddCell(celdaContenido);
                 document.Add(secondTable);
                 //Motivación
                 PdfPTable thirdTable = GetPdfTable(new float[] { 1 });
                 thirdTable.AddCell(GetHeaderCell("Motivación Por Cargo"));
-                celdaContenido = GetNormalCell(_Evaluacion.EvaluacionAbiertas
+                celdaContenido = GetNormalCellRA(_Evaluacion.EvaluacionAbiertas
                     .FirstOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.MotivacionCargo)
                     .EvaluacionAbierta1);
-                celdaContenido.PaddingTop = 20f;
-                celdaContenido.PaddingBottom = 20f;
                 thirdTable.AddCell(celdaContenido);
                 document.Add(thirdTable);
                 //GRÁFICO DE COMPETENCIAS:
@@ -140,7 +139,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 PdfPTable fifthTable = GetPdfTable(new float[] { 1 });
                 fifthTable.AddCell(GetHeaderCell("Conclusión y Sugerencias"));
                 fifthTable.KeepTogether = true;
-                fifthTable.AddCell(GetNormalCell(_Evaluacion.EvaluacionAbiertas
+                fifthTable.AddCell(GetNormalCellRA(_Evaluacion.EvaluacionAbiertas
                     .FirstOrDefault(x => x.IdTipoEvaluacionAbierta == TipoEvaluacionAbierta.ConclusionSugerencias)
                     .EvaluacionAbierta1));
                 document.Add(fifthTable);
@@ -149,7 +148,7 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
                 PdfPTable sixthTable = GetPdfTable(new float[] { 1 });
                 sixthTable.KeepTogether = true;
                 sixthTable.AddCell(GetHeaderCell("Diagnóstico Psicolaboral"));
-                sixthTable.AddCell(GetNormalCell(_Evaluacion.TipoDiagnostico.TipoDiagnostico1));
+                sixthTable.AddCell(GetDiagnosticoCell(_Evaluacion.TipoDiagnostico.TipoDiagnostico1));
                 document.Add(sixthTable);
 
                 //GLosario
@@ -217,6 +216,18 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
             cel.VerticalAlignment = Rectangle.ALIGN_MIDDLE;
             cel.HorizontalAlignment = Rectangle.ALIGN_CENTER;
             cel.BorderWidth = 0.5f;
+            cel.Padding = 5;            
+            return cel;
+        }
+
+        private PdfPCell GetDiagnosticoCell(string texto)
+        {
+            Phrase frase = new Phrase(texto ?? String.Empty, diagnosticoFont);
+            PdfPCell cel = new PdfPCell(frase);
+            cel.BorderColor = BaseColor.LIGHT_GRAY;
+            cel.VerticalAlignment = Rectangle.ALIGN_MIDDLE;
+            cel.HorizontalAlignment = Rectangle.ALIGN_CENTER;
+            cel.BorderWidth = 0.5f;
             cel.Padding = 5;
             return cel;
         }
@@ -245,6 +256,23 @@ namespace Althus.Evaluaciones.Web.Models.EvaluacionModels
             cel.HorizontalAlignment = Rectangle.ALIGN_JUSTIFIED;
             cel.BorderWidth = 0.5f;
             cel.Padding = 5;
+            cel.SetLeading(0, 1.2f);
+            return cel;
+        }
+
+        private PdfPCell GetNormalCellRA(string texto)
+        {
+            Phrase frase = new Phrase(texto ?? String.Empty, normalFont);
+            frase.SetLeading(0.0f, 2.0f);
+            PdfPCell cel = new PdfPCell(frase);
+            cel.BorderColor = BaseColor.LIGHT_GRAY;
+            cel.VerticalAlignment = Rectangle.ALIGN_MIDDLE;
+            cel.HorizontalAlignment = Rectangle.ALIGN_JUSTIFIED;
+            cel.BorderWidth = 0.5f;
+            cel.Padding = 5;
+            cel.PaddingTop = 10;
+            cel.PaddingBottom = 12;
+            cel.SetLeading(0, 1.5f);
             return cel;
         }
 
